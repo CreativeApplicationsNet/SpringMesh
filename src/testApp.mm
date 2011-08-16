@@ -118,13 +118,17 @@ void testApp::init() {
     box2d.createBounds( -boundOffset, -boundOffset, ofGetWidth() + boundOffset, ofGetHeight() + boundOffset );
 	
     
+    buildMesh();
+}
+
+
+void testApp::buildMesh() {
     // Initialize grid
 	float gridRatio = gridWidth / gridHeight;
 	cols = gridSize;
 	rows = (int)( gridSize / gridRatio );
 	
-	
-	// Add particles to physics world
+    // Add particles to physics world
 	float gridColCellDist	= gridWidth / cols;
 	float gridRowCellDist	= gridHeight / rows;
 	
@@ -175,6 +179,19 @@ void testApp::init() {
 	meshFill.setSafeMode( false );
 	
 }
+
+
+void testApp::destroyMesh() {
+    for ( int s = 0; s < springs.size(); s++ ) {
+        springs[s].destroy();
+    }
+    for ( int p = 0; p < particles.size(); p++ ) {
+        particles[p].destroy();
+    }
+    springs.clear();
+    particles.clear();
+}
+
 
 
 //--------------------------------------------------------------
