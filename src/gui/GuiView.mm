@@ -18,8 +18,11 @@
 @synthesize springDampingSlider;
 @synthesize springFrequencySlider;
 @synthesize forceRadiusSlider;
+@synthesize adjustPointsSlider;
+
 @synthesize attractionSwitch;
 @synthesize gravitySwitch;
+
 
 @synthesize fillsSwitch;
 @synthesize wiresSwitch;
@@ -34,14 +37,14 @@
 
 -(void)viewDidLoad {
     app = (testApp *)ofGetAppPtr();
-	if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
-		// ipad
-		app->gridSize = 20;
-	}
-	else {
-		// ipod
-		app->gridSize = 9;
-	}
+//	if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+//		// ipad
+//		app->gridSize = 20;
+//	}
+//	else {
+//		// ipod
+//		app->gridSize = 9;
+//	}
     app->init();
     
     
@@ -49,10 +52,20 @@
 	CGRect frame = [[UIScreen mainScreen] applicationFrame];
 	toolBar.frame = CGRectMake(0, 0, frame.size.width, toolBar.frame.size.height);
 	
+
     
-    physicsView.hidden  = YES;
-    meshView.hidden     = YES;
-    infoView.hidden     = YES;
+    if (app->first == 1){
+        physicsView.hidden  = YES;
+        meshView.hidden     = YES;
+        infoView.hidden     = NO;
+
+    }
+    else {
+        physicsView.hidden  = YES;
+        meshView.hidden     = YES;
+        infoView.hidden     = YES; 
+
+    }
 }
 
 
@@ -95,6 +108,12 @@
 -(IBAction)adjustForceRadius:(id)sender {
     UISlider *slider    = sender;
     app->forceRadius    = [slider value];
+}
+
+-(IBAction)adjustPoints:(id)sender {
+    UISlider *slider    = sender;
+    app->gridSize       = [slider value];
+
 }
 
 // ---- Adjust physics END

@@ -33,7 +33,7 @@
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>1.04</string>
+	<string>1.07</string>
 	<key>Icon files</key>
 	<array>
 		<string>Icon.png</string>

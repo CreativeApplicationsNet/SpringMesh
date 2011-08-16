@@ -50,6 +50,8 @@ public:
     float forceRadius;
     float colR, colG, colB;
     
+    float first;
+    
     bool isFillsDrawingOn;
     bool isWiresDrawingOn;
     bool isPointsDrawingOn;

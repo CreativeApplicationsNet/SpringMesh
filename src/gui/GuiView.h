@@ -30,6 +30,7 @@
     IBOutlet UISlider *springDampingSlider;
     IBOutlet UISlider *springFrequencySlider;
     IBOutlet UISlider *forceRadiusSlider;
+    IBOutlet UISlider *adjustPointsSlider;
     
     IBOutlet UISlider *colorRSlider;
     IBOutlet UISlider *colorGSlider;
@@ -46,6 +47,7 @@
 @property (nonatomic, retain) UISlider *springDampingSlider;
 @property (nonatomic, retain) UISlider *springFrequencySlider;
 @property (nonatomic, retain) UISlider *forceRadiusSlider;
+@property (nonatomic, retain) UISlider *adjustPointsSlider;
 @property (nonatomic, retain) UISwitch *attractionSwitch;
 @property (nonatomic, retain) UISwitch *gravitySwitch;
 
@@ -63,6 +65,7 @@
 -(IBAction)adjustSpringDamping:(id)sender;
 -(IBAction)adjustSpringFrequency:(id)sender;
 -(IBAction)adjustForceRadius:(id)sender;
+-(IBAction)adjustPoints:(id)sender;
 
 
 -(IBAction)adjustColorR:(id)sender;

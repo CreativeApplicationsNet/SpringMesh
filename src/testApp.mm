@@ -22,6 +22,9 @@ void testApp::setup(){
 	
 	ofSetFrameRate( 30 );
     
+
+    
+    
     if ( XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml") ) {
 		message = ".xml loaded from documents folder!";
 	}
@@ -40,12 +43,25 @@ void testApp::setup(){
     isAttractionOn      = XML.getValue( "PHYSICS:SPRING:ATTRACTION", 0 );
     isGravityOn         = XML.getValue( "PHYSICS:SPRING:GRAVITY", 0 );
     
+    
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+		// ipad
+		gridSize        = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 20 );
+	}
+	else {
+		// ipod
+		gridSize        = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 9 );
+	}
+
     isFillsDrawingOn    = XML.getValue( "MESH:VIEW:FILLS", 1 );
     isWiresDrawingOn    = XML.getValue( "MESH:VIEW:WIRES", 0 );
     isPointsDrawingOn   = XML.getValue( "MESH:VIEW:POINTS", 0 );
     colR                = XML.getValue( "MESH:COLOR:RED", 0.2 );
     colG                = XML.getValue( "MESH:COLOR:GREEN", 0.6 );
     colB                = XML.getValue( "MESH:COLOR:BLUE", 1.0 );
+    //filip added
+    first               = XML.getValue( "MESH:VIEW:FIRST", 1 );
+    
     
     gridWidth           = ofGetWidth() - 1;
 	gridHeight          = ofGetHeight() - 1;
@@ -53,10 +69,26 @@ void testApp::setup(){
     isSaveImageActive   = false;
     
     
-	// Set gui view
-	guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
-	guiViewController.view.hidden = YES;
-    [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
+//    // Set gui view  
+//    guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
+//    guiViewController.view.hidden = YES;
+//    [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
+    
+    if (first == 1){
+        // Set gui vie
+        guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
+        guiViewController.view.hidden = NO;
+        [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
+
+    }
+    else {
+        // Set gui view  
+        guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
+        guiViewController.view.hidden = YES;
+        [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
+    }
+    
+    
     
 }
 
@@ -65,6 +97,7 @@ void testApp::init() {
     guiViewController.springDampingSlider.value      = drag;
     guiViewController.springFrequencySlider.value    = springStrength;
     guiViewController.forceRadiusSlider.value        = forceRadius;
+    guiViewController.adjustPointsSlider.value        = gridSize;
     [guiViewController.attractionSwitch setOn:isAttractionOn];
     [guiViewController.gravitySwitch setOn:isGravityOn];
     
@@ -146,6 +179,8 @@ void testApp::init() {
 
 //--------------------------------------------------------------
 void testApp::update(){
+    
+    
     // box2d gravity influence by accelerometer
     if ( isGravityOn ) {
         ofVec2f force;
@@ -364,6 +399,7 @@ void testApp::saveSettings() {
     XML.setValue( "PHYSICS:SPRING:FORCE_RADIUS", forceRadius );
     XML.setValue( "PHYSICS:SPRING:ATTRACTION", isAttractionOn );
     XML.setValue( "PHYSICS:SPRING:GRAVITY", isGravityOn );
+    XML.setValue( "PHYSICS:SPRING:GRIDSIZE", gridSize );
     
     XML.setValue( "MESH:VIEW:FILLS", isFillsDrawingOn );
     XML.setValue( "MESH:VIEW:WIRES", isWiresDrawingOn );
@@ -371,6 +407,9 @@ void testApp::saveSettings() {
     XML.setValue( "MESH:COLOR:RED", colR );
     XML.setValue( "MESH:COLOR:GREEN", colG );
     XML.setValue( "MESH:COLOR:BLUE", colB );
+    
+    //filip added
+    XML.setValue( "MESH:VIEW:FIRST", 0 );
     
 	XML.saveFile( ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml" );
 	cout << ".xml saved to app documents folder" << endl;
