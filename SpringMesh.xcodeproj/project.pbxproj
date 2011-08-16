@@ -88,6 +88,8 @@
 		BB16EBD90F2B2AB500518274 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD80F2B2AB500518274 /* QuartzCore.framework */; };
 		BB24DDCA10DA781C00E9C588 /* ofxiphone-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */; };
 		BBE5EAB80F49AD8400F28951 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBE5EAB70F49AD8400F28951 /* AudioToolbox.framework */; };
+		DC8B5B7C13FA5636003BF468 /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = DC8B5B7B13FA5636003BF468 /* line.png */; };
+		DC8B5B9013FA5D55003BF468 /* rgb.png in Resources */ = {isa = PBXBuildFile; fileRef = DC8B5B8F13FA5D55003BF468 /* rgb.png */; };
 		DCECE71D13F9B3D7006232BE /* changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = DCECE71813F9B3D7006232BE /* changelog.txt */; };
 		DCECE71E13F9B3D7006232BE /* install.xml in Resources */ = {isa = PBXBuildFile; fileRef = DCECE71913F9B3D7006232BE /* install.xml */; };
 		DCECE71F13F9B3D7006232BE /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = DCECE71A13F9B3D7006232BE /* LICENSE.txt */; };
@@ -259,6 +261,8 @@
 		BB16EBD80F2B2AB500518274 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ofxiphone-Info.plist"; sourceTree = "<group>"; };
 		BBE5EAB70F49AD8400F28951 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DC8B5B7B13FA5636003BF468 /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = line.png; path = "button icons/line.png"; sourceTree = "<group>"; };
+		DC8B5B8F13FA5D55003BF468 /* rgb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rgb.png; path = "button icons/rgb.png"; sourceTree = "<group>"; };
 		DCECE71813F9B3D7006232BE /* changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = changelog.txt; sourceTree = "<group>"; };
 		DCECE71913F9B3D7006232BE /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
 		DCECE71A13F9B3D7006232BE /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -598,6 +602,8 @@
 				0387B23313EB184D000B8515 /* close@2x.png */,
 				0359DC5313DC0ECB0067D36D /* close.png */,
 				0387B23413EB184D000B8515 /* info@2x.png */,
+				DC8B5B7B13FA5636003BF468 /* line.png */,
+				DC8B5B8F13FA5D55003BF468 /* rgb.png */,
 				0359DC5513DC2CCD0067D36D /* info.png */,
 				0387B23513EB184D000B8515 /* save@2x.png */,
 				0359DC5113DC0D500067D36D /* save.png */,
@@ -773,6 +779,8 @@
 				DCECE71E13F9B3D7006232BE /* install.xml in Resources */,
 				DCECE71F13F9B3D7006232BE /* LICENSE.txt in Resources */,
 				DCECE74C13F9DA8C006232BE /* menubar.png in Resources */,
+				DC8B5B7C13FA5636003BF468 /* line.png in Resources */,
+				DC8B5B9013FA5D55003BF468 /* rgb.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
