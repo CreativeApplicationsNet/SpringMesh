@@ -32,11 +32,16 @@ public:
 	
 	void init();
 	
+    void buildMesh();
+    void destroyMesh();
+    
+    
     void renderFill();
     void renderLines();
 	void renderPoints();
 	
     void saveSettings();
+    
     
 	int cols, rows;
 	int gridSize;
