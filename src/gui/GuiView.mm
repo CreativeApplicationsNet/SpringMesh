@@ -278,7 +278,7 @@
 -(IBAction)linkRicardo:(id)sender{
 	
 	if (infoView.hidden == NO) {
-        string sktchlink="http://www.nardove.com/blog/";
+        string sktchlink="http://vimeo.com/nardove";
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: sktchlink.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]   ]];
 	}	
 	
