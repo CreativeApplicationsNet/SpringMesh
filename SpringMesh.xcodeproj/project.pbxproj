@@ -88,9 +88,6 @@
 		BB16EBD90F2B2AB500518274 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD80F2B2AB500518274 /* QuartzCore.framework */; };
 		BB24DDCA10DA781C00E9C588 /* ofxiphone-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */; };
 		BBE5EAB80F49AD8400F28951 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBE5EAB70F49AD8400F28951 /* AudioToolbox.framework */; };
-		DC4064A713FA94990012B5C8 /* changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC4064A213FA94990012B5C8 /* changelog.txt */; };
-		DC4064A813FA94990012B5C8 /* install.xml in Resources */ = {isa = PBXBuildFile; fileRef = DC4064A313FA94990012B5C8 /* install.xml */; };
-		DC4064A913FA94990012B5C8 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = DC4064A413FA94990012B5C8 /* LICENSE.txt */; };
 		DC8B5B7C13FA5636003BF468 /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = DC8B5B7B13FA5636003BF468 /* line.png */; };
 		DCC19C6A13FA76C900507F97 /* CAN-logohd.png in Resources */ = {isa = PBXBuildFile; fileRef = DCC19C6913FA76C900507F97 /* CAN-logohd.png */; };
 		DCECE74C13F9DA8C006232BE /* menubar.png in Resources */ = {isa = PBXBuildFile; fileRef = DCECE74B13F9DA8C006232BE /* menubar.png */; };
@@ -140,6 +137,7 @@
 		0387B23613EB184D000B8515 /* settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "settings@2x.png"; path = "button icons/settings@2x.png"; sourceTree = "<group>"; };
 		0387B23B13EB2161000B8515 /* mesh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mesh.png; path = "button icons/mesh.png"; sourceTree = "<group>"; };
 		0387B23C13EB2161000B8515 /* mesh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mesh@2x.png"; path = "button icons/mesh@2x.png"; sourceTree = "<group>"; };
+		039F8AD813FB1D770021BDA3 /* MSAShape3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAShape3D.h; sourceTree = "<group>"; };
 		03B0642613CF7B4B00FA98FB /* GuiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuiView.h; path = gui/GuiView.h; sourceTree = "<group>"; };
 		03B0642713CF7B4B00FA98FB /* GuiView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = GuiView.mm; path = gui/GuiView.mm; sourceTree = "<group>"; };
 		03B0643313CF7CBF00FA98FB /* GuiView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GuiView.xib; path = gui/GuiView.xib; sourceTree = "<group>"; };
@@ -261,10 +259,6 @@
 		BB16EBD80F2B2AB500518274 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ofxiphone-Info.plist"; sourceTree = "<group>"; };
 		BBE5EAB70F49AD8400F28951 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		DC4064A213FA94990012B5C8 /* changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = changelog.txt; sourceTree = "<group>"; };
-		DC4064A313FA94990012B5C8 /* install.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = install.xml; sourceTree = "<group>"; };
-		DC4064A413FA94990012B5C8 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		DC4064A613FA94990012B5C8 /* MSAShape3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSAShape3D.h; sourceTree = "<group>"; };
 		DC8B5B7B13FA5636003BF468 /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = line.png; path = "button icons/line.png"; sourceTree = "<group>"; };
 		DCC19C6913FA76C900507F97 /* CAN-logohd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CAN-logohd.png"; path = "button icons/CAN-logohd.png"; sourceTree = "<group>"; };
 		DCECE74B13F9DA8C006232BE /* menubar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = menubar.png; path = "button icons/menubar.png"; sourceTree = "<group>"; };
@@ -332,6 +326,23 @@
 			children = (
 				0383580313F3290400E1CA53 /* ofxXmlSettings.cpp */,
 				0383580413F3290400E1CA53 /* ofxXmlSettings.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		039F8ACC13FB1D770021BDA3 /* MSAShape3D */ = {
+			isa = PBXGroup;
+			children = (
+				039F8AD713FB1D770021BDA3 /* src */,
+			);
+			name = MSAShape3D;
+			path = ../../../addons/msalibs/MSAShape3D;
+			sourceTree = "<group>";
+		};
+		039F8AD713FB1D770021BDA3 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				039F8AD813FB1D770021BDA3 /* MSAShape3D.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -579,7 +590,7 @@
 		BB16F26B0F2B646B00518274 /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				DC4064A113FA94990012B5C8 /* MSAShape3D */,
+				039F8ACC13FB1D770021BDA3 /* MSAShape3D */,
 				038357F813F3257C00E1CA53 /* ofxXmlSettings */,
 				03BB9D4C13DF354A0035E5C4 /* ofxBox2d */,
 			);
@@ -639,26 +650,6 @@
 				29B97323FDCFA39411CA2CEA /* core frameworks */,
 			);
 			name = core;
-			sourceTree = "<group>";
-		};
-		DC4064A113FA94990012B5C8 /* MSAShape3D */ = {
-			isa = PBXGroup;
-			children = (
-				DC4064A213FA94990012B5C8 /* changelog.txt */,
-				DC4064A313FA94990012B5C8 /* install.xml */,
-				DC4064A413FA94990012B5C8 /* LICENSE.txt */,
-				DC4064A513FA94990012B5C8 /* src */,
-			);
-			name = MSAShape3D;
-			path = ../../../addons/MSAShape3D;
-			sourceTree = "<group>";
-		};
-		DC4064A513FA94990012B5C8 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				DC4064A613FA94990012B5C8 /* MSAShape3D.h */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		E41D40FE13B3A0D800A75A5D /* Products */ = {
@@ -778,9 +769,6 @@
 				DCECE74C13F9DA8C006232BE /* menubar.png in Resources */,
 				DC8B5B7C13FA5636003BF468 /* line.png in Resources */,
 				DCC19C6A13FA76C900507F97 /* CAN-logohd.png in Resources */,
-				DC4064A713FA94990012B5C8 /* changelog.txt in Resources */,
-				DC4064A813FA94990012B5C8 /* install.xml in Resources */,
-				DC4064A913FA94990012B5C8 /* LICENSE.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -113,7 +113,8 @@
 -(IBAction)adjustPoints:(id)sender {
     UISlider *slider    = sender;
     app->gridSize       = [slider value];
-
+    app->destroyMesh();
+    app->buildMesh();
 }
 
 // ---- Adjust physics END
