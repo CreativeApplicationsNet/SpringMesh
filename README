@@ -1,9 +1,10 @@
-Inspired by the natural phenomena of cloths and liquids, Ricardo Sanchez explores spring mesh dynamics using box2D physics. 
+Inspired by the natural phenomena of cloths and liquids, Ricardo Sanchez explores spring mesh dynamics using box2D physics. SpringMesh is an interactive cloth you can twist, pull and deform using multitouch or accelerometer.
 
 Features:
 - Tap and drag to control the deformers (multitouch supported)
 - Adjust spring damping, frequency and force radius
 - Adjust mesh appearance including fills, wireframe or points
+- Accelerometer support - mesh gets twisted according to device orientation
 - Change mesh color gradient
 - Save image to photo library
 
