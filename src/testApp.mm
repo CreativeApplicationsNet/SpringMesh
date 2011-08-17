@@ -126,9 +126,9 @@ void testApp::runRandom(){
     
     destroyMesh();
     
-    drag                = ofRandom(0.0,1.0);
-    springStrength      = ofRandom(0.1,8.0);
-    forceRadius         = ofRandom(80,200);
+    drag                = ofRandom(0.0,0.5);
+    springStrength      = ofRandom(0.5,4.0);
+    forceRadius         = ofRandom(80,100);
     gridSize            = ofRandom(9,20);
 
     colR                = ofRandom(0,1);
