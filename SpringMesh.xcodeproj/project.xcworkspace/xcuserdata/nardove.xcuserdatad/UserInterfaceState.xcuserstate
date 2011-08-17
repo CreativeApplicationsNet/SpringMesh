@@ -29800,7 +29800,7 @@
 		<string>PrimaryDocumentVisibleCharacterRange</string>
 		<string>HideAllIssues</string>
 		<string>PrimaryDocumentSelectedCharacterRange</string>
-		<real>335306355.09065801</real>
+		<real>335307152.85428602</real>
 		<string>{0, 656}</string>
 		<string>testApp.h</string>
 		<string>testApp.h</string>
@@ -30117,7 +30117,7 @@
 				</dict>
 			</array>
 		</dict>
-		<real>335306355.08957797</real>
+		<real>335307152.85412598</real>
 		<string>{692, 1309}</string>
 		<string>{1516, 0}</string>
 		<string>testApp::setup()</string>
@@ -35579,7 +35579,7 @@
 			</dict>
 		</dict>
 		<string>file://localhost/Users/nardove/Programming/openFrameworks/of_preRelease_v007_iphone/myApps/Spring%20Mesh%20Dist/SpringMeshGit/SpringMesh.xcodeproj/</string>
-		<real>335306355.09265101</real>
+		<real>335307152.85644299</real>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -48587,7 +48587,7 @@
 				</dict>
 			</array>
 		</dict>
-		<real>335306355.08466601</real>
+		<real>335307152.84871101</real>
 		<string>{692, 1309}</string>
 		<string>{1516, 0}</string>
 		<dict>
@@ -57101,7 +57101,7 @@
 				<integer>3336</integer>
 			</dict>
 		</dict>
-		<real>335306355.084382</real>
+		<real>335307152.84815198</real>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -61783,7 +61783,7 @@
 				<integer>3569</integer>
 			</dict>
 		</dict>
-		<real>335306355.08543098</real>
+		<real>335307152.84984201</real>
 		<dict>
 			<key>$class</key>
 			<dict>
