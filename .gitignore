@@ -1,0 +1,3 @@
+*.xcodeproj
+*.xib
+.DS_Store

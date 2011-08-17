@@ -34,7 +34,7 @@ void testApp::setup(){
     else {
 		message = "unable to load .xml check data/ folder";
 	}
-	cout << message << endl;
+	//cout << message << endl;
     
     
     drag                = XML.getValue( "PHYSICS:SPRING:DAMPING", 0.4 );
@@ -63,8 +63,8 @@ void testApp::setup(){
     first               = XML.getValue( "MESH:VIEW:FIRST", 1 );
     
     
-    gridWidth           = ofGetWidth() - 1;
-	gridHeight          = ofGetHeight() - 1;
+    gridWidth           = ofGetWidth();
+	gridHeight          = ofGetHeight();
 	
     isSaveImageActive   = false;
     
@@ -192,12 +192,12 @@ void testApp::buildMesh() {
 			// Create springs
 			ofxBox2dJoint spring;
             if ( i > 0 ) {
-				ofxBox2dCircle pB = particles[ idx - 1 ];
+				ofxBox2dCircle pB = particles[idx - 1];
 				spring.setup( box2d.getWorld(), pA.body, pB.body, springStrength );
                 springs.push_back( spring );
 			}
 			if ( j > 0 ) {
-                ofxBox2dCircle pC = particles[ idx - cols - 1 ];
+                ofxBox2dCircle pC = particles[idx - cols - 1];
 				spring.setup( box2d.getWorld(), pA.body, pC.body, springStrength, drag );
                 springs.push_back( spring );
 			}
@@ -286,10 +286,10 @@ void testApp::draw(){
 		renderFill();
 	}
 	if ( isWiresDrawingOn ) {
-		ofPushMatrix();
-        ofTranslate( 1, 1 );
+		//ofPushMatrix();
+        //ofTranslate( 1, 1 );
             renderLines();
-        ofPopMatrix();
+        //ofPopMatrix();
 	}
 	if ( isPointsDrawingOn ) {
 		renderPoints();
@@ -418,15 +418,17 @@ void testApp::renderFill() {
 
 void testApp::renderLines() {
     for ( int i = 0; i < springs.size(); i++ ) {
-        ofVec2f bodyA( springs[i].joint->GetAnchorA().x, springs[i].joint->GetAnchorA().y );
-        ofVec2f bodyB( springs[i].joint->GetAnchorB().x, springs[i].joint->GetAnchorB().y );
+        ofVec2f bodyAPos( springs[i].joint->GetAnchorA().x, springs[i].joint->GetAnchorA().y );
+        ofVec2f bodyBPos( springs[i].joint->GetAnchorB().x, springs[i].joint->GetAnchorB().y );
         
-        float dist  = bodyA.distance( bodyB );
+        float dist  = bodyAPos.distance( bodyBPos );
         float k     = (dist / springs[i].getLength());
         //cout << "K: " << k << endl;
         
-        ofSetColor( 255 * (colR * k), 255 * (colG * k), 255 * (colB * k) );
-        springs[i].draw();
+        if ( springs[i].joint->GetBodyA()->GetMass() != 0 || springs[i].joint->GetBodyB()->GetMass() != 0 ) {
+            ofSetColor( 255 * (colR * k), 255 * (colG * k), 255 * (colB * k) );
+            springs[i].draw();
+        }
     }
 }
 
