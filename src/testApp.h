@@ -31,6 +31,8 @@ public:
 	void deviceOrientationChanged(int newOrientation);
 	
 	void init();
+    
+    void runRandom();
 	
     void buildMesh();
     void destroyMesh();
@@ -56,7 +58,7 @@ public:
     float colR, colG, colB;
     
     float first;
-    
+
     bool isFillsDrawingOn;
     bool isWiresDrawingOn;
     bool isPointsDrawingOn;
@@ -75,6 +77,8 @@ public:
     ofxXmlSettings XML;
     string xmlStructure;
     string message;
+    
+
 
 };
 

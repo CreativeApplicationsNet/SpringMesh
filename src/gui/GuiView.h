@@ -84,6 +84,7 @@
 -(IBAction)showHideMeshView:(id)sender;
 -(IBAction)showHideInfoView:(id)sender;
 -(IBAction)hideGUIView:(id)sender;
+-(IBAction)runRandom:(id)sender;
 
 
 -(IBAction)save:(id)sender;

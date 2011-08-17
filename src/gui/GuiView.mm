@@ -260,6 +260,10 @@
 	self.view.hidden = YES;
 }
 
+-(IBAction)runRandom:(id)sender {
+    app->runRandom();
+}
+
 // ---- Shows / hide view END
 //------------------------------------------------
 
@@ -298,7 +302,7 @@
 -(IBAction)linkRicardo:(id)sender{
 	
 	if (infoView.hidden == NO) {
-        string sktchlink="http://vimeo.com/nardove";
+        string sktchlink="http://nardove.com";
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: sktchlink.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]   ]];
 	}	
 	

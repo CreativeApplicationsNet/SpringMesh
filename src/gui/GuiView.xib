@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.SystemVersion">11B26</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
@@ -50,7 +50,7 @@
 					<object class="IBUIImageView" id="194724327">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{-0, -1}, {1024, 45}}</string>
+						<string key="NSFrame">{{10, 8}, {229, 36}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="866725042"/>
@@ -83,7 +83,7 @@
 							<object class="IBUILabel" id="1032304568">
 								<reference key="NSNextResponder" ref="39180133"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{23, 56}, {91, 28}}</string>
+								<string key="NSFrame">{{23, 56}, {95, 28}}</string>
 								<reference key="NSSuperview" ref="39180133"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="430348775"/>
@@ -133,7 +133,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Physics settings</string>
+								<string key="IBUIText">Physics</string>
 								<object class="NSFont" key="IBUIFont" id="761569087">
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">16</double>
@@ -175,7 +175,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Spring Frequency</string>
+								<string key="IBUIText">Spring frequency</string>
 								<reference key="IBUIFont" ref="957705050"/>
 								<reference key="IBUITextColor" ref="404800817"/>
 								<nil key="IBUIHighlightedColor"/>
@@ -216,7 +216,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Force radius</string>
+								<string key="IBUIText">Touch radius</string>
 								<reference key="IBUIFont" ref="957705050"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
@@ -247,7 +247,7 @@
 							<object class="IBUILabel" id="605259250">
 								<reference key="NSNextResponder" ref="39180133"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{33, 199}, {94, 28}}</string>
+								<string key="NSFrame">{{35, 199}, {94, 28}}</string>
 								<reference key="NSSuperview" ref="39180133"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="936923358"/>
@@ -289,7 +289,7 @@
 							<object class="IBUILabel" id="340875246">
 								<reference key="NSNextResponder" ref="39180133"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{168, 199}, {94, 28}}</string>
+								<string key="NSFrame">{{170, 199}, {94, 28}}</string>
 								<reference key="NSSuperview" ref="39180133"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="864150155"/>
@@ -345,7 +345,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Grid Size</string>
+								<string key="IBUIText">Mesh density</string>
 								<reference key="IBUIFont" ref="957705050"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
@@ -420,7 +420,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Mesh settings</string>
+								<string key="IBUIText">Mesh</string>
 								<reference key="IBUIFont" ref="761569087"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
@@ -577,7 +577,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Color settings</string>
+								<string key="IBUIText">Color</string>
 								<reference key="IBUIFont" ref="761569087"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
@@ -779,7 +779,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Physics settings</string>
+								<string key="IBUIText">Physics</string>
 								<reference key="IBUIFont" ref="761569087"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
@@ -809,7 +809,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 								<bool key="IBUIEditable">NO</bool>
-								<string key="IBUIText">Adjust physics parameters like, spring elasticity, switch touch attraction, force radius, and gravity</string>
+								<string key="IBUIText">Adjust physics parameters like, spring elasticity, switch touch attraction, force radius, gravity and mesh density</string>
 								<object class="NSColor" key="IBUITextColor" id="840078">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -862,7 +862,7 @@
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 								<bool key="IBUIEditable">NO</bool>
-								<string key="IBUIText">Automatically saved in Photo Album</string>
+								<string key="IBUIText">Automatically save in Photo Album</string>
 								<reference key="IBUITextColor" ref="840078"/>
 								<reference key="IBUIFont" ref="957705050"/>
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
@@ -898,7 +898,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Mesh settings</string>
+								<string key="IBUIText">Mesh</string>
 								<reference key="IBUIFont" ref="761569087"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
@@ -1134,10 +1134,10 @@
 					<object class="IBUIButton" id="793566750">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{65, 3}, {28, 37}}</string>
+						<string key="NSFrame">{{65, 7}, {28, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="69545063"/>
+						<reference key="NSNextKeyView" ref="981801217"/>
 						<string key="NSReuseIdentifierKey">_NS:237</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -1158,7 +1158,7 @@
 					<object class="IBUIButton" id="866725042">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{19, 3}, {28, 37}}</string>
+						<string key="NSFrame">{{19, 7}, {28, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="793566750"/>
@@ -1179,7 +1179,7 @@
 					<object class="IBUIButton" id="69545063">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{112, 3}, {28, 37}}</string>
+						<string key="NSFrame">{{155, 7}, {28, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="48476727"/>
@@ -1200,7 +1200,7 @@
 					<object class="IBUIButton" id="48476727">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{157, 3}, {28, 37}}</string>
+						<string key="NSFrame">{{198, 7}, {28, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="39180133"/>
@@ -1219,6 +1219,30 @@
 						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">info.png</string>
+						</object>
+					</object>
+					<object class="IBUIButton" id="981801217">
+						<reference key="NSNextResponder" ref="191373211"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{102, 6}, {40, 40}}</string>
+						<reference key="NSSuperview" ref="191373211"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="69545063"/>
+						<string key="NSReuseIdentifierKey">_NS:237</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<reference key="IBUIFont" ref="270147006"/>
+						<reference key="IBUIHighlightedTitleColor" ref="252185880"/>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+						</object>
+						<reference key="IBUINormalTitleShadowColor" ref="324201094"/>
+						<object class="NSCustomResource" key="IBUINormalImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">random.png</string>
 						</object>
 					</object>
 				</object>
@@ -1554,6 +1578,15 @@
 					</object>
 					<int key="connectionID">234</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">runRandom:</string>
+						<reference key="source" ref="981801217"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">1</int>
+					</object>
+					<int key="connectionID">237</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1586,8 +1619,9 @@
 							<reference ref="194724327"/>
 							<reference ref="793566750"/>
 							<reference ref="866725042"/>
-							<reference ref="69545063"/>
 							<reference ref="48476727"/>
+							<reference ref="981801217"/>
+							<reference ref="69545063"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -1925,6 +1959,11 @@
 						<reference key="object" ref="1071716016"/>
 						<reference key="parent" ref="656472138"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">235</int>
+						<reference key="object" ref="981801217"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1982,6 +2021,7 @@
 					<string>223.IBPluginDependency</string>
 					<string>224.IBPluginDependency</string>
 					<string>225.IBPluginDependency</string>
+					<string>235.IBPluginDependency</string>
 					<string>42.IBPluginDependency</string>
 					<string>49.IBPluginDependency</string>
 					<string>61.IBPluginDependency</string>
@@ -2054,6 +2094,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -2068,7 +2109,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">234</int>
+			<int key="maxID">237</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2093,6 +2134,7 @@
 							<string>linkCAN:</string>
 							<string>linkRicardo:</string>
 							<string>renderSwitchHandler:</string>
+							<string>runRandom:</string>
 							<string>save:</string>
 							<string>saveSettings:</string>
 							<string>showHideInfoView:</string>
@@ -2101,6 +2143,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -2138,6 +2181,7 @@
 							<string>linkCAN:</string>
 							<string>linkRicardo:</string>
 							<string>renderSwitchHandler:</string>
+							<string>runRandom:</string>
 							<string>save:</string>
 							<string>saveSettings:</string>
 							<string>showHideInfoView:</string>
@@ -2196,6 +2240,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">renderSwitchHandler:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">runRandom:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -2380,6 +2428,7 @@
 				<string>mesh-view.png</string>
 				<string>mesh.png</string>
 				<string>physics-view.png</string>
+				<string>random.png</string>
 				<string>rs-avatar.png</string>
 				<string>save.png</string>
 				<string>settings.png</string>
@@ -2393,6 +2442,7 @@
 				<string>{300, 320}</string>
 				<string>{20, 20}</string>
 				<string>{300, 260}</string>
+				<string>{100, 100}</string>
 				<string>{48, 48}</string>
 				<string>{20, 20}</string>
 				<string>{20, 20}</string>

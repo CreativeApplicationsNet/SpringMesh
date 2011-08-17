@@ -121,6 +121,42 @@ void testApp::init() {
     buildMesh();
 }
 
+//--------------------------------------------------------------
+void testApp::runRandom(){
+    
+    destroyMesh();
+    
+    drag                = ofRandom(0.0,1.0);
+    springStrength      = ofRandom(0.1,8.0);
+    forceRadius         = ofRandom(80,200);
+    gridSize            = ofRandom(9,20);
+
+    colR                = ofRandom(0,1);
+    colG                = ofRandom(0,1);
+    colB                = ofRandom(0,1);
+    
+    guiViewController.springDampingSlider.value      = drag;
+    guiViewController.springFrequencySlider.value    = springStrength;
+    guiViewController.forceRadiusSlider.value        = forceRadius;
+    guiViewController.adjustPointsSlider.value        = gridSize;
+    guiViewController.colorRSlider.value        = colR;
+    guiViewController.colorGSlider.value        = colG;
+    guiViewController.colorBSlider.value        = colB;
+    
+    
+//    isFillsDrawingOn    = ofRandom(0,1);
+//    isWiresDrawingOn    = ofRandom(0,1);
+//    isPointsDrawingOn   = ofRandom(0,1);
+//    
+//    isAttractionOn      = ofRandom(0,1);
+//    isGravityOn         = ofRandom(0,1);
+    
+    buildMesh();
+    
+    
+    
+}
+//--------------------------------------------------------------
 
 void testApp::buildMesh() {
     // Initialize grid
@@ -238,6 +274,8 @@ void testApp::update(){
         ofxiPhoneScreenGrab( delegate );
     }
     isSaveImageActive = false;
+    
+    
 }
 
 //--------------------------------------------------------------
