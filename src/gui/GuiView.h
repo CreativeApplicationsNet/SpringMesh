@@ -36,6 +36,8 @@
     IBOutlet UISlider *colorGSlider;
     IBOutlet UISlider *colorBSlider;
     
+    IBOutlet UIWebView *webView;
+    
     
     UIImagePickerController *imgPicker;
     UIPopoverController *popover;
