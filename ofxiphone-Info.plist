@@ -33,7 +33,7 @@
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>1.10</string>
+	<string>1.14</string>
 	<key>Icon files</key>
 	<array>
 		<string>Icon.png</string>
@@ -43,7 +43,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<false/>
 	<key>UIApplicationExitsOnSuspend</key>
-	<true/>
+	<false/>
 	<key>UIInterfaceOrientation</key>
 	<string>UIInterfaceOrientationPortrait</string>
 	<key>UIPrerenderedIcon</key>

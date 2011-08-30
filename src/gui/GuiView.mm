@@ -37,14 +37,6 @@
 
 -(void)viewDidLoad {
     app = (testApp *)ofGetAppPtr();
-//	if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
-//		// ipad
-//		app->gridSize = 20;
-//	}
-//	else {
-//		// ipod
-//		app->gridSize = 9;
-//	}
     app->init();
     
     
@@ -52,7 +44,6 @@
 	CGRect frame = [[UIScreen mainScreen] applicationFrame];
 	toolBar.frame = CGRectMake(0, 0, frame.size.width, toolBar.frame.size.height);
 	
-
     
     if (app->first == 1){
         physicsView.hidden  = YES;
@@ -66,8 +57,20 @@
         infoView.hidden     = YES; 
 
     }
+    
+    
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]isDirectory:NO]]];
+    
 }
 
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        [[UIApplication sharedApplication] openURL:request.URL];
+        return false;
+    }
+    return true;
+}
 
 
 -(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation {
@@ -200,6 +203,7 @@
 					 completion: ^(BOOL finished) {
 						 v.hidden = NO;
 					 }];
+    cout << "show" << endl;
 }
 
 
@@ -217,6 +221,7 @@
 					 completion: ^(BOOL finished) {
 						 v.hidden = YES;
 					 }];
+    cout << "hide" << endl;
 }
 
 
@@ -253,6 +258,10 @@
 	}
 	physicsView.hidden  = YES;
     meshView.hidden     = YES;
+    
+//    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]isDirectory:NO]]];
+
+
 }
 
 
