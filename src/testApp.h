@@ -41,8 +41,12 @@ public:
     void renderFill();
     void renderLines();
 	void renderPoints();
-	
+	void renderTexturedMesh();
+    
+    void setImage( UIImage *inImage, int w, int h );
+    
     void saveSettings();
+    
     
     
 	int cols, rows;
@@ -55,7 +59,7 @@ public:
 	float drag;
     float springStrength;
     float forceRadius;
-    float colR, colG, colB;
+    float colR, colG, colB, colA;
     
     float first;
 
@@ -64,22 +68,36 @@ public:
     bool isPointsDrawingOn;
     bool isAttractionOn, isGravityOn;
     bool isSaveImageActive;
+    bool isTextureDrawingOn;
+    bool isImageSet;
+    bool isBlendModeOn;
     
-    ofxBox2d box2d;
     
-    vector<ofxBox2dCircle> particles;
-    vector<ofxBox2dJoint> springs;
+    ofxBox2d                box2d;
     
-    map<int, ofVec2f>touchPoints;
+    vector<ofxBox2dCircle>  particles;
+    vector<ofxBox2dJoint>   springs;
     
-	MSA::Shape3D meshFill;
+    vector<ofIndexType>     indices;
+	vector<ofVec3f>         vertices;
+	vector<ofVec2f>         textCoords;
 	
-    ofxXmlSettings XML;
-    string xmlStructure;
-    string message;
     
-
-
+    map<int, ofVec2f>       touchPoints;
+    
+	MSA::Shape3D            meshFill;
+	
+    ofxXmlSettings          XML;
+    string                  xmlStructure;
+    string                  message;
+    
+    
+    ofImage                 skinImage;
+	ofTexture               skinTexture;
+	
+    ofMesh                  mesh;
+	ofVbo                   vboMesh;
+	
 };
 
 

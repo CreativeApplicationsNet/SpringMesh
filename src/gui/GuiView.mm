@@ -23,13 +23,19 @@
 @synthesize attractionSwitch;
 @synthesize gravitySwitch;
 
-
+@synthesize textureSwitch;
 @synthesize fillsSwitch;
 @synthesize wiresSwitch;
 @synthesize pointsSwitch;
+
+@synthesize blendSwitch;
+
 @synthesize colorRSlider;
 @synthesize colorGSlider;
 @synthesize colorBSlider;
+@synthesize colorASlider;
+
+@synthesize grabImageButton;
 
 @synthesize imgPicker;
 
@@ -58,9 +64,9 @@
 
     }
     
-    
+    /* GETTING SIGABRT ERROR not sure why
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]isDirectory:NO]]];
-    
+    */
 }
 
 
@@ -144,6 +150,11 @@
     app->colB           = [slider value];
 }
 
+-(IBAction)adjustColorA:(id)sender {
+    UISlider *slider    = sender;
+    app->colA           = [slider value];
+}
+
 // ---- Adjust color END
 //------------------------------------------------
 
@@ -156,7 +167,10 @@
 -(IBAction)renderSwitchHandler:(id)sender {
 	UISwitch *whichSwitch = (UISwitch *)sender;
     
-	if ( whichSwitch == fillsSwitch ) {
+	if ( whichSwitch == textureSwitch ) {
+		app->isTextureDrawingOn = [whichSwitch isOn];
+	}
+	else if ( whichSwitch == fillsSwitch ) {
 		app->isFillsDrawingOn   = [whichSwitch isOn];
 	}
 	else if ( whichSwitch == wiresSwitch ) {
@@ -164,6 +178,9 @@
 	}
 	else if ( whichSwitch == pointsSwitch ) {
 		app->isPointsDrawingOn  = [whichSwitch isOn];
+	}
+    else if ( whichSwitch == blendSwitch ) {
+		app->isBlendModeOn  = [whichSwitch isOn];
 	}
 }
 
@@ -293,9 +310,67 @@
 }
 
 
+
+//------------------------------------------------
+// Grab image from photo album BEGIN
+
+-(IBAction)grabImage:(id)sender {
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        imgPicker = [[UIImagePickerController alloc] init];
+        [imgPicker setDelegate:self];
+        
+        popover = [[UIPopoverController alloc] initWithContentViewController:imgPicker];
+        [popover setDelegate:self];
+        // Using magic CGRectMake,  for some reson self.grabImageButton.frame doesnt work
+        [popover presentPopoverFromRect:CGRectMake(150, 2, 40, 40) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+        [popover setPopoverContentSize:CGSizeMake(320, 480)];
+        [imgPicker release];
+    }
+    else {
+        imgPicker = [[UIImagePickerController alloc] init];
+        imgPicker.delegate = self;
+        imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        [self presentModalViewController:self.imgPicker animated:YES];
+        [imgPicker release];
+    }
+    
+    [self hideView:physicsView];
+    [self hideView:meshView];
+    [self hideView:infoView];
+}
+
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+	CGImageRef imgRef = pickedImage.CGImage;
+	
+    app->setImage( pickedImage, CGImageGetWidth(imgRef), CGImageGetHeight(imgRef) );
+	
+    [[picker parentViewController] dismissModalViewControllerAnimated:YES];
+    
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        [popover dismissPopoverAnimated:YES];
+    }
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+	if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+        [popover dismissPopoverAnimated:YES];
+    }
+}
+
+// Grab image from photo album END
+//------------------------------------------------
+
+
+
+
 -(IBAction)saveSettings:(id)sender {
     app->saveSettings();
 }
+
+
 
 //----------------------------------------------------------------
 -(IBAction)linkCAN:(id)sender{

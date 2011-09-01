@@ -8,6 +8,7 @@
 		<RED>0.2</RED>
 		<GREEN>0.6</GREEN>
 		<BLUE>1.0</BLUE>
+		<ALPHA>1.0</ALPHA>
 	</COLOR>
 </MESH>
 

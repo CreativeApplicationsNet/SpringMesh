@@ -13,35 +13,40 @@
 
 @interface GuiView : UIViewController <UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	
-	testApp *app;
+	testApp                     *app;
     
-    IBOutlet UIToolbar *toolBar;
+    IBOutlet UIToolbar          *toolBar;
     
-    IBOutlet UIView *physicsView;
-    IBOutlet UIView *meshView;
-    IBOutlet UIView *infoView;
+    IBOutlet UIView             *physicsView;
+    IBOutlet UIView             *meshView;
+    IBOutlet UIView             *infoView;
 	
-    IBOutlet UISwitch *fillsSwitch;
-	IBOutlet UISwitch *wiresSwitch;
-	IBOutlet UISwitch *pointsSwitch;
-    IBOutlet UISwitch *attractionSwitch;
-    IBOutlet UISwitch *gravitySwitch;
+    IBOutlet UISwitch           *textureSwitch;
+	IBOutlet UISwitch           *fillsSwitch;
+	IBOutlet UISwitch           *wiresSwitch;
+	IBOutlet UISwitch           *pointsSwitch;
+    IBOutlet UISwitch           *attractionSwitch;
+    IBOutlet UISwitch           *gravitySwitch;
     
-    IBOutlet UISlider *springDampingSlider;
-    IBOutlet UISlider *springFrequencySlider;
-    IBOutlet UISlider *forceRadiusSlider;
-    IBOutlet UISlider *adjustPointsSlider;
+    IBOutlet UISwitch           *blendSwitch;
     
-    IBOutlet UISlider *colorRSlider;
-    IBOutlet UISlider *colorGSlider;
-    IBOutlet UISlider *colorBSlider;
+    IBOutlet UISlider           *springDampingSlider;
+    IBOutlet UISlider           *springFrequencySlider;
+    IBOutlet UISlider           *forceRadiusSlider;
+    IBOutlet UISlider           *adjustPointsSlider;
     
-    IBOutlet UIWebView *webView;
+    IBOutlet UISlider           *colorRSlider;
+    IBOutlet UISlider           *colorGSlider;
+    IBOutlet UISlider           *colorBSlider;
+    IBOutlet UISlider           *colorASlider;
     
+    IBOutlet UIWebView          *webView;
     
-    UIImagePickerController *imgPicker;
-    UIPopoverController *popover;
-    UIImage *pickedImage;
+    IBOutlet UIButton           *grabImageButton;
+    
+    UIImagePickerController     *imgPicker;
+    UIPopoverController         *popover;
+    UIImage                     *pickedImage;
 }
 
 
@@ -53,12 +58,18 @@
 @property (nonatomic, retain) UISwitch *attractionSwitch;
 @property (nonatomic, retain) UISwitch *gravitySwitch;
 
+@property (nonatomic, retain) UISwitch *blendSwitch;
+
+@property (nonatomic, retain) UISwitch *textureSwitch;
 @property (nonatomic, retain) UISwitch *fillsSwitch;
 @property (nonatomic, retain) UISwitch *wiresSwitch;
 @property (nonatomic, retain) UISwitch *pointsSwitch;
 @property (nonatomic, retain) UISlider *colorRSlider;
 @property (nonatomic, retain) UISlider *colorGSlider;
 @property (nonatomic, retain) UISlider *colorBSlider;
+@property (nonatomic, retain) UISlider *colorASlider;
+
+@property (nonatomic, retain) UIButton *grabImageButton;
 
 @property (nonatomic, retain) UIImagePickerController *imgPicker;
 
@@ -73,6 +84,7 @@
 -(IBAction)adjustColorR:(id)sender;
 -(IBAction)adjustColorG:(id)sender;
 -(IBAction)adjustColorB:(id)sender;
+-(IBAction)adjustColorA:(id)sender;
 
 
 -(IBAction)renderSwitchHandler:(id)sender;
@@ -90,6 +102,8 @@
 
 
 -(IBAction)save:(id)sender;
+
+-(IBAction)grabImage:(id)sender;
 
 -(IBAction)saveSettings:(id)sender;
 

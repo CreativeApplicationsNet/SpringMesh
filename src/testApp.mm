@@ -22,7 +22,9 @@ void testApp::setup(){
 	
 	ofSetFrameRate( 30 );
     
-
+    ofDisableArbTex();
+    ofEnableNormalizedTexCoords();
+    
     
     
     if ( XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml") ) {
@@ -52,15 +54,21 @@ void testApp::setup(){
 		// ipod
 		gridSize        = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 9 );
 	}
-
+    
+    /**** Add to xml ****/
+    isImageSet          = false;
+    isTextureDrawingOn  = false;
+    
     isFillsDrawingOn    = XML.getValue( "MESH:VIEW:FILLS", 1 );
     isWiresDrawingOn    = XML.getValue( "MESH:VIEW:WIRES", 0 );
     isPointsDrawingOn   = XML.getValue( "MESH:VIEW:POINTS", 0 );
     colR                = XML.getValue( "MESH:COLOR:RED", 0.2 );
     colG                = XML.getValue( "MESH:COLOR:GREEN", 0.6 );
     colB                = XML.getValue( "MESH:COLOR:BLUE", 1.0 );
-    //filip added
+    colA                = XML.getValue( "MESH:COLOR:ALPHA", 1.0 );
     first               = XML.getValue( "MESH:VIEW:FIRST", 1 );
+    
+    isBlendModeOn   = false;
     
     
     gridWidth           = ofGetWidth();
@@ -74,8 +82,8 @@ void testApp::setup(){
 //    guiViewController.view.hidden = YES;
 //    [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
     
-    if (first == 1){
-        // Set gui vie
+    if ( first == 1 ) {
+        // Set gui view
         guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
         guiViewController.view.hidden = NO;
         [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
@@ -88,8 +96,6 @@ void testApp::setup(){
         [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
     }
     
-    
-    
 }
 
 
@@ -97,16 +103,20 @@ void testApp::init() {
     guiViewController.springDampingSlider.value      = drag;
     guiViewController.springFrequencySlider.value    = springStrength;
     guiViewController.forceRadiusSlider.value        = forceRadius;
-    guiViewController.adjustPointsSlider.value        = gridSize;
+    guiViewController.adjustPointsSlider.value       = gridSize;
     [guiViewController.attractionSwitch setOn:isAttractionOn];
     [guiViewController.gravitySwitch setOn:isGravityOn];
     
+    [guiViewController.textureSwitch setOn:isTextureDrawingOn];
     [guiViewController.fillsSwitch setOn:isFillsDrawingOn];
     [guiViewController.wiresSwitch setOn:isWiresDrawingOn];
     [guiViewController.pointsSwitch setOn:isPointsDrawingOn];
-    guiViewController.colorRSlider.value        = colR;
-    guiViewController.colorGSlider.value        = colG;
-    guiViewController.colorBSlider.value        = colB;
+    guiViewController.colorRSlider.value            = colR;
+    guiViewController.colorGSlider.value            = colG;
+    guiViewController.colorBSlider.value            = colB;
+    guiViewController.colorASlider.value            = colA;
+    
+    [guiViewController.blendSwitch setOn:isBlendModeOn];
     
     
     // Init box2d
@@ -117,93 +127,139 @@ void testApp::init() {
     float boundOffset = 4.0f;
     box2d.createBounds( -boundOffset, -boundOffset, ofGetWidth() + boundOffset, ofGetHeight() + boundOffset );
 	
-    
     buildMesh();
 }
+
 
 //--------------------------------------------------------------
 void testApp::runRandom(){
     
     destroyMesh();
     
-    drag                = ofRandom(0.0,0.5);
-    springStrength      = ofRandom(0.5,4.0);
-    forceRadius         = ofRandom(80,100);
-    gridSize            = ofRandom(9,20);
+    drag                = ofRandom( 0.0f, 0.5f );
+    springStrength      = ofRandom( 0.5f, 4.0f );
+    forceRadius         = (int)ofRandom( 80, 100 );
+    gridSize            = (int)ofRandom( 9, 20 );
 
-    colR                = ofRandom(0,1);
-    colG                = ofRandom(0,1);
-    colB                = ofRandom(0,1);
+    colR                = ofRandomuf();
+    colG                = ofRandomuf();
+    colB                = ofRandomuf();
+    colA                = ofRandomuf();
     
-    guiViewController.springDampingSlider.value      = drag;
-    guiViewController.springFrequencySlider.value    = springStrength;
-    guiViewController.forceRadiusSlider.value        = forceRadius;
-    guiViewController.adjustPointsSlider.value        = gridSize;
-    guiViewController.colorRSlider.value        = colR;
-    guiViewController.colorGSlider.value        = colG;
-    guiViewController.colorBSlider.value        = colB;
+    guiViewController.springDampingSlider.value     = drag;
+    guiViewController.springFrequencySlider.value   = springStrength;
+    guiViewController.forceRadiusSlider.value       = forceRadius;
+    guiViewController.adjustPointsSlider.value      = gridSize;
     
-    
-//    isFillsDrawingOn    = ofRandom(0,1);
-//    isWiresDrawingOn    = ofRandom(0,1);
-//    isPointsDrawingOn   = ofRandom(0,1);
-//    
-//    isAttractionOn      = ofRandom(0,1);
-//    isGravityOn         = ofRandom(0,1);
+    guiViewController.colorRSlider.value            = colR;
+    guiViewController.colorGSlider.value            = colG;
+    guiViewController.colorBSlider.value            = colB;
+    guiViewController.colorASlider.value            = colA;
     
     buildMesh();
-    
-    
-    
 }
-//--------------------------------------------------------------
 
+
+
+//--------------------------------------------------------------
 void testApp::buildMesh() {
     // Initialize grid
-	float gridRatio = gridWidth / gridHeight;
-	cols = gridSize;
-	rows = (int)( gridSize / gridRatio );
+	float gridRatio     = gridWidth / gridHeight;
+	cols                = gridSize;
+	rows                = (int)( gridSize / gridRatio );
 	
-    // Add particles to physics world
-	float gridColCellDist	= gridWidth / cols;
-	float gridRowCellDist	= gridHeight / rows;
+    
+    float spaceX        = gridWidth / (cols-1);
+	float spaceY        = gridHeight / (rows-1);
 	
+    int colSteps        = cols - 1;
+	int rowSteps        = rows - 1;
+	
+    
+    int totalQuads		= (cols-1) * (rows-1);
+	int totalTriangles	= totalQuads * 2;
+	int totalVertices	= cols * rows;
+	int totalIndices	= totalTriangles * 3; //(cols*2) * (rows-1);
+	
+    cout << "total quads: " << totalQuads << endl;
+	cout << "total triangles: " << totalTriangles << endl;
+	cout << "total vertices: " << totalVertices << endl;
+	cout << "total indices: " << totalIndices << endl;
+	
+    
+	// Vertex positions
 	int idx = 0;
-	for ( int j = 0; j <= rows; j++ ) {
-		for ( int i = 0; i <= cols; i++ ) {
-			// Calculate grid positions
-			float x = gridColCellDist * i;
-			float y = gridRowCellDist * j;
-			
-			// Create particles
-			ofxBox2dCircle pA;
+    for ( int y = 0; y < rows; y++ ) {
+		for ( int x = 0; x < cols; x++ ) {
+			ofVec2f point( x * spaceX, y * spaceY );
+            vertices.push_back( point );
+            
+            // Create particles
+            ofxBox2dCircle pA;
             // Make border particles fix to their position
-			if ( i == 0 || i == cols || j == 0 || j == rows ) {
-				pA.setup( box2d.getWorld(), x, y, 5.0f );
+			if ( x == 0 || x == cols-1 || y == 0 || y == rows-1 ) {
+				pA.setup( box2d.getWorld(), point.x, point.y, 1.0f );
 			}
 			// Insiders are free
 			else {
 				pA.setPhysics( 5.0f, 0.1f, 0.1f );
                 pA.fixture.filter.groupIndex = -1;
-                pA.setup( box2d.getWorld(), x, y, 10.0f );
+                pA.setup( box2d.getWorld(), point.x, point.y, 10.0f );
 			}
 			particles.push_back( pA );
             
-			// Create springs
-			ofxBox2dJoint spring;
-            if ( i > 0 ) {
+            // Create springs
+            ofxBox2dJoint spring;
+            if ( x > 0 ) {
 				ofxBox2dCircle pB = particles[idx - 1];
-				spring.setup( box2d.getWorld(), pA.body, pB.body, springStrength );
+				spring.setup( box2d.getWorld(), pA.body, pB.body, springStrength, drag );
                 springs.push_back( spring );
 			}
-			if ( j > 0 ) {
-                ofxBox2dCircle pC = particles[idx - cols - 1];
+			if ( y > 0 ) {
+                ofxBox2dCircle pC = particles[idx - cols];
 				spring.setup( box2d.getWorld(), pA.body, pC.body, springStrength, drag );
                 springs.push_back( spring );
 			}
-			idx++;
+            idx++;
 		}
 	}
+    
+    // Indices
+	for ( int r = 0; r < rowSteps; r++ ) {
+		for ( int c = 0; c < colSteps; c++ ) {
+			int t = c + r * cols;
+			
+			int A, B, C, D;
+			A = t;
+			B = t + 1;
+			C = t + cols;
+			D = t + cols + 1;
+			
+			indices.push_back( A );
+			indices.push_back( B );
+			indices.push_back( D );
+			indices.push_back( A );
+			indices.push_back( D );
+			indices.push_back( C );
+		}
+	}
+	
+    
+	// Textture coordinates
+	for ( int y = 0; y < rows; y++ ) {
+		for ( int x = 0; x < cols; x++ ) {
+			ofVec2f point( (x * spaceX) / gridWidth, (y * spaceY) / gridHeight );
+			textCoords.push_back( point );
+		}
+	}
+	
+    
+	mesh.setMode( OF_PRIMITIVE_TRIANGLES );
+	mesh.addVertices( vertices );
+	mesh.addIndices( indices );
+	mesh.addTexCoords( textCoords );
+	
+	vboMesh.setMesh( mesh, GL_DYNAMIC_DRAW );
     
     
     // Mesh quad main diagonal
@@ -226,13 +282,23 @@ void testApp::destroyMesh() {
     }
     springs.clear();
     particles.clear();
+    
+    textCoords.clear();
+    vertices.clear();
+    indices.clear();
+    
+    mesh.clearTexCoords();
+    mesh.clearVertices();
+    mesh.clearIndices();
+    mesh.clear();
+    vboMesh.clear();
+    
 }
 
 
 
 //--------------------------------------------------------------
 void testApp::update(){
-    
     
     // box2d gravity influence by accelerometer
     if ( isGravityOn ) {
@@ -282,18 +348,31 @@ void testApp::update(){
 void testApp::draw(){
 	ofBackground( 0, 0, 0 );
 	
+    ofEnableAlphaBlending();
+    
+    if ( isBlendModeOn ) {
+        ofEnableBlendMode( OF_BLENDMODE_ADD );
+    }
+    
+    if ( isTextureDrawingOn ) {
+        renderTexturedMesh();   
+    }
+    
     if ( isFillsDrawingOn ) {
 		renderFill();
 	}
-	if ( isWiresDrawingOn ) {
-		//ofPushMatrix();
-        //ofTranslate( 1, 1 );
-            renderLines();
-        //ofPopMatrix();
-	}
-	if ( isPointsDrawingOn ) {
+	
+    if ( isWiresDrawingOn ) {
+        renderLines();
+    }
+	
+    if ( isPointsDrawingOn ) {
 		renderPoints();
 	}
+    
+    ofDisableBlendMode();
+    ofDisableAlphaBlending();
+    
 }
 
 //--------------------------------------------------------------
@@ -364,17 +443,16 @@ void testApp::renderFill() {
 	meshFill.enableTexCoord( false );
 	meshFill.setClientStates();
 	meshFill.begin( GL_TRIANGLES );
-	int idx = 0;
-	for ( int y = 0; y < rows; y++ ) {
-		for ( int x = 0; x < cols; x++ ) {
+	
+    for ( int y = 0; y < rows - 1; y++ ) {
+		for ( int x = 0; x < cols - 1; x++ ) {
 			int i = x + cols * y;
-			i += idx;
 			
 			int A, B, C, D;
 			A = i;
 			B = i + 1;
-			C = i + 1 + cols;
-			D = i + 2 + cols;
+			C = i + cols;
+			D = i + 1 + cols;
 			
 			ofxBox2dCircle a = particles[A];
             ofxBox2dCircle b = particles[B];
@@ -385,31 +463,31 @@ void testApp::renderFill() {
 			float k		= 1.0f - ( dist / gridCellDiagonalDist );
 			k *= 0.25f;
             
-            float colorA[3] = { colR - k, colG - k, colB - k };
-            float colorB[3] = { colR - k, colG - k, colB - k };
-            float colorC[3] = { colR * 0.9f - k, colG * 0.9f - k, colB * 0.9f - k };
-            float colorD[3] = { colR * 0.8f - k, colG * 0.8f - k, colB * 0.8f - k };
+            float colorA[4] = { colR - k, colG - k, colB - k, colA };
+            float colorB[4] = { colR - k, colG - k, colB - k, colA };
+            float colorC[4] = { colR * 0.9f - k, colG * 0.9f - k, colB * 0.9f - k, colA };
+            float colorD[4] = { colR * 0.8f - k, colG * 0.8f - k, colB * 0.8f - k, colA };
             /*
              float colorA[3] = { k - colR, k - colG, k - colB };
              float colorB[3] = { k - colR, k - colG, k - colB };
              float colorC[3] = { k - colR * 0.9f, k - colG * 0.9f, k - colB * 0.9f };
              float colorD[3] = { k - colR * 0.8f, k - colG * 0.8f, k - colB * 0.8f };
              */
-			meshFill.setColor3v( colorA );
+            
+			meshFill.setColor4v( colorA );
 			meshFill.addVertex( a.getPosition().x, a.getPosition().y );
-			meshFill.setColor3v( colorB );
+			meshFill.setColor4v( colorB );
 			meshFill.addVertex( b.getPosition().x, b.getPosition().y );
-			meshFill.setColor3v( colorD );
+			meshFill.setColor4v( colorD );
 			meshFill.addVertex( d.getPosition().x, d.getPosition().y );
 			
-			meshFill.setColor3v( colorA );
+			meshFill.setColor4v( colorA );
 			meshFill.addVertex( a.getPosition().x, a.getPosition().y );
-			meshFill.setColor3v( colorD );
+			meshFill.setColor4v( colorD );
 			meshFill.addVertex( d.getPosition().x, d.getPosition().y );
-			meshFill.setColor3v( colorC );
+			meshFill.setColor4v( colorC );
 			meshFill.addVertex( c.getPosition().x, c.getPosition().y );
 		}
-		idx++;
 	}
 	meshFill.end();
 	meshFill.restoreClientStates();
@@ -417,7 +495,8 @@ void testApp::renderFill() {
 
 
 void testApp::renderLines() {
-    for ( int i = 0; i < springs.size(); i++ ) {
+    int numSprings = springs.size();
+    for ( int i = 0; i < numSprings; i++ ) {
         ofVec2f bodyAPos( springs[i].joint->GetAnchorA().x, springs[i].joint->GetAnchorA().y );
         ofVec2f bodyBPos( springs[i].joint->GetAnchorB().x, springs[i].joint->GetAnchorB().y );
         
@@ -426,7 +505,7 @@ void testApp::renderLines() {
         //cout << "K: " << k << endl;
         
         if ( springs[i].joint->GetBodyA()->GetMass() != 0 || springs[i].joint->GetBodyB()->GetMass() != 0 ) {
-            ofSetColor( 255 * (colR * k), 255 * (colG * k), 255 * (colB * k) );
+            ofSetColor( 255 * (colR * k), 255 * (colG * k), 255 * (colB * k), 255 * colA );
             springs[i].draw();
         }
     }
@@ -435,8 +514,9 @@ void testApp::renderLines() {
 
 void testApp::renderPoints() {
 	//glLineWidth( 1.5f );
-	float size = 3.0f;
-    for ( int i = 0; i < particles.size(); i++ ) {
+	int numParticles = particles.size();
+    float size = 3.0f;
+    for ( int i = 0; i < numParticles; i++ ) {
 		ofxBox2dCircle p = particles[i];
 		ofSetHexColor( 0xffffff );
         ofLine( p.getPosition().x - size, p.getPosition().y + size, p.getPosition().x + size, p.getPosition().y - size );
@@ -444,9 +524,38 @@ void testApp::renderPoints() {
 	}
 }
 
+
+void testApp::renderTexturedMesh() {
+    int numParticles = particles.size();
+    ofVec3f positions[numParticles];
+    for ( int i = 0; i < particles.size(); i++ ) {
+        positions[i] = particles[i].getPosition();
+    }
+    
+    ofSetHexColor( 0xffffff );
+	if ( isImageSet ) skinTexture.bind();
+    vboMesh.updateVertexData( positions, numParticles );
+    vboMesh.drawElements( GL_TRIANGLES, mesh.getNumIndices() );
+    if ( isImageSet ) skinTexture.unbind();
+    
+    //ofSetHexColor( 0xff0000 );
+    //mesh.drawWireframe();
+}
+
 // ---- Render methods END
 //--------------------------------------------------------------
 
+
+
+void testApp::setImage( UIImage *inImage, int w, int h ) {
+	iPhoneUIImageToOFImage( inImage, skinImage );
+	skinTexture.allocate( w, h, GL_RGBA );
+	skinTexture.loadData( skinImage.getPixels(), w, h, GL_RGBA );
+    
+	isImageSet          = true;
+    isTextureDrawingOn  = true;
+    [guiViewController.textureSwitch setOn:isTextureDrawingOn];
+}
 
 
 
@@ -464,6 +573,7 @@ void testApp::saveSettings() {
     XML.setValue( "MESH:COLOR:RED", colR );
     XML.setValue( "MESH:COLOR:GREEN", colG );
     XML.setValue( "MESH:COLOR:BLUE", colB );
+    XML.setValue( "MESH:COLOR:ALPHA", colA );
     
     //filip added
     XML.setValue( "MESH:VIEW:FIRST", 0 );
