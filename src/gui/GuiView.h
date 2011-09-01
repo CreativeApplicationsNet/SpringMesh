@@ -28,7 +28,8 @@
     IBOutlet UISwitch           *attractionSwitch;
     IBOutlet UISwitch           *gravitySwitch;
     
-    IBOutlet UISwitch           *blendSwitch;
+    IBOutlet UISwitch           *addBlendSwitch;
+    IBOutlet UISwitch           *screenBlendSwitch;
     
     IBOutlet UISlider           *springDampingSlider;
     IBOutlet UISlider           *springFrequencySlider;
@@ -58,7 +59,8 @@
 @property (nonatomic, retain) UISwitch *attractionSwitch;
 @property (nonatomic, retain) UISwitch *gravitySwitch;
 
-@property (nonatomic, retain) UISwitch *blendSwitch;
+@property (nonatomic, retain) UISwitch *addBlendSwitch;
+@property (nonatomic, retain) UISwitch *screenBlendSwitch;
 
 @property (nonatomic, retain) UISwitch *textureSwitch;
 @property (nonatomic, retain) UISwitch *fillsSwitch;

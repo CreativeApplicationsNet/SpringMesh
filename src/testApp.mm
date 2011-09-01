@@ -55,26 +55,31 @@ void testApp::setup(){
 		gridSize        = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 9 );
 	}
     
-    /**** Add to xml ****/
-    isImageSet          = false;
-    isTextureDrawingOn  = false;
     
-    isFillsDrawingOn    = XML.getValue( "MESH:VIEW:FILLS", 1 );
-    isWiresDrawingOn    = XML.getValue( "MESH:VIEW:WIRES", 0 );
-    isPointsDrawingOn   = XML.getValue( "MESH:VIEW:POINTS", 0 );
-    colR                = XML.getValue( "MESH:COLOR:RED", 0.2 );
-    colG                = XML.getValue( "MESH:COLOR:GREEN", 0.6 );
-    colB                = XML.getValue( "MESH:COLOR:BLUE", 1.0 );
-    colA                = XML.getValue( "MESH:COLOR:ALPHA", 1.0 );
-    first               = XML.getValue( "MESH:VIEW:FIRST", 1 );
+    isFillsDrawingOn        = XML.getValue( "MESH:VIEW:FILLS", 1 );
+    isWiresDrawingOn        = XML.getValue( "MESH:VIEW:WIRES", 0 );
+    isPointsDrawingOn       = XML.getValue( "MESH:VIEW:POINTS", 0 );
     
-    isBlendModeOn   = false;
+    isAddBlendModeOn        = XML.getValue( "MESH:VIEW:ADD", 0 );
+    isScreenBlendModeOn     = XML.getValue( "MESH:VIEW:SCREEN", 0 );
+    
+    colR                    = XML.getValue( "MESH:COLOR:RED", 0.2 );
+    colG                    = XML.getValue( "MESH:COLOR:GREEN", 0.6 );
+    colB                    = XML.getValue( "MESH:COLOR:BLUE", 1.0 );
+    colA                    = XML.getValue( "MESH:COLOR:ALPHA", 1.0 );
+    first                   = XML.getValue( "MESH:VIEW:FIRST", 1 );
+    
+    isImageSet              = false;
+    isTextureDrawingOn      = false;
+    
+    isAddBlendModeOn        = false;
+    isScreenBlendModeOn     = false;
     
     
-    gridWidth           = ofGetWidth();
-	gridHeight          = ofGetHeight();
+    gridWidth               = ofGetWidth();
+	gridHeight              = ofGetHeight();
 	
-    isSaveImageActive   = false;
+    isSaveImageActive       = false;
     
     
 //    // Set gui view  
@@ -116,7 +121,8 @@ void testApp::init() {
     guiViewController.colorBSlider.value            = colB;
     guiViewController.colorASlider.value            = colA;
     
-    [guiViewController.blendSwitch setOn:isBlendModeOn];
+    [guiViewController.addBlendSwitch setOn:isAddBlendModeOn];
+    [guiViewController.screenBlendSwitch setOn:isScreenBlendModeOn];
     
     
     // Init box2d
@@ -350,8 +356,12 @@ void testApp::draw(){
 	
     ofEnableAlphaBlending();
     
-    if ( isBlendModeOn ) {
+    if ( isAddBlendModeOn ) {
         ofEnableBlendMode( OF_BLENDMODE_ADD );
+    }
+    
+    if ( isScreenBlendModeOn ) {
+        ofEnableBlendMode( OF_BLENDMODE_SCREEN );
     }
     
     if ( isTextureDrawingOn ) {
@@ -570,6 +580,10 @@ void testApp::saveSettings() {
     XML.setValue( "MESH:VIEW:FILLS", isFillsDrawingOn );
     XML.setValue( "MESH:VIEW:WIRES", isWiresDrawingOn );
     XML.setValue( "MESH:VIEW:POINTS", isPointsDrawingOn );
+    
+    XML.setValue( "MESH:VIEW:ADD", isAddBlendModeOn );
+    XML.setValue( "MESH:VIEW:SCREEN", isScreenBlendModeOn );
+    
     XML.setValue( "MESH:COLOR:RED", colR );
     XML.setValue( "MESH:COLOR:GREEN", colG );
     XML.setValue( "MESH:COLOR:BLUE", colB );

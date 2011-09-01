@@ -70,7 +70,8 @@ public:
     bool isSaveImageActive;
     bool isTextureDrawingOn;
     bool isImageSet;
-    bool isBlendModeOn;
+    bool isAddBlendModeOn;
+    bool isScreenBlendModeOn;
     
     
     ofxBox2d                box2d;

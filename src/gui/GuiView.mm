@@ -28,7 +28,8 @@
 @synthesize wiresSwitch;
 @synthesize pointsSwitch;
 
-@synthesize blendSwitch;
+@synthesize addBlendSwitch;
+@synthesize screenBlendSwitch;
 
 @synthesize colorRSlider;
 @synthesize colorGSlider;
@@ -179,8 +180,11 @@
 	else if ( whichSwitch == pointsSwitch ) {
 		app->isPointsDrawingOn  = [whichSwitch isOn];
 	}
-    else if ( whichSwitch == blendSwitch ) {
-		app->isBlendModeOn  = [whichSwitch isOn];
+    else if ( whichSwitch == addBlendSwitch ) {
+		app->isAddBlendModeOn  = [whichSwitch isOn];
+	}
+    else if ( whichSwitch == screenBlendSwitch ) {
+		app->isScreenBlendModeOn  = [whichSwitch isOn];
 	}
 }
 

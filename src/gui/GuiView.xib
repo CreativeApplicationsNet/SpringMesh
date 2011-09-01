@@ -438,7 +438,7 @@
 							<object class="IBUIImageView" id="735210649">
 								<reference key="NSNextResponder" ref="656472138"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrameSize">{300, 410}</string>
+								<string key="NSFrameSize">{300, 420}</string>
 								<reference key="NSSuperview" ref="656472138"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="15343055"/>
@@ -651,7 +651,7 @@
 							<object class="IBUILabel" id="62475395">
 								<reference key="NSNextResponder" ref="656472138"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{7, 364}, {109, 28}}</string>
+								<string key="NSFrame">{{34, 354}, {94, 28}}</string>
 								<reference key="NSSuperview" ref="656472138"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="15408152"/>
@@ -665,7 +665,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">Blend mode</string>
+								<string key="IBUIText">Additive blend</string>
 								<reference key="IBUIFont" ref="957705050"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">3</int>
@@ -676,12 +676,55 @@
 								<string key="IBUIShadowOffset">{1, 1}</string>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
-								<int key="IBUITextAlignment">2</int>
+								<int key="IBUITextAlignment">1</int>
 							</object>
 							<object class="IBUISwitch" id="15408152">
 								<reference key="NSNextResponder" ref="656472138"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{124, 365}, {94, 27}}</string>
+								<string key="NSFrame">{{34, 380}, {94, 27}}</string>
+								<reference key="NSSuperview" ref="656472138"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="900716445"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<bool key="IBUIOn">YES</bool>
+							</object>
+							<object class="IBUILabel" id="900716445">
+								<reference key="NSNextResponder" ref="656472138"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{171, 354}, {94, 28}}</string>
+								<reference key="NSSuperview" ref="656472138"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="997896794"/>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MSAwAA</bytes>
+									<reference key="NSCustomColorSpace" ref="644388460"/>
+								</object>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<string key="IBUIText">Screen blend</string>
+								<reference key="IBUIFont" ref="957705050"/>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+									<reference key="NSCustomColorSpace" ref="644388460"/>
+								</object>
+								<nil key="IBUIHighlightedColor"/>
+								<string key="IBUIShadowOffset">{1, 1}</string>
+								<int key="IBUIBaselineAdjustment">1</int>
+								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUITextAlignment">1</int>
+							</object>
+							<object class="IBUISwitch" id="997896794">
+								<reference key="NSNextResponder" ref="656472138"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{171, 380}, {94, 27}}</string>
 								<reference key="NSSuperview" ref="656472138"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -897,7 +940,7 @@
 								<float key="IBUIValue">1</float>
 							</object>
 						</object>
-						<string key="NSFrame">{{10, 44}, {300, 410}}</string>
+						<string key="NSFrame">{{10, 44}, {300, 420}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="735210649"/>
@@ -1445,12 +1488,29 @@
 					<int key="connectionID">281</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">renderSwitchHandler:</string>
+						<reference key="source" ref="997896794"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">13</int>
+					</object>
+					<int key="connectionID">285</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">blendSwitch</string>
+						<string key="label">screenBlendSwitch</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="997896794"/>
+					</object>
+					<int key="connectionID">286</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">addBlendSwitch</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="15408152"/>
 					</object>
-					<int key="connectionID">282</int>
+					<int key="connectionID">287</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1529,6 +1589,8 @@
 							<reference ref="299344587"/>
 							<reference ref="62475395"/>
 							<reference ref="15408152"/>
+							<reference ref="900716445"/>
+							<reference ref="997896794"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
 						<string key="objectName">Mesh View</string>
@@ -1786,6 +1848,17 @@
 						<reference key="parent" ref="656472138"/>
 						<string key="objectName">Switch</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">283</int>
+						<reference key="object" ref="900716445"/>
+						<reference key="parent" ref="656472138"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">284</int>
+						<reference key="object" ref="997896794"/>
+						<reference key="parent" ref="656472138"/>
+						<string key="objectName">Switch</string>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1836,6 +1909,8 @@
 					<string>275.IBPluginDependency</string>
 					<string>279.IBPluginDependency</string>
 					<string>280.IBPluginDependency</string>
+					<string>283.IBPluginDependency</string>
+					<string>284.IBPluginDependency</string>
 					<string>42.IBPluginDependency</string>
 					<string>49.IBPluginDependency</string>
 					<string>61.IBPluginDependency</string>
@@ -1901,6 +1976,8 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -1915,7 +1992,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">282</int>
+			<int key="maxID">287</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2092,9 +2169,9 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addBlendSwitch</string>
 							<string>adjustPointsSlider</string>
 							<string>attractionSwitch</string>
-							<string>blendSwitch</string>
 							<string>colorASlider</string>
 							<string>colorBSlider</string>
 							<string>colorGSlider</string>
@@ -2107,6 +2184,7 @@
 							<string>meshView</string>
 							<string>physicsView</string>
 							<string>pointsSwitch</string>
+							<string>screenBlendSwitch</string>
 							<string>springDampingSlider</string>
 							<string>springFrequencySlider</string>
 							<string>textureSwitch</string>
@@ -2116,8 +2194,8 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UISlider</string>
 							<string>UISwitch</string>
+							<string>UISlider</string>
 							<string>UISwitch</string>
 							<string>UISlider</string>
 							<string>UISlider</string>
@@ -2131,6 +2209,7 @@
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UISwitch</string>
+							<string>UISwitch</string>
 							<string>UISlider</string>
 							<string>UISlider</string>
 							<string>UISwitch</string>
@@ -2143,9 +2222,9 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addBlendSwitch</string>
 							<string>adjustPointsSlider</string>
 							<string>attractionSwitch</string>
-							<string>blendSwitch</string>
 							<string>colorASlider</string>
 							<string>colorBSlider</string>
 							<string>colorGSlider</string>
@@ -2158,6 +2237,7 @@
 							<string>meshView</string>
 							<string>physicsView</string>
 							<string>pointsSwitch</string>
+							<string>screenBlendSwitch</string>
 							<string>springDampingSlider</string>
 							<string>springFrequencySlider</string>
 							<string>textureSwitch</string>
@@ -2168,15 +2248,15 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
+								<string key="name">addBlendSwitch</string>
+								<string key="candidateClassName">UISwitch</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">adjustPointsSlider</string>
 								<string key="candidateClassName">UISlider</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">attractionSwitch</string>
-								<string key="candidateClassName">UISwitch</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">blendSwitch</string>
 								<string key="candidateClassName">UISwitch</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -2225,6 +2305,10 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">pointsSwitch</string>
+								<string key="candidateClassName">UISwitch</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">screenBlendSwitch</string>
 								<string key="candidateClassName">UISwitch</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -2292,7 +2376,7 @@
 				<string>{300, 420}</string>
 				<string>{20, 20}</string>
 				<string>{640, 80}</string>
-				<string>{300, 410}</string>
+				<string>{300, 420}</string>
 				<string>{20, 20}</string>
 				<string>{20, 20}</string>
 				<string>{300, 260}</string>
