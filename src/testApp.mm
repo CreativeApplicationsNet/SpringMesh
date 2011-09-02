@@ -193,6 +193,27 @@ void testApp::buildMesh() {
 	cout << "total indices: " << totalIndices << endl;
 	
     
+    // Indices
+	for ( int r = 0; r < rowSteps; r++ ) {
+		for ( int c = 0; c < colSteps; c++ ) {
+			int t = c + r * cols;
+			
+			int A, B, C, D;
+			A = t;
+			B = t + 1;
+			C = t + cols;
+			D = t + cols + 1;
+			
+			indices.push_back( A );
+			indices.push_back( B );
+			indices.push_back( D );
+			indices.push_back( A );
+			indices.push_back( D );
+			indices.push_back( C );
+		}
+	}
+    
+    
 	// Vertex positions
 	int idx = 0;
     for ( int y = 0; y < rows; y++ ) {
@@ -227,38 +248,14 @@ void testApp::buildMesh() {
                 springs.push_back( spring );
 			}
             idx++;
+            
+            
+            // Textture coordinates
+            ofVec2f textCoordPoint( (x * spaceX) / gridWidth, (y * spaceY) / gridHeight );
+			textCoords.push_back( textCoordPoint );
 		}
 	}
     
-    // Indices
-	for ( int r = 0; r < rowSteps; r++ ) {
-		for ( int c = 0; c < colSteps; c++ ) {
-			int t = c + r * cols;
-			
-			int A, B, C, D;
-			A = t;
-			B = t + 1;
-			C = t + cols;
-			D = t + cols + 1;
-			
-			indices.push_back( A );
-			indices.push_back( B );
-			indices.push_back( D );
-			indices.push_back( A );
-			indices.push_back( D );
-			indices.push_back( C );
-		}
-	}
-	
-    
-	// Textture coordinates
-	for ( int y = 0; y < rows; y++ ) {
-		for ( int x = 0; x < cols; x++ ) {
-			ofVec2f point( (x * spaceX) / gridWidth, (y * spaceY) / gridHeight );
-			textCoords.push_back( point );
-		}
-	}
-	
     
 	mesh.setMode( OF_PRIMITIVE_TRIANGLES );
 	mesh.addVertices( vertices );
@@ -454,51 +451,45 @@ void testApp::renderFill() {
 	meshFill.setClientStates();
 	meshFill.begin( GL_TRIANGLES );
 	
-    for ( int y = 0; y < rows - 1; y++ ) {
-		for ( int x = 0; x < cols - 1; x++ ) {
-			int i = x + cols * y;
-			
-			int A, B, C, D;
-			A = i;
-			B = i + 1;
-			C = i + cols;
-			D = i + 1 + cols;
-			
-			ofxBox2dCircle a = particles[A];
-            ofxBox2dCircle b = particles[B];
-            ofxBox2dCircle c = particles[C];
-            ofxBox2dCircle d = particles[D];
-            
-			float dist	= a.getPosition().distance( d.getPosition() );
-			float k		= 1.0f - ( dist / gridCellDiagonalDist );
-			k *= 0.25f;
-            
-            float colorA[4] = { colR - k, colG - k, colB - k, colA };
-            float colorB[4] = { colR - k, colG - k, colB - k, colA };
-            float colorC[4] = { colR * 0.9f - k, colG * 0.9f - k, colB * 0.9f - k, colA };
-            float colorD[4] = { colR * 0.8f - k, colG * 0.8f - k, colB * 0.8f - k, colA };
-            /*
-             float colorA[3] = { k - colR, k - colG, k - colB };
-             float colorB[3] = { k - colR, k - colG, k - colB };
-             float colorC[3] = { k - colR * 0.9f, k - colG * 0.9f, k - colB * 0.9f };
-             float colorD[3] = { k - colR * 0.8f, k - colG * 0.8f, k - colB * 0.8f };
-             */
-            
-			meshFill.setColor4v( colorA );
-			meshFill.addVertex( a.getPosition().x, a.getPosition().y );
-			meshFill.setColor4v( colorB );
-			meshFill.addVertex( b.getPosition().x, b.getPosition().y );
-			meshFill.setColor4v( colorD );
-			meshFill.addVertex( d.getPosition().x, d.getPosition().y );
-			
-			meshFill.setColor4v( colorA );
-			meshFill.addVertex( a.getPosition().x, a.getPosition().y );
-			meshFill.setColor4v( colorD );
-			meshFill.addVertex( d.getPosition().x, d.getPosition().y );
-			meshFill.setColor4v( colorC );
-			meshFill.addVertex( c.getPosition().x, c.getPosition().y );
-		}
-	}
+    for ( int i = 0; i < indices.size(); i += 6 ) {
+        ofIndexType A = indices[i];
+        ofIndexType B = indices[i + 1];
+        ofIndexType C = indices[i + 2];
+        ofIndexType D = indices[i + 3];
+        ofIndexType E = indices[i + 4];
+        ofIndexType F = indices[i + 5];
+        
+        ofxBox2dCircle a = particles[A];
+        ofxBox2dCircle b = particles[B];
+        ofxBox2dCircle c = particles[C];
+        ofxBox2dCircle d = particles[D];
+        ofxBox2dCircle e = particles[E];
+        ofxBox2dCircle f = particles[F];
+        
+        float dist	= a.getPosition().distance( c.getPosition() );
+        float k		= (1.0f - ( dist / gridCellDiagonalDist )) * 0.25f;
+        
+        float colorA[4] = { colR - k, colG - k, colB - k, colA };
+        float colorB[4] = { colR - k, colG - k, colB - k, colA };
+        float colorC[4] = { colR * 0.9f - k, colG * 0.9f - k, colB * 0.9f - k, colA };
+        float colorD[4] = { colR * 0.8f - k, colG * 0.8f - k, colB * 0.8f - k, colA };
+        
+        
+        meshFill.setColor4v( colorA );
+        meshFill.addVertex( a.getPosition().x, a.getPosition().y );
+        meshFill.setColor4v( colorB );
+        meshFill.addVertex( b.getPosition().x, b.getPosition().y );
+        meshFill.setColor4v( colorD );
+        meshFill.addVertex( c.getPosition().x, c.getPosition().y );
+        
+        meshFill.setColor4v( colorA );
+        meshFill.addVertex( d.getPosition().x, d.getPosition().y );
+        meshFill.setColor4v( colorD );
+        meshFill.addVertex( e.getPosition().x, e.getPosition().y );
+        meshFill.setColor4v( colorC );
+        meshFill.addVertex( f.getPosition().x, f.getPosition().y );
+    }
+    
 	meshFill.end();
 	meshFill.restoreClientStates();
 }

@@ -65,8 +65,8 @@
 
     }
     
-    /* GETTING SIGABRT ERROR not sure why
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]isDirectory:NO]]];
+    // GETTING SIGABRT ERROR not sure why
+    /*[webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]isDirectory:NO]]];
     */
 }
 
