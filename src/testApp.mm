@@ -16,10 +16,10 @@ void testApp::setup(){
 	ofxiPhoneAlerts.addListener(this);
 	
 	//If you want a landscape oreintation 
-	//iPhoneSetOrientation( OFXIPHONE_ORIENTATION_LANDSCAPE_RIGHT );
+	iPhoneSetOrientation( OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT );
     
-    ofBackground(0, 0, 0); //filip added
-	
+    ofBackground( 0, 0, 0 );
+    
 	ofSetFrameRate( 30 );
     
     ofDisableArbTex();
@@ -39,20 +39,22 @@ void testApp::setup(){
 	//cout << message << endl;
     
     
-    drag                = XML.getValue( "PHYSICS:SPRING:DAMPING", 0.4 );
-    springStrength      = XML.getValue( "PHYSICS:SPRING:STRENGTH", 2.0 );
-    forceRadius         = XML.getValue( "PHYSICS:SPRING:FORCE_RADIUS", 100 );
-    isAttractionOn      = XML.getValue( "PHYSICS:SPRING:ATTRACTION", 0 );
-    isGravityOn         = XML.getValue( "PHYSICS:SPRING:GRAVITY", 0 );
+    drag                    = XML.getValue( "PHYSICS:SPRING:DAMPING", 0.4 );
+    springStrength          = XML.getValue( "PHYSICS:SPRING:STRENGTH", 2.0 );
+    forceRadius             = XML.getValue( "PHYSICS:SPRING:FORCE_RADIUS", 100 );
+    isAttractionOn          = XML.getValue( "PHYSICS:SPRING:ATTRACTION", 0 );
+    isGravityOn             = XML.getValue( "PHYSICS:SPRING:GRAVITY", 0 );
     
+    isHorizontalSpringsOn   = XML.getValue( "PHYSICS:SPRING:HORIZONTAL", 1 );
+    isVerticalSpringsOn     = XML.getValue( "PHYSICS:SPRING:VERTICAL", 1 );
     
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
 		// ipad
-		gridSize        = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 20 );
+		gridSize            = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 20 );
 	}
 	else {
 		// ipod
-		gridSize        = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 9 );
+		gridSize            = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 9 );
 	}
     
     
@@ -63,17 +65,22 @@ void testApp::setup(){
     isAddBlendModeOn        = XML.getValue( "MESH:VIEW:ADD", 0 );
     isScreenBlendModeOn     = XML.getValue( "MESH:VIEW:SCREEN", 0 );
     
+    firstTimeLaunch         = XML.getValue( "MESH:VIEW:FIRST", 1 );
+    
     colR                    = XML.getValue( "MESH:COLOR:RED", 0.2 );
     colG                    = XML.getValue( "MESH:COLOR:GREEN", 0.6 );
     colB                    = XML.getValue( "MESH:COLOR:BLUE", 1.0 );
     colA                    = XML.getValue( "MESH:COLOR:ALPHA", 1.0 );
-    first                   = XML.getValue( "MESH:VIEW:FIRST", 1 );
+    
     
     isImageSet              = false;
     isTextureDrawingOn      = false;
     
     isAddBlendModeOn        = false;
     isScreenBlendModeOn     = false;
+    
+    //isHorizontalSpringsOn   = true;
+    //isVerticalSpringsOn     = true;
     
     
     gridWidth               = ofGetWidth();
@@ -87,12 +94,11 @@ void testApp::setup(){
 //    guiViewController.view.hidden = YES;
 //    [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
     
-    if ( first == 1 ) {
+    if ( firstTimeLaunch == 1 ) {
         // Set gui view
         guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
         guiViewController.view.hidden = NO;
         [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
-
     }
     else {
         // Set gui view  
@@ -111,6 +117,15 @@ void testApp::init() {
     guiViewController.adjustPointsSlider.value       = gridSize;
     [guiViewController.attractionSwitch setOn:isAttractionOn];
     [guiViewController.gravitySwitch setOn:isGravityOn];
+    /*if ( isHorizontalSpringsOn == false ) {
+        guiViewController.toggleConnectionsControl.selectedSegmentIndex = 0;
+    }
+    else if ( isVerticalSpringsOn == false ) {
+        [guiViewController.toggleConnectionsControl setSelectedSegmentIndex:1];
+    }
+    else {
+        [guiViewController.toggleConnectionsControl setSelectedSegmentIndex:2];
+    }*/
     
     [guiViewController.textureSwitch setOn:isTextureDrawingOn];
     [guiViewController.fillsSwitch setOn:isFillsDrawingOn];
@@ -139,7 +154,6 @@ void testApp::init() {
 
 //--------------------------------------------------------------
 void testApp::runRandom(){
-    
     destroyMesh();
     
     drag                = ofRandom( 0.0f, 0.5f );
@@ -237,12 +251,12 @@ void testApp::buildMesh() {
             
             // Create springs
             ofxBox2dJoint spring;
-            if ( x > 0 ) {
+            if ( x > 0 && isHorizontalSpringsOn ) {
 				ofxBox2dCircle pB = particles[idx - 1];
 				spring.setup( box2d.getWorld(), pA.body, pB.body, springStrength, drag );
                 springs.push_back( spring );
 			}
-			if ( y > 0 ) {
+			if ( y > 0 && isVerticalSpringsOn ) {
                 ofxBox2dCircle pC = particles[idx - cols];
 				spring.setup( box2d.getWorld(), pA.body, pC.body, springStrength, drag );
                 springs.push_back( spring );
@@ -466,9 +480,22 @@ void testApp::renderFill() {
         ofxBox2dCircle e = particles[E];
         ofxBox2dCircle f = particles[F];
         
-        float dist	= a.getPosition().distance( c.getPosition() );
-        float k		= (1.0f - ( dist / gridCellDiagonalDist )) * 0.25f;
+        float dist1	= a.getPosition().distance( c.getPosition() );
+        float dist2	= d.getPosition().distance( f.getPosition() );
         
+        /*
+        float k = (dist1 + dist2) / 2;
+        float tempColR = ofMap( k, 0.0f, gridCellDiagonalDist, 0.0f, colR );
+        float tempColG = ofMap( k, 0.0f, gridCellDiagonalDist, 0.0f, colG );
+        float tempColB = ofMap( k, 0.0f, gridCellDiagonalDist, 0.0f, colB );
+        
+        float colorA[4] = { tempColR, tempColG, tempColB, colA };
+        float colorB[4] = { tempColR, tempColG, tempColB, colA };
+        float colorC[4] = { tempColR * 0.9f, tempColG * 0.9f, tempColB * 0.9f, colA };
+        float colorD[4] = { tempColR * 1.1f, tempColG * 1.1f, tempColB * 1.1f, colA };
+        */
+        
+        float k = 1.0f - (((dist1 + dist2) / 2) / gridCellDiagonalDist);
         float colorA[4] = { colR - k, colG - k, colB - k, colA };
         float colorB[4] = { colR - k, colG - k, colB - k, colA };
         float colorC[4] = { colR * 0.9f - k, colG * 0.9f - k, colB * 0.9f - k, colA };
@@ -568,6 +595,10 @@ void testApp::saveSettings() {
     XML.setValue( "PHYSICS:SPRING:GRAVITY", isGravityOn );
     XML.setValue( "PHYSICS:SPRING:GRIDSIZE", gridSize );
     
+    XML.setValue( "PHYSICS:SPRING:HORIZONTAL", isHorizontalSpringsOn );
+    XML.setValue( "PHYSICS:SPRING:VERTICAL", isVerticalSpringsOn );
+    
+    
     XML.setValue( "MESH:VIEW:FILLS", isFillsDrawingOn );
     XML.setValue( "MESH:VIEW:WIRES", isWiresDrawingOn );
     XML.setValue( "MESH:VIEW:POINTS", isPointsDrawingOn );
@@ -575,13 +606,12 @@ void testApp::saveSettings() {
     XML.setValue( "MESH:VIEW:ADD", isAddBlendModeOn );
     XML.setValue( "MESH:VIEW:SCREEN", isScreenBlendModeOn );
     
+    XML.setValue( "MESH:VIEW:FIRST", 0 );
+    
     XML.setValue( "MESH:COLOR:RED", colR );
     XML.setValue( "MESH:COLOR:GREEN", colG );
     XML.setValue( "MESH:COLOR:BLUE", colB );
     XML.setValue( "MESH:COLOR:ALPHA", colA );
-    
-    //filip added
-    XML.setValue( "MESH:VIEW:FIRST", 0 );
     
 	XML.saveFile( ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml" );
 	cout << ".xml saved to app documents folder" << endl;

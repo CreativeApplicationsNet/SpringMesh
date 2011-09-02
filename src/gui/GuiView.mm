@@ -40,29 +40,36 @@
 
 @synthesize imgPicker;
 
+@synthesize toggleConnectionsControl;
+
 
 
 -(void)viewDidLoad {
     app = (testApp *)ofGetAppPtr();
     app->init();
     
+    if ( app->isHorizontalSpringsOn == false ) {
+        [self.toggleConnectionsControl setSelectedSegmentIndex:0];
+    }
+    else if ( app->isVerticalSpringsOn == false ) {
+        [self.toggleConnectionsControl setSelectedSegmentIndex:1];
+    }
+    else {
+        [self.toggleConnectionsControl setSelectedSegmentIndex:2];
+    }
     
     // Resize toolbar width
 	CGRect frame = [[UIScreen mainScreen] applicationFrame];
 	toolBar.frame = CGRectMake(0, 0, frame.size.width, toolBar.frame.size.height);
 	
-    
-    if (app->first == 1){
-        physicsView.hidden  = YES;
-        meshView.hidden     = YES;
+    // Set views initial state
+    physicsView.hidden      = YES;
+    meshView.hidden         = YES;
+    if ( app->firstTimeLaunch == 1 ) {
         infoView.hidden     = NO;
-
     }
     else {
-        physicsView.hidden  = YES;
-        meshView.hidden     = YES;
         infoView.hidden     = YES; 
-
     }
     
     // GETTING SIGABRT ERROR not sure why
@@ -377,23 +384,46 @@
 
 
 //----------------------------------------------------------------
--(IBAction)linkCAN:(id)sender{
+-(IBAction)linkCAN:(id)sender {
 	
 	if (infoView.hidden == NO) {
-        string sktchlink="http://apps.creativeapplications.net";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: sktchlink.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]   ]];
+        string sktchlink = "http://apps.creativeapplications.net";
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: sktchlink.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]]];
 	}	
 	
 }
 
 //----------------------------------------------------------------
--(IBAction)linkRicardo:(id)sender{
+-(IBAction)linkRicardo:(id)sender {
 	
 	if (infoView.hidden == NO) {
-        string sktchlink="http://nardove.com";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: sktchlink.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]   ]];
+        string sktchlink = "http://nardove.com";
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: sktchlink.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]]];
 	}	
 	
+}
+
+
+
+//----------------------------------------------------------------
+-(IBAction)toggleConnections:(id)sender {
+    switch (self.toggleConnectionsControl.selectedSegmentIndex) {
+        case 0:
+            app->isHorizontalSpringsOn  = false;
+            app->isVerticalSpringsOn    = true;
+            break;
+        case 1:
+            app->isHorizontalSpringsOn  = true;
+            app->isVerticalSpringsOn    = false;
+            break;
+        default:
+            app->isHorizontalSpringsOn  = true;
+            app->isVerticalSpringsOn    = true;
+            break;
+    }
+    
+    app->destroyMesh();
+    app->buildMesh();
 }
 
 

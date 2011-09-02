@@ -61,7 +61,7 @@ public:
     float forceRadius;
     float colR, colG, colB, colA;
     
-    float first;
+    float firstTimeLaunch;
 
     bool isFillsDrawingOn;
     bool isWiresDrawingOn;
@@ -72,7 +72,8 @@ public:
     bool isImageSet;
     bool isAddBlendModeOn;
     bool isScreenBlendModeOn;
-    
+    bool isHorizontalSpringsOn;
+    bool isVerticalSpringsOn;
     
     ofxBox2d                box2d;
     
@@ -98,7 +99,6 @@ public:
 	
     ofMesh                  mesh;
 	ofVbo                   vboMesh;
-	
 };
 
 

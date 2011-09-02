@@ -45,6 +45,8 @@
     
     IBOutlet UIButton           *grabImageButton;
     
+    IBOutlet UISegmentedControl *toggleConnectionsControl;
+    
     UIImagePickerController     *imgPicker;
     UIPopoverController         *popover;
     UIImage                     *pickedImage;
@@ -75,6 +77,7 @@
 
 @property (nonatomic, retain) UIImagePickerController *imgPicker;
 
+@property (nonatomic, retain) UISegmentedControl *toggleConnectionsControl;
 
 
 -(IBAction)adjustSpringDamping:(id)sender;
@@ -101,6 +104,9 @@
 -(IBAction)showHideInfoView:(id)sender;
 -(IBAction)hideGUIView:(id)sender;
 -(IBAction)runRandom:(id)sender;
+
+
+-(IBAction)toggleConnections:(id)sender;
 
 
 -(IBAction)save:(id)sender;
