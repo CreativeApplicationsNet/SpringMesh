@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		033E1DD8143256F70008912E /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 033E1DD4143256F70008912E /* pause.png */; };
+		033E1DD9143256F70008912E /* pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 033E1DD5143256F70008912E /* pause@2x.png */; };
+		033E1DDA143256F70008912E /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 033E1DD6143256F70008912E /* play.png */; };
+		033E1DDB143256F70008912E /* play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 033E1DD7143256F70008912E /* play@2x.png */; };
 		0359DC5213DC0D500067D36D /* save.png in Resources */ = {isa = PBXBuildFile; fileRef = 0359DC5113DC0D500067D36D /* save.png */; };
 		0359DC5613DC2CCD0067D36D /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 0359DC5513DC2CCD0067D36D /* info.png */; };
 		0359DC6913DC3C740067D36D /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 0359DC6813DC3C730067D36D /* settings.png */; };
@@ -67,8 +71,6 @@
 		03BB9DDE13DF354A0035E5C4 /* ofxBox2dPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03BB9DAE13DF354A0035E5C4 /* ofxBox2dPolygon.cpp */; };
 		03BB9DDF13DF354A0035E5C4 /* ofxBox2dRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03BB9DB113DF354A0035E5C4 /* ofxBox2dRect.cpp */; };
 		03D784FF13EDD99000C228A8 /* info-view.png in Resources */ = {isa = PBXBuildFile; fileRef = 03D784FC13EDD99000C228A8 /* info-view.png */; };
-		03D7850013EDD99000C228A8 /* mesh-view.png in Resources */ = {isa = PBXBuildFile; fileRef = 03D784FD13EDD99000C228A8 /* mesh-view.png */; };
-		03D7850113EDD99000C228A8 /* physics-view.png in Resources */ = {isa = PBXBuildFile; fileRef = 03D784FE13EDD99000C228A8 /* physics-view.png */; };
 		03DDF11513D8C80200F33D8C /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DDF10E13D8C80200F33D8C /* Default-Landscape~ipad.png */; };
 		03DDF11613D8C80200F33D8C /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DDF10F13D8C80200F33D8C /* Default-Portrait~ipad.png */; };
 		03DDF11713D8C80200F33D8C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DDF11013D8C80200F33D8C /* Default.png */; };
@@ -78,6 +80,11 @@
 		03DDF11B13D8C80200F33D8C /* Icon@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DDF11413D8C80200F33D8C /* Icon@x2.png */; };
 		03DE1DE413F6639500DBB0A8 /* rs-avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DE1DE313F6639500DBB0A8 /* rs-avatar.png */; };
 		03DE1DE613F664BF00DBB0A8 /* CAN-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DE1DE513F664BF00DBB0A8 /* CAN-logo.png */; };
+		03EAD8511440392C0047FC84 /* close.png in Resources */ = {isa = PBXBuildFile; fileRef = 03EAD84F1440392C0047FC84 /* close.png */; };
+		03EAD8521440392C0047FC84 /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03EAD8501440392C0047FC84 /* close@2x.png */; };
+		03EAD85B144039620047FC84 /* colorcource_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 03EAD855144039620047FC84 /* colorcource_big.png */; };
+		03EAD85C144039620047FC84 /* CRColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EAD857144039620047FC84 /* CRColorPicker.m */; };
+		03EAD85E144039620047FC84 /* knob_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 03EAD859144039620047FC84 /* knob_big.png */; };
 		03FE97A913F090F700F53017 /* photo-album.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FE97A713F090F700F53017 /* photo-album.png */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -86,13 +93,10 @@
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
 		BB16EBD90F2B2AB500518274 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD80F2B2AB500518274 /* QuartzCore.framework */; };
-		BB24DDCA10DA781C00E9C588 /* ofxiphone-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */; };
 		BBE5EAB80F49AD8400F28951 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBE5EAB70F49AD8400F28951 /* AudioToolbox.framework */; };
 		DC8B5B7C13FA5636003BF468 /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = DC8B5B7B13FA5636003BF468 /* line.png */; };
 		DCC19C6A13FA76C900507F97 /* CAN-logohd.png in Resources */ = {isa = PBXBuildFile; fileRef = DCC19C6913FA76C900507F97 /* CAN-logohd.png */; };
 		DCECE74C13F9DA8C006232BE /* menubar.png in Resources */ = {isa = PBXBuildFile; fileRef = DCECE74B13F9DA8C006232BE /* menubar.png */; };
-		E41D3ED713B38FB500A75A5D /* Project.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E41D3ED613B38FB500A75A5D /* Project.xcconfig */; };
-		E41D3EE613B3906D00A75A5D /* CoreOF.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = E41D3EE513B3906D00A75A5D /* CoreOF.xcconfig */; };
 		E41D400B13B39D2100A75A5D /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D400613B39D2100A75A5D /* AVFoundation.framework */; };
 		E41D400C13B39D2100A75A5D /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D400713B39D2100A75A5D /* CoreMedia.framework */; };
 		E41D400D13B39D2100A75A5D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E41D400813B39D2100A75A5D /* CoreVideo.framework */; };
@@ -120,6 +124,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		033E1DD4143256F70008912E /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = "button icons/pause.png"; sourceTree = "<group>"; };
+		033E1DD5143256F70008912E /* pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pause@2x.png"; path = "button icons/pause@2x.png"; sourceTree = "<group>"; };
+		033E1DD6143256F70008912E /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = play.png; path = "button icons/play.png"; sourceTree = "<group>"; };
+		033E1DD7143256F70008912E /* play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "play@2x.png"; path = "button icons/play@2x.png"; sourceTree = "<group>"; };
 		0359DC5113DC0D500067D36D /* save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = save.png; path = "button icons/save.png"; sourceTree = "<group>"; };
 		0359DC5513DC2CCD0067D36D /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info.png; path = "button icons/info.png"; sourceTree = "<group>"; };
 		0359DC6813DC3C730067D36D /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings.png; path = "button icons/settings.png"; sourceTree = "<group>"; };
@@ -235,8 +243,6 @@
 		03BB9DB313DF354A0035E5C4 /* ofxBox2dRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBox2dRender.h; sourceTree = "<group>"; };
 		03BB9DB413DF354A0035E5C4 /* ofxBox2dUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBox2dUtils.h; sourceTree = "<group>"; };
 		03D784FC13EDD99000C228A8 /* info-view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info-view.png"; path = "button icons/info-view.png"; sourceTree = "<group>"; };
-		03D784FD13EDD99000C228A8 /* mesh-view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mesh-view.png"; path = "button icons/mesh-view.png"; sourceTree = "<group>"; };
-		03D784FE13EDD99000C228A8 /* physics-view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "physics-view.png"; path = "button icons/physics-view.png"; sourceTree = "<group>"; };
 		03DDF10E13D8C80200F33D8C /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		03DDF10F13D8C80200F33D8C /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		03DDF11013D8C80200F33D8C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -246,6 +252,12 @@
 		03DDF11413D8C80200F33D8C /* Icon@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@x2.png"; sourceTree = "<group>"; };
 		03DE1DE313F6639500DBB0A8 /* rs-avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rs-avatar.png"; path = "button icons/rs-avatar.png"; sourceTree = "<group>"; };
 		03DE1DE513F664BF00DBB0A8 /* CAN-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CAN-logo.png"; path = "button icons/CAN-logo.png"; sourceTree = "<group>"; };
+		03EAD84F1440392C0047FC84 /* close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = close.png; path = "button icons/close.png"; sourceTree = "<group>"; };
+		03EAD8501440392C0047FC84 /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "close@2x.png"; path = "button icons/close@2x.png"; sourceTree = "<group>"; };
+		03EAD855144039620047FC84 /* colorcource_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = colorcource_big.png; sourceTree = "<group>"; };
+		03EAD856144039620047FC84 /* CRColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRColorPicker.h; sourceTree = "<group>"; };
+		03EAD857144039620047FC84 /* CRColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRColorPicker.m; sourceTree = "<group>"; };
+		03EAD859144039620047FC84 /* knob_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob_big.png; sourceTree = "<group>"; };
 		03FE97A713F090F700F53017 /* photo-album.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "photo-album.png"; path = "button icons/photo-album.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* SpringMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpringMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -348,6 +360,7 @@
 		03B0642113CF7AF100FA98FB /* gui */ = {
 			isa = PBXGroup;
 			children = (
+				03EAD853144039620047FC84 /* colorpicker */,
 				03B0642613CF7B4B00FA98FB /* GuiView.h */,
 				03B0642713CF7B4B00FA98FB /* GuiView.mm */,
 				03B0643313CF7CBF00FA98FB /* GuiView.xib */,
@@ -536,6 +549,18 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		03EAD853144039620047FC84 /* colorpicker */ = {
+			isa = PBXGroup;
+			children = (
+				03EAD855144039620047FC84 /* colorcource_big.png */,
+				03EAD856144039620047FC84 /* CRColorPicker.h */,
+				03EAD857144039620047FC84 /* CRColorPicker.m */,
+				03EAD859144039620047FC84 /* knob_big.png */,
+			);
+			name = colorpicker;
+			path = gui/colorpicker;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -600,24 +625,28 @@
 			children = (
 				03DE1DE513F664BF00DBB0A8 /* CAN-logo.png */,
 				03DE1DE313F6639500DBB0A8 /* rs-avatar.png */,
+				03EAD84F1440392C0047FC84 /* close.png */,
+				03EAD8501440392C0047FC84 /* close@2x.png */,
+				033E1DD4143256F70008912E /* pause.png */,
+				033E1DD5143256F70008912E /* pause@2x.png */,
+				033E1DD6143256F70008912E /* play.png */,
+				033E1DD7143256F70008912E /* play@2x.png */,
 				03FE97A713F090F700F53017 /* photo-album.png */,
-				03D784FC13EDD99000C228A8 /* info-view.png */,
-				03D784FD13EDD99000C228A8 /* mesh-view.png */,
-				03D784FE13EDD99000C228A8 /* physics-view.png */,
-				0372AE9D13FC5C2000638C6A /* info@2x.png */,
-				0372AE9E13FC5C2000638C6A /* mesh@2x.png */,
 				0372AE9F13FC5C2000638C6A /* photo-album@2x.png */,
+				03D784FC13EDD99000C228A8 /* info-view.png */,
+				0359DC5513DC2CCD0067D36D /* info.png */,
+				0372AE9D13FC5C2000638C6A /* info@2x.png */,
+				0387B23B13EB2161000B8515 /* mesh.png */,
+				0372AE9E13FC5C2000638C6A /* mesh@2x.png */,
+				0372AE9B13FC4BBE00638C6A /* random.png */,
 				0372AEA013FC5C2000638C6A /* random@2x.png */,
+				0359DC5113DC0D500067D36D /* save.png */,
 				0372AEA113FC5C2000638C6A /* save@2x.png */,
+				0359DC6813DC3C730067D36D /* settings.png */,
 				0372AEA213FC5C2000638C6A /* settings@2x.png */,
 				DCECE74B13F9DA8C006232BE /* menubar.png */,
-				0387B23B13EB2161000B8515 /* mesh.png */,
-				0372AE9B13FC4BBE00638C6A /* random.png */,
 				DCC19C6913FA76C900507F97 /* CAN-logohd.png */,
 				DC8B5B7B13FA5636003BF468 /* line.png */,
-				0359DC5513DC2CCD0067D36D /* info.png */,
-				0359DC5113DC0D500067D36D /* save.png */,
-				0359DC6813DC3C730067D36D /* settings.png */,
 				03DDF10E13D8C80200F33D8C /* Default-Landscape~ipad.png */,
 				03DDF10F13D8C80200F33D8C /* Default-Portrait~ipad.png */,
 				03DDF11013D8C80200F33D8C /* Default.png */,
@@ -697,7 +726,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SpringMesh" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -739,9 +768,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BB24DDCA10DA781C00E9C588 /* ofxiphone-Info.plist in Resources */,
-				E41D3ED713B38FB500A75A5D /* Project.xcconfig in Resources */,
-				E41D3EE613B3906D00A75A5D /* CoreOF.xcconfig in Resources */,
 				03B0643413CF7CBF00FA98FB /* GuiView.xib in Resources */,
 				03DDF11513D8C80200F33D8C /* Default-Landscape~ipad.png in Resources */,
 				03DDF11613D8C80200F33D8C /* Default-Portrait~ipad.png in Resources */,
@@ -755,8 +781,6 @@
 				0359DC6913DC3C740067D36D /* settings.png in Resources */,
 				0387B23F13EB2161000B8515 /* mesh.png in Resources */,
 				03D784FF13EDD99000C228A8 /* info-view.png in Resources */,
-				03D7850013EDD99000C228A8 /* mesh-view.png in Resources */,
-				03D7850113EDD99000C228A8 /* physics-view.png in Resources */,
 				03FE97A913F090F700F53017 /* photo-album.png in Resources */,
 				03DE1DE413F6639500DBB0A8 /* rs-avatar.png in Resources */,
 				03DE1DE613F664BF00DBB0A8 /* CAN-logo.png in Resources */,
@@ -770,6 +794,14 @@
 				0372AEA613FC5C2000638C6A /* random@2x.png in Resources */,
 				0372AEA713FC5C2000638C6A /* save@2x.png in Resources */,
 				0372AEA813FC5C2000638C6A /* settings@2x.png in Resources */,
+				033E1DD8143256F70008912E /* pause.png in Resources */,
+				033E1DD9143256F70008912E /* pause@2x.png in Resources */,
+				033E1DDA143256F70008912E /* play.png in Resources */,
+				033E1DDB143256F70008912E /* play@2x.png in Resources */,
+				03EAD8511440392C0047FC84 /* close.png in Resources */,
+				03EAD8521440392C0047FC84 /* close@2x.png in Resources */,
+				03EAD85B144039620047FC84 /* colorcource_big.png in Resources */,
+				03EAD85E144039620047FC84 /* knob_big.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,6 +877,7 @@
 				0383580613F3290400E1CA53 /* tinyxmlerror.cpp in Sources */,
 				0383580713F3290400E1CA53 /* tinyxmlparser.cpp in Sources */,
 				0383580813F3290400E1CA53 /* ofxXmlSettings.cpp in Sources */,
+				03EAD85C144039620047FC84 /* CRColorPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -898,7 +931,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
@@ -906,13 +939,14 @@
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = NO;
 				GCC_WARN_PROTOTYPE_CONVERSION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv6 armv7";
 				WARNING_LDFLAGS = "-no_arch_warnings";
 			};
 			name = Debug;
@@ -932,15 +966,16 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv6 armv7";
 				WARNING_LDFLAGS = "-no_arch_warnings";
 			};
 			name = Release;
@@ -957,7 +992,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = 4.2;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
@@ -965,13 +1000,14 @@
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = NO;
 				GCC_WARN_PROTOTYPE_CONVERSION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv6 armv7";
 				WARNING_LDFLAGS = "-no_arch_warnings";
 			};
 			name = AdHoc;

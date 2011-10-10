@@ -45,6 +45,7 @@ public:
     
     void setImage( UIImage *inImage, int w, int h );
     
+	void loadSettings();
     void saveSettings();
     
     
@@ -52,17 +53,25 @@ public:
 	int cols, rows;
 	int gridSize;
 	
-	float gridWidth;
-    float gridHeight;
+	float appWidth;
+    float appHeight;
     float gridCellDiagonalDist;
 	
 	float drag;
     float springStrength;
     float forceRadius;
-    float colR, colG, colB, colA;
+    float particleDensity;
+	float gravityForce;
+	float physicsSpeed;
+	float attractionForce;
+	float colR, colG, colB, colA;
     
     float firstTimeLaunch;
-
+	
+	float timeStep;
+	
+	float knobPositionX, knobPositionY;
+	
     bool isFillsDrawingOn;
     bool isWiresDrawingOn;
     bool isPointsDrawingOn;
@@ -75,6 +84,8 @@ public:
     bool isHorizontalSpringsOn;
     bool isVerticalSpringsOn;
     
+	bool isBox2dPaused;
+	
     ofxBox2d                box2d;
     
     vector<ofxBox2dCircle>  particles;
@@ -82,7 +93,8 @@ public:
     
     vector<ofIndexType>     indices;
 	vector<ofVec3f>         vertices;
-	vector<ofVec2f>         textCoords;
+	vector<ofFloatColor>    colors;
+    vector<ofVec2f>         textCoords;
 	
     
     map<int, ofVec2f>       touchPoints;

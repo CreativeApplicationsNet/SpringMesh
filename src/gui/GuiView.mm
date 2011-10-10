@@ -15,310 +15,316 @@
 @implementation GuiView
 
 
-@synthesize springDampingSlider;
-@synthesize springFrequencySlider;
-@synthesize forceRadiusSlider;
-@synthesize adjustPointsSlider;
+// View outlets
+@synthesize settingsView;
+@synthesize pageControl;
 
-@synthesize attractionSwitch;
-@synthesize gravitySwitch;
+@synthesize menuView;
 
+@synthesize infoView;
+@synthesize infoScrollView;
+
+@synthesize view0;
+@synthesize view1;
+@synthesize view2;
+@synthesize view3;
+
+@synthesize settingsBtn;
+@synthesize randomizeBtn;
+@synthesize playpauseBtn;
+@synthesize saveBtn;
+@synthesize infoBtn;
+
+
+// Color settings outlets
+@synthesize alphaColorSlider;
+@synthesize addBlendSwitch;
+@synthesize screenBlendSwitch;
+
+@synthesize colorPickerView;
+
+// Mesh settings outlets
+@synthesize loadTextureButton;
 @synthesize textureSwitch;
 @synthesize fillsSwitch;
 @synthesize wiresSwitch;
 @synthesize pointsSwitch;
-
-@synthesize addBlendSwitch;
-@synthesize screenBlendSwitch;
-
-@synthesize colorRSlider;
-@synthesize colorGSlider;
-@synthesize colorBSlider;
-@synthesize colorASlider;
-
-@synthesize grabImageButton;
-
+@synthesize resolutionSlider;
+@synthesize textureButton;
 @synthesize imgPicker;
 
-@synthesize toggleConnectionsControl;
+// Physics settings outlets
+@synthesize simulationSpeedSlider;
+@synthesize gravitySwitch;
+@synthesize gravityForceSlider;
+@synthesize attractionForceSwitch;
+@synthesize attractionForceSlider;
+@synthesize touchRadiusSlider;
+
+// Spring settings outlets
+@synthesize dampingSlider;
+@synthesize frequencySlider;
+@synthesize densitySlider;
+@synthesize horizontalConnSwitch;
+@synthesize verticalConnSwitch;
 
 
+
+
+//----------------------------------------
+// ---- Main view BEGIN
 
 -(void)viewDidLoad {
-    app = (testApp *)ofGetAppPtr();
-    app->init();
+    //[super viewDidLoad];
     
-    if ( app->isHorizontalSpringsOn == false ) {
-        [self.toggleConnectionsControl setSelectedSegmentIndex:0];
-    }
-    else if ( app->isVerticalSpringsOn == false ) {
-        [self.toggleConnectionsControl setSelectedSegmentIndex:1];
-    }
-    else {
-        [self.toggleConnectionsControl setSelectedSegmentIndex:2];
-    }
-    
-    // Resize toolbar width
-	CGRect frame = [[UIScreen mainScreen] applicationFrame];
-	toolBar.frame = CGRectMake(0, 0, frame.size.width, toolBar.frame.size.height);
+	// Set testApp
+	app = (testApp *)ofGetAppPtr();
+    //app->init();
 	
-    // Set views initial state
-    physicsView.hidden      = YES;
-    meshView.hidden         = YES;
-    if ( app->firstTimeLaunch == 1 ) {
-        infoView.hidden     = NO;
-    }
-    else {
-        infoView.hidden     = YES; 
-    }
+	// Check which device
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+		isPad	= YES;
+	}
+	else {
+		isPad	= NO;
+	}
     
-    // GETTING SIGABRT ERROR not sure why
-    /*[webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]isDirectory:NO]]];
-    */
+	self.view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+	
+	viewFrame		= [[UIScreen mainScreen] applicationFrame];
+	
+	menuViewHeight	= 45.0;
+	
+	self.colorPickerView.delegate = self;
+	self.colorPickerView.arrange;
+	
+	[self alignSettingsView];
+	[self alignMenuView];
+	
+	app->init();
 }
 
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        [[UIApplication sharedApplication] openURL:request.URL];
-        return false;
-    }
-    return true;
+/*- (void)layoutSubviews {
+	[self alignSettingsView];
+	[self alignMenuView];
+}*/
+
+-(void)viewDidUnload {
+    //[super viewDidUnload];
+    
+    settingsView	= nil;
+    pageControl		= nil;
+	menuView		= nil;
 }
 
 
--(BOOL)shouldAutorotateToInterfaceOrientation: (UIInterfaceOrientation)interfaceOrientation {
+-(void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+	
+	NSLog( @"Oops memory warning?! better check it out" );
+}
+
+
+// ---- Main view END
+//----------------------------------------
+
+
+
+
+
+//----------------------------------------
+// ---- Orientation Handlers BEGIN
+
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
         return YES;
     }
-    return NO;
+	return NO;
 }
   
 
-- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {
-    if ( self.view.hidden == YES ) {
-        [UIView setAnimationsEnabled:NO];
-    }
-    else {
-        [UIView setAnimationsEnabled:YES];
-    }
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {
+    
+	//NSLog( @"main: %@", NSStringFromCGRect( [[UIScreen mainScreen] applicationFrame] ) );
+	//NSLog( @"bounds: %@", NSStringFromCGRect( self.view.bounds ) );
+	
+	
+	viewFrame	= self.view.bounds;
+	
+	[self alignSettingsView];
+	[self alignMenuView];
 }
 
+// ---- Orientation Handlers END
+//----------------------------------------
 
 
 
-//------------------------------------------------
-// ---- Adjust physics BEGIN
 
--(IBAction)adjustSpringDamping:(id)sender {
-	UISlider *slider    = sender;
-	app->drag           = [slider value];
+
+//----------------------------------------
+// ---- Color settings BEGIN
+
+-(void)selectedColor:(UIColor*)inColor fromColorPicker:(CRColorPicker *)inColorPicker; {
+	if ( inColor ) {
+		const float* colors = CGColorGetComponents( inColor.CGColor );
+		
+		app->colR			= colors[0];
+		app->colG			= colors[1];
+		app->colB			= colors[2];
+		
+		app->knobPositionX	= colorPickerView.knobView.frame.origin.x;
+		app->knobPositionY	= colorPickerView.knobView.frame.origin.y;
+		
+		app->saveSettings();
+	}
 }
 
-
--(IBAction)adjustSpringFrequency:(id)sender {
-	UISlider *slider    = sender;
-	app->springStrength = [slider value];
+-(IBAction)colorSliderHandler:(id)sender {
+	UISlider *colorSlider = sender;
+	if ( colorSlider == alphaColorSlider ) {
+		app->colA = [colorSlider value];
+	}
 }
 
-
--(IBAction)adjustForceRadius:(id)sender {
-    UISlider *slider    = sender;
-    app->forceRadius    = [slider value];
+-(IBAction)colorSwitchHandler:(id)sender {
+	UISwitch *colorSwitch = (UISwitch *)sender;
+	
+	if ( colorSwitch == addBlendSwitch ) {
+		app->isAddBlendModeOn		= [colorSwitch isOn];
+	}
+	else if ( colorSwitch == screenBlendSwitch ) {
+		app->isScreenBlendModeOn	= [colorSwitch isOn];
+	}
 }
 
--(IBAction)adjustPoints:(id)sender {
-    UISlider *slider    = sender;
-    app->gridSize       = [slider value];
+// ---- Color settings END
+//----------------------------------------
+
+
+
+
+
+//----------------------------------------
+// ---- Mesh settings BEGIN
+
+-(IBAction)meshSwitchHandler:(id)sender {
+	UISwitch *meshSwitch = (UISwitch *)sender;
+    
+	if ( meshSwitch == textureSwitch ) {
+		app->isTextureDrawingOn	= [meshSwitch isOn];
+	}
+	else if ( meshSwitch == fillsSwitch ) {
+		app->isFillsDrawingOn   = [meshSwitch isOn];
+	}
+	else if ( meshSwitch == wiresSwitch ) {
+		app->isWiresDrawingOn   = [meshSwitch isOn];
+	}
+	else if ( meshSwitch == pointsSwitch ) {
+		app->isPointsDrawingOn  = [meshSwitch isOn];
+	}
+}
+
+-(IBAction)meshSliderHandler:(id)sender {
+    UISlider *meshSlider		= sender;
+    app->gridSize				= [meshSlider value];
     app->destroyMesh();
     app->buildMesh();
 }
 
-// ---- Adjust physics END
-//------------------------------------------------
+// ---- Mesh settings END
+//----------------------------------------
 
 
 
 
-//------------------------------------------------
-// ---- Adjust color BEGIN
 
--(IBAction)adjustColorR:(id)sender {
-    UISlider *slider    = sender;
-    app->colR           = [slider value];
-}
+//----------------------------------------
+// ---- Physics settings BEGIN
 
--(IBAction)adjustColorG:(id)sender {
-    UISlider *slider    = sender;
-    app->colG           = [slider value];
-}
-
--(IBAction)adjustColorB:(id)sender {
-    UISlider *slider    = sender;
-    app->colB           = [slider value];
-}
-
--(IBAction)adjustColorA:(id)sender {
-    UISlider *slider    = sender;
-    app->colA           = [slider value];
-}
-
-// ---- Adjust color END
-//------------------------------------------------
-
-
-
-
-//------------------------------------------------
-// ---- Switches BEGIN
-
--(IBAction)renderSwitchHandler:(id)sender {
-	UISwitch *whichSwitch = (UISwitch *)sender;
-    
-	if ( whichSwitch == textureSwitch ) {
-		app->isTextureDrawingOn = [whichSwitch isOn];
-	}
-	else if ( whichSwitch == fillsSwitch ) {
-		app->isFillsDrawingOn   = [whichSwitch isOn];
-	}
-	else if ( whichSwitch == wiresSwitch ) {
-		app->isWiresDrawingOn   = [whichSwitch isOn];
-	}
-	else if ( whichSwitch == pointsSwitch ) {
-		app->isPointsDrawingOn  = [whichSwitch isOn];
-	}
-    else if ( whichSwitch == addBlendSwitch ) {
-		app->isAddBlendModeOn  = [whichSwitch isOn];
-	}
-    else if ( whichSwitch == screenBlendSwitch ) {
-		app->isScreenBlendModeOn  = [whichSwitch isOn];
-	}
-}
-
-
--(IBAction)attractionSwitchHandler:(id)sender {
-    app->isAttractionOn = !app->isAttractionOn;
-}
-
--(IBAction)gravitySwitchHandler:(id)sender {
-    app->isGravityOn = !app->isGravityOn;
-}
-
-// ---- Switches END
-//------------------------------------------------
-
-
-
-
-//------------------------------------------------
-// ---- Show / hide views BEGIN
-
--(void)showView:(UIView *)v {
-	CGRect frame		= v.frame;
-	frame.origin.y		= 80.0;
-	v.frame				= frame;
-	frame.origin.y		= 44.0;
+-(IBAction)physicsSliderHandler:(id)sender {
+	UISlider *physicsSlider		= sender;
 	
-	v.alpha		= 0.0;
-	v.hidden	= NO;
-	[UIView animateWithDuration: 0.3
-						  delay: 0.0
-						options: UIViewAnimationOptionCurveEaseOut
-					 animations: ^{
-						 v.alpha = 1.0;
-						 v.frame = frame;
-					 }
-					 completion: ^(BOOL finished) {
-						 v.hidden = NO;
-					 }];
-    cout << "show" << endl;
+	if ( physicsSlider == simulationSpeedSlider ) {
+		app->physicsSpeed		= [physicsSlider value];
+	}
+	else if ( physicsSlider == gravityForceSlider ) {
+		app->gravityForce		= [physicsSlider value];
+	}
+	else if ( physicsSlider == attractionForceSlider ) {
+		app->attractionForce	= [physicsSlider value];
+	}
+	else if ( physicsSlider == touchRadiusSlider ) {
+		app->forceRadius		= [physicsSlider value];
+	}
 }
 
+-(IBAction)physicsSwitchHandler:(id)sender {
+	UISwitch *physicsSwitch		= (UISwitch *)sender;
+    
+	if ( physicsSwitch == gravitySwitch ) {
+		app->isGravityOn		= [physicsSwitch isOn];
+	}
+	else if ( physicsSwitch == attractionForceSwitch ) {
+		app->isAttractionOn		= [physicsSwitch isOn];
+	}
+}
 
--(void)hideView:(UIView *)v {
-	CGRect frame		= v.frame;
-	frame.origin.y		= 80.0;
+// ---- Physics settings END
+//----------------------------------------
+
+
+
+
+
+//----------------------------------------
+// ---- Spring settings BEGIN
+
+-(IBAction)springSliderHandler:(id)sender {
+	UISlider *springSlider		= sender;
 	
-	[UIView animateWithDuration: 0.15
-						  delay: 0.0
-						options: UIViewAnimationOptionCurveEaseIn
-					 animations: ^{
-						 v.alpha = 0.0;
-						 v.frame = frame;
-					 }
-					 completion: ^(BOOL finished) {
-						 v.hidden = YES;
-					 }];
-    cout << "hide" << endl;
-}
-
-
--(IBAction)showHidePhysicsView:(id)sender {
-    if ( physicsView.hidden == YES ) {
-		[self showView:physicsView];
+	if ( springSlider == dampingSlider ) {
+		app->drag				= [springSlider value];
 	}
-	else {
-		[self hideView:physicsView];
+	else if ( springSlider == frequencySlider ) {
+		app->springStrength		= [springSlider value];
 	}
-	meshView.hidden = YES;
-	infoView.hidden = YES;
-}
-
-
--(IBAction)showHideMeshView:(id)sender {
-    if ( meshView.hidden == YES ) {
-		[self showView:meshView];
+	else if ( springSlider == densitySlider ) {
+		app->particleDensity	= [springSlider value];
 	}
-	else {
-		[self hideView:meshView];
+}
+
+-(IBAction)springSwitchHandler:(id)sender {
+	UISwitch *springSwitch		= (UISwitch *)sender;
+	
+	// Check if both are off, is so switch back on the other
+	if ( [horizontalConnSwitch isOn] == NO && [verticalConnSwitch isOn] == NO ) {
+		if ( springSwitch != horizontalConnSwitch ) {
+			[horizontalConnSwitch setOn:YES];
+			app->isHorizontalSpringsOn	= YES;
+		}
+		else {
+			[verticalConnSwitch setOn:YES];
+			app->isVerticalSpringsOn	= YES;
+		}
 	}
-	physicsView.hidden  = YES;
-	infoView.hidden     = YES;
-}
-
-
--(IBAction)showHideInfoView:(id)sender {
-    if ( infoView.hidden == YES ) {
-		[self showView:infoView];
+	
+	if ( springSwitch == horizontalConnSwitch ) {
+		app->isHorizontalSpringsOn	= [springSwitch isOn];
 	}
-	else {
-		[self hideView:infoView];
+	else if ( springSwitch == verticalConnSwitch ) {
+		app->isVerticalSpringsOn	= [springSwitch isOn];
 	}
-	physicsView.hidden  = YES;
-    meshView.hidden     = YES;
-    
-//    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]isDirectory:NO]]];
-
-
+	
+	app->destroyMesh();
+	app->buildMesh();
 }
 
-
--(IBAction)hideGUIView:(id)sender {
-	self.view.hidden = YES;
-}
-
--(IBAction)runRandom:(id)sender {
-    app->runRandom();
-}
-
-// ---- Shows / hide view END
-//------------------------------------------------
+// ---- Spring settings END
+//----------------------------------------
 
 
-
-
--(IBAction)save:(id)sender {
-    app->isSaveImageActive = true;
-    
-    UIAlertView *alert = [[UIAlertView alloc]
-                          initWithTitle:@"Screenshot Saved"
-                          message:@"See your Photo Gallery"
-                          delegate:self
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles: nil];
-	[alert show];	
-	[alert release];
-}
 
 
 
@@ -327,27 +333,26 @@
 
 -(IBAction)grabImage:(id)sender {
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
-        imgPicker = [[UIImagePickerController alloc] init];
-        [imgPicker setDelegate:self];
+		imgPicker = [[UIImagePickerController alloc] init];
+		[imgPicker setDelegate:self];
         
-        popover = [[UIPopoverController alloc] initWithContentViewController:imgPicker];
-        [popover setDelegate:self];
-        // Using magic CGRectMake,  for some reson self.grabImageButton.frame doesnt work
-        [popover presentPopoverFromRect:CGRectMake(150, 2, 40, 40) inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-        [popover setPopoverContentSize:CGSizeMake(320, 480)];
-        [imgPicker release];
-    }
-    else {
-        imgPicker = [[UIImagePickerController alloc] init];
-        imgPicker.delegate = self;
-        imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        [self presentModalViewController:self.imgPicker animated:YES];
-        [imgPicker release];
-    }
-    
-    [self hideView:physicsView];
-    [self hideView:meshView];
-    [self hideView:infoView];
+		popover = [[UIPopoverController alloc] initWithContentViewController:imgPicker];
+		[popover setDelegate:self];
+		
+		CGPoint position		= [view1.superview convertPoint:view1.frame.origin toView:nil];
+		CGRect popOverFrame		= CGRectMake( position.x, position.y, self.view.frame.size.width, self.view.frame.size.height );
+		
+		[popover presentPopoverFromRect:popOverFrame inView:self.view permittedArrowDirections:nil animated:NO];
+		[popover setPopoverContentSize:CGSizeMake(320, 480)];
+		[imgPicker release];
+	}
+	else {
+		imgPicker = [[UIImagePickerController alloc] init];
+		imgPicker.delegate = self;
+		imgPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+		[self presentModalViewController:self.imgPicker animated:YES];
+		[imgPicker release];
+	}
 }
 
 
@@ -360,12 +365,22 @@
 	
     [[picker parentViewController] dismissModalViewControllerAnimated:YES];
     
+	// Enable texture siwth after an image has been loaded
+	[textureSwitch setEnabled:YES];
+	[textureSwitch setOn:YES];
+	app->isTextureDrawingOn		= [textureSwitch isOn];
+	
+	[fillsSwitch setOn:NO];
+	app->isFillsDrawingOn		= [fillsSwitch isOn];
+	
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
-        [popover dismissPopoverAnimated:YES];
-    }
+		[popover dismissPopoverAnimated:YES];
+	}
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	
 	if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
         [popover dismissPopoverAnimated:YES];
     }
@@ -377,54 +392,409 @@
 
 
 
--(IBAction)saveSettings:(id)sender {
+
+//----------------------------------------
+// ---- Save XML settings BEGIN
+
+-(IBAction)saveSettings {
     app->saveSettings();
 }
 
+// ---- Save XML settings END
+//----------------------------------------
 
 
-//----------------------------------------------------------------
--(IBAction)linkCAN:(id)sender {
-	
-	if (infoView.hidden == NO) {
-        string sktchlink = "http://apps.creativeapplications.net";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: sktchlink.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]]];
-	}	
-	
+
+
+
+//----------------------------------------
+// ---- Run Random BEGIN
+
+-(IBAction)runRandom:(id)sender {
+    app->runRandom();
 }
 
-//----------------------------------------------------------------
--(IBAction)linkRicardo:(id)sender {
-	
-	if (infoView.hidden == NO) {
-        string sktchlink = "http://nardove.com";
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: sktchlink.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]]];
-	}	
-	
-}
+// ---- Run Random END
+//----------------------------------------
 
 
 
-//----------------------------------------------------------------
--(IBAction)toggleConnections:(id)sender {
-    switch (self.toggleConnectionsControl.selectedSegmentIndex) {
-        case 0:
-            app->isHorizontalSpringsOn  = false;
-            app->isVerticalSpringsOn    = true;
-            break;
-        case 1:
-            app->isHorizontalSpringsOn  = true;
-            app->isVerticalSpringsOn    = false;
-            break;
-        default:
-            app->isHorizontalSpringsOn  = true;
-            app->isVerticalSpringsOn    = true;
-            break;
-    }
+
+
+//----------------------------------------
+// ---- Save image BEGIN
+
+-(IBAction)saveImage:(id)sender {
+    app->isSaveImageActive = true;
     
-    app->destroyMesh();
-    app->buildMesh();
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:@"Screenshot Saved"
+                          message:@"See your Photo Gallery"
+                          delegate:self
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
 }
+
+// ---- Save image END
+//----------------------------------------
+
+
+
+
+
+//----------------------------------------
+// ---- Pause Simulation BEGIN
+
+-(IBAction)playpauseSimulation:(id)sender {
+	app->isBox2dPaused = !app->isBox2dPaused;
+	
+	if ([sender isSelected]) {
+		[sender setImage:[UIImage imageNamed:@"pause.png"] forState:UIControlStateNormal];
+		[sender setSelected:NO];
+	}
+	else {
+		[sender setImage:[UIImage imageNamed:@"play.png"] forState:UIControlStateSelected];
+		[sender setSelected:YES];
+	}
+}
+
+// ---- Pause Simulation END
+//----------------------------------------
+
+
+
+
+
+//----------------------------------------
+// ---- MenuView BEGIN
+
+-(void)alignMenuView {
+	menuFrame.origin.x			= 0;
+	menuFrame.origin.y			= viewFrame.size.height - menuViewHeight;
+	menuFrame.size.width		= viewFrame.size.width;
+	menuFrame.size.height		= menuViewHeight;
+	
+	menuView.frame				= menuFrame;
+	
+	isMenuViewOpen				= NO;
+	
+	float spaceX				= 10.0;
+	float width					= 0.0;
+	for ( UIView *btn in [menuView subviews] ) {
+		width += btn.frame.size.width;
+	}
+	
+	CGRect settingsBtnFrame		= settingsBtn.frame;
+	settingsBtnFrame.origin.x	= (viewFrame.size.width - width - settingsBtn.frame.size.width) / 2;
+	settingsBtn.frame			= settingsBtnFrame;
+	
+	CGRect randomizeBtnFrame	= randomizeBtn.frame;
+	randomizeBtnFrame.origin.x	= settingsBtnFrame.origin.x + settingsBtnFrame.size.width + spaceX;
+	randomizeBtn.frame			= randomizeBtnFrame;
+	
+	CGRect playpauseBtnFrame	= playpauseBtn.frame;
+	playpauseBtnFrame.origin.x	= randomizeBtnFrame.origin.x + randomizeBtnFrame.size.width + spaceX;
+	playpauseBtn.frame			= playpauseBtnFrame;
+	
+	CGRect saveBtnFrame			= saveBtn.frame;
+	saveBtnFrame.origin.x		= playpauseBtnFrame.origin.x + playpauseBtnFrame.size.width + spaceX;
+	saveBtn.frame				= saveBtnFrame;
+	
+	CGRect infoBtnFrame			= infoBtn.frame;
+	infoBtnFrame.origin.x		= saveBtnFrame.origin.x + saveBtnFrame.size.width + spaceX;
+	infoBtn.frame				= infoBtnFrame;
+}
+
+-(void)showMenuView {
+	if ( menuView.hidden == YES || isMenuViewOpen == NO ) {
+		CGRect openFrame			= viewFrame;
+		
+		CGRect openMenuFrame		= openFrame;
+		openMenuFrame.origin.y		= openPosY - menuViewHeight;
+		openMenuFrame.size.height	= menuViewHeight;
+		
+		settingsView.hidden			= NO;
+		
+		[UIView animateWithDuration: 0.2
+							  delay: 0.0
+							options: UIViewAnimationOptionCurveEaseIn
+						 animations: ^{
+							 menuView.frame	= openMenuFrame;
+						 }
+						 completion: ^(BOOL finished) {
+							 isMenuViewOpen = YES;
+						 }];
+		
+		[settingsBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
+	}
+}
+
+
+-(void)hideMenuView {
+	if ( menuView.hidden == NO || isMenuViewOpen == YES ) {
+		CGRect closeFrame			= viewFrame;
+		closeFrame.origin.y			= closePosY;
+		
+		CGRect closeMenuFrame		= closeFrame;
+		closeMenuFrame.origin.y		= closePosY - menuViewHeight;
+		closeMenuFrame.size.height	= menuViewHeight;
+		
+		[UIView animateWithDuration: 0.15
+							  delay: 0.0
+							options: UIViewAnimationOptionCurveEaseOut
+						 animations: ^{
+							 menuView.frame	= closeMenuFrame;
+						 }
+						 completion: ^(BOOL finished) {
+							 isMenuViewOpen = NO;
+						 }];
+		
+		[settingsBtn setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
+	}
+}
+
+// ---- MenuView END
+//----------------------------------------
+
+
+
+
+
+//----------------------------------------
+// ---- InfoView BEGIN
+
+-(void)showInfoView {
+	if ( infoView.hidden == YES ) {
+		CGRect openFrame			= infoViewFrame;
+		openFrame.origin.y			= openPosY;
+		
+		CGRect openMenuFrame		= openFrame;
+		openMenuFrame.origin.y		= openPosY - menuViewHeight;
+		openMenuFrame.size.height	= menuViewHeight;
+		
+		infoView.hidden				= NO;
+		
+		[UIView animateWithDuration: 0.2
+							  delay: 0.0
+							options: UIViewAnimationOptionCurveEaseIn
+						 animations: ^{
+							 infoView.frame		= openFrame;
+						 }
+						 completion: ^(BOOL finished) {
+							 infoView.hidden	= NO;
+						 }];
+		
+		[infoBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
+	}
+}
+
+
+-(void)hideInfoView {
+	if ( infoView.hidden == NO ) {
+		CGRect closeFrame			= infoViewFrame;
+		closeFrame.origin.y			= closePosY;
+		
+		CGRect closeMenuFrame		= closeFrame;
+		closeMenuFrame.origin.y		= closePosY - menuViewHeight;
+		closeMenuFrame.size.height	= menuViewHeight;
+		
+		[UIView animateWithDuration: 0.15
+							  delay: 0.0
+							options: UIViewAnimationOptionCurveEaseOut
+						 animations: ^{
+							 infoView.frame		= closeFrame;
+						 }
+						 completion: ^(BOOL finished) {
+							 infoView.hidden	= YES;
+						 }];
+		
+		[infoBtn setImage:[UIImage imageNamed:@"info.png"] forState:UIControlStateNormal];
+	}
+}
+
+
+-(IBAction)toggleInfoView:(id)sender {
+	if ( infoView.hidden == YES ) {
+		[self showInfoView];
+		[self showMenuView];
+	}
+	else {
+		[self hideInfoView];
+		[self hideMenuView];
+	}
+		
+	// Check if settingsView is open, if os close it
+	if ( settingsView.hidden == NO ) {
+		[self hideSettingsView];
+	}
+}
+
+// ---- InfoView END
+//----------------------------------------
+
+
+
+
+
+//----------------------------------------
+// ---- SettingsView BEGIN
+
+-(void)settingsViewDidScroll:(UIScrollView *)sender {
+    CGFloat pageWidth		= settingsView.frame.size.width;
+    
+	int page				= floor( (settingsView.contentOffset.x - pageWidth / 2 ) / pageWidth ) + 1;
+    
+	pageControl.currentPage = page;
+}
+
+
+-(IBAction)changePage:(id)sender {
+    CGRect frame;
+    frame.origin.x		= settingsView.frame.size.width * self.pageControl.currentPage;
+    frame.origin.y		= 0;
+    frame.size			= settingsView.frame.size;
+    
+	[settingsView scrollRectToVisible:frame animated:YES];
+}
+
+
+-(void)alignSettingsView {
+	NSUInteger scaleFactor			= (isPad) ? 2 : 1;
+	
+	CGFloat offsetY					= (viewFrame.size.height > viewFrame.size.width) ? 0.65 : 0.6;
+	CGFloat offsetH					= (viewFrame.size.height > viewFrame.size.width) ?  0.35 : 0.4;
+	
+	
+	settingsViewFrame.origin.x		= 0;
+    settingsViewFrame.origin.y		= viewFrame.size.height * ((isPad) ? offsetY : offsetH);
+    settingsViewFrame.size.width	= viewFrame.size.width;
+    settingsViewFrame.size.height	= viewFrame.size.height * ((isPad) ? offsetH : offsetY);
+    
+	openPosY						= settingsViewFrame.origin.y;
+	closePosY						= settingsViewFrame.origin.y + settingsViewFrame.size.height;
+	
+	settingsViewFrame.origin.y		= closePosY;
+	
+	settingsView.frame				= settingsViewFrame;
+    settingsView.contentSize			= CGSizeMake( settingsViewFrame.size.width * (settingsView.subviews.count / scaleFactor), settingsViewFrame.size.height );
+	
+	// This is a hack to initialize hte scroll view settings after orientation changed
+	settingsView.hidden				= YES;
+	[settingsBtn setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
+	
+	
+	
+	// ---- Info view
+	infoViewFrame					= settingsViewFrame;
+	infoView.frame					= infoViewFrame;
+	//infoScrollView.frame			= infoViewFrame;
+	infoScrollView.contentSize		= CGSizeMake( 320, 631 );
+	infoView.hidden					= YES;
+	[infoBtn setImage:[UIImage imageNamed:@"info.png"] forState:UIControlStateNormal];
+	
+	
+	
+	NSUInteger index;
+	for ( UIView *sView in [settingsView subviews] ) {
+		index						= [[settingsView subviews] indexOfObject:sView];
+		
+		CGRect frame;
+        frame.origin.x				= (settingsViewFrame.size.width / scaleFactor) * index;
+        frame.origin.y				= 0;
+        frame.size.width			= settingsViewFrame.size.width / scaleFactor;
+		frame.size.height			= settingsViewFrame.size.height;
+		
+		[sView setFrame:frame];
+	}
+	
+	
+	// pageControl
+    pageControl.numberOfPages		= settingsView.subviews.count / scaleFactor;
+	
+    pageControlFrame.origin.x		= (settingsViewFrame.size.width - pageControl.frame.size.width) / 2;
+    pageControlFrame.origin.y		= openPosY + settingsViewFrame.size.height - menuViewHeight * 0.75;
+    pageControlFrame.size			= pageControl.bounds.size;
+    
+	pageControl.frame				= pageControlFrame;
+    pageControl.hidden				= YES;
+}
+
+
+-(void)showSettingsView {
+	if ( settingsView.hidden == YES ) {
+		CGRect openFrame			= settingsViewFrame;
+		openFrame.origin.y			= openPosY;
+		
+		CGRect openMenuFrame		= openFrame;
+		openMenuFrame.origin.y		= openPosY - menuViewHeight;
+		openMenuFrame.size.height	= menuViewHeight;
+		
+		settingsView.hidden			= NO;
+		
+		[UIView animateWithDuration: 0.2
+							  delay: 0.0
+							options: UIViewAnimationOptionCurveEaseIn
+						 animations: ^{
+							 settingsView.frame		= openFrame;
+							 //menuView.frame			= openMenuFrame;
+						 }
+						 completion: ^(BOOL finished) {
+							 settingsView.hidden	= NO;
+							 pageControl.hidden		= NO;
+						 }];
+		
+		[settingsBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
+	}
+}
+
+
+-(void)hideSettingsView {
+	if ( settingsView.hidden == NO ) {
+		CGRect closeFrame			= settingsViewFrame;
+		closeFrame.origin.y			= closePosY;
+		
+		CGRect closeMenuFrame		= closeFrame;
+		closeMenuFrame.origin.y		= closePosY - menuViewHeight;
+		closeMenuFrame.size.height	= menuViewHeight;
+		
+		[UIView animateWithDuration: 0.15
+							  delay: 0.0
+							options: UIViewAnimationOptionCurveEaseOut
+						 animations: ^{
+							 settingsView.frame		= closeFrame;
+							 //menuView.frame			= closeMenuFrame;
+						 }
+						 completion: ^(BOOL finished) {
+							 settingsView.hidden	= YES;
+							 pageControl.hidden		= YES;
+						 }];
+		
+		[settingsBtn setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
+	}
+}
+
+
+-(IBAction)toggleSettingsView:(id)sender {
+	if ( settingsView.hidden == YES ) {
+		[self showSettingsView];
+		[self showMenuView];
+	}
+	else {
+		[self hideSettingsView];
+		[self hideMenuView];
+	}
+	
+	// Check if infoView is open, if os close it
+	if ( infoView.hidden == NO ) {
+		[self hideInfoView];
+	}
+}
+
+// ---- SettingsView END
+//----------------------------------------
+
 
 
 @end

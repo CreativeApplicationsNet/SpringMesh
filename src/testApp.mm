@@ -16,7 +16,7 @@ void testApp::setup(){
 	ofxiPhoneAlerts.addListener(this);
 	
 	//If you want a landscape oreintation 
-	iPhoneSetOrientation( OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT );
+	//iPhoneSetOrientation( OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT );
     
     ofBackground( 0, 0, 0 );
     
@@ -26,7 +26,7 @@ void testApp::setup(){
     ofEnableNormalizedTexCoords();
     
     
-    
+    // Load xml settings file
     if ( XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml") ) {
 		message = ".xml loaded from documents folder!";
 	}
@@ -39,25 +39,24 @@ void testApp::setup(){
 	//cout << message << endl;
     
     
-    drag                    = XML.getValue( "PHYSICS:SPRING:DAMPING", 0.4 );
-    springStrength          = XML.getValue( "PHYSICS:SPRING:STRENGTH", 2.0 );
+    drag                    = XML.getValue( "PHYSICS:SPRING:DAMPING", 0.4f );
+    springStrength          = XML.getValue( "PHYSICS:SPRING:STRENGTH", 2.0f );
     forceRadius             = XML.getValue( "PHYSICS:SPRING:FORCE_RADIUS", 100 );
-    isAttractionOn          = XML.getValue( "PHYSICS:SPRING:ATTRACTION", 0 );
-    isGravityOn             = XML.getValue( "PHYSICS:SPRING:GRAVITY", 0 );
     
-    isHorizontalSpringsOn   = XML.getValue( "PHYSICS:SPRING:HORIZONTAL", 1 );
+	isGravityOn             = XML.getValue( "PHYSICS:SPRING:GRAVITY", 0 );
+    gravityForce			= XML.getValue( "PHYSICS:SPRING:GRAVITY_FORCE", 20.0f );
+	
+	particleDensity			= XML.getValue( "PHYSICS:SPRING:DENSITY", 10.0f );
+	physicsSpeed			= XML.getValue( "PHYSICS:SPRING:SPEED", 60.0f );
+	
+	isAttractionOn          = XML.getValue( "PHYSICS:SPRING:ATTRACTION", 0 );
+    attractionForce			= XML.getValue( "PHYSICS:SPRING:ATTRACTION_FORCE", 30.0f );
+	
+	isHorizontalSpringsOn   = XML.getValue( "PHYSICS:SPRING:HORIZONTAL", 1 );
     isVerticalSpringsOn     = XML.getValue( "PHYSICS:SPRING:VERTICAL", 1 );
     
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
-		// ipad
-		gridSize            = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 20 );
-	}
-	else {
-		// ipod
-		gridSize            = XML.getValue( "PHYSICS:SPRING:GRIDSIZE", 9 );
-	}
-    
-    
+	gridSize				= XML.getValue( "PHYSICS:SPRING:GRID_SIZE", 14 );
+	
     isFillsDrawingOn        = XML.getValue( "MESH:VIEW:FILLS", 1 );
     isWiresDrawingOn        = XML.getValue( "MESH:VIEW:WIRES", 0 );
     isPointsDrawingOn       = XML.getValue( "MESH:VIEW:POINTS", 0 );
@@ -67,33 +66,23 @@ void testApp::setup(){
     
     firstTimeLaunch         = XML.getValue( "MESH:VIEW:FIRST", 1 );
     
-    colR                    = XML.getValue( "MESH:COLOR:RED", 0.2 );
-    colG                    = XML.getValue( "MESH:COLOR:GREEN", 0.6 );
-    colB                    = XML.getValue( "MESH:COLOR:BLUE", 1.0 );
-    colA                    = XML.getValue( "MESH:COLOR:ALPHA", 1.0 );
-    
+	knobPositionX			= XML.getValue( "MESH:COLOR:KNOB_X", 9.0f );
+    knobPositionY			= XML.getValue( "MESH:COLOR:KNOB_Y", 9.0f );
+	colA                    = XML.getValue( "MESH:COLOR:ALPHA", 1.0f );
     
     isImageSet              = false;
     isTextureDrawingOn      = false;
-    
     isAddBlendModeOn        = false;
     isScreenBlendModeOn     = false;
+    isBox2dPaused			= false;
+	isSaveImageActive		= false;
     
-    //isHorizontalSpringsOn   = true;
-    //isVerticalSpringsOn     = true;
-    
-    
-    gridWidth               = ofGetWidth();
-	gridHeight              = ofGetHeight();
+    appWidth				= ofGetWidth();
+	appHeight				= ofGetHeight();
 	
-    isSaveImageActive       = false;
     
-    
-//    // Set gui view  
-//    guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
-//    guiViewController.view.hidden = YES;
-//    [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
-    
+    // Set gui view  
+	/*
     if ( firstTimeLaunch == 1 ) {
         // Set gui view
         guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
@@ -106,46 +95,26 @@ void testApp::setup(){
         guiViewController.view.hidden = YES;
         [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
     }
-    
+    */
+	
+	guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
+	//guiViewController.view.hidden = YES;
+	[ofxiPhoneGetGLView() addSubview:guiViewController.view];
 }
 
 
 void testApp::init() {
-    guiViewController.springDampingSlider.value      = drag;
-    guiViewController.springFrequencySlider.value    = springStrength;
-    guiViewController.forceRadiusSlider.value        = forceRadius;
-    guiViewController.adjustPointsSlider.value       = gridSize;
-    [guiViewController.attractionSwitch setOn:isAttractionOn];
-    [guiViewController.gravitySwitch setOn:isGravityOn];
-    /*if ( isHorizontalSpringsOn == false ) {
-        guiViewController.toggleConnectionsControl.selectedSegmentIndex = 0;
-    }
-    else if ( isVerticalSpringsOn == false ) {
-        [guiViewController.toggleConnectionsControl setSelectedSegmentIndex:1];
-    }
-    else {
-        [guiViewController.toggleConnectionsControl setSelectedSegmentIndex:2];
-    }*/
-    
-    [guiViewController.textureSwitch setOn:isTextureDrawingOn];
-    [guiViewController.fillsSwitch setOn:isFillsDrawingOn];
-    [guiViewController.wiresSwitch setOn:isWiresDrawingOn];
-    [guiViewController.pointsSwitch setOn:isPointsDrawingOn];
-    guiViewController.colorRSlider.value            = colR;
-    guiViewController.colorGSlider.value            = colG;
-    guiViewController.colorBSlider.value            = colB;
-    guiViewController.colorASlider.value            = colA;
-    
-    [guiViewController.addBlendSwitch setOn:isAddBlendModeOn];
-    [guiViewController.screenBlendSwitch setOn:isScreenBlendModeOn];
-    
-    
+	// Load xml settings and update guiview
+	loadSettings();
+	
     // Init box2d
-	box2d.init();
-	box2d.setFPS( 30.0f );
-	box2d.setIterations( 3, 2 ); // velocity, position
-	box2d.setGravity( 0.0f, 0.0f );
-    float boundOffset = 4.0f;
+	float boundOffset	= 4.0f;
+	timeStep			= 1.0f / physicsSpeed;
+	
+    box2d.init();
+    box2d.setFPS( physicsSpeed );
+	box2d.setIterations( 2, 2 ); // velocity, position
+	box2d.setGravity( 0, 0 );
     box2d.createBounds( -boundOffset, -boundOffset, ofGetWidth() + boundOffset, ofGetHeight() + boundOffset );
 	
     buildMesh();
@@ -166,16 +135,6 @@ void testApp::runRandom(){
     colB                = ofRandomuf();
     colA                = ofRandomuf();
     
-    guiViewController.springDampingSlider.value     = drag;
-    guiViewController.springFrequencySlider.value   = springStrength;
-    guiViewController.forceRadiusSlider.value       = forceRadius;
-    guiViewController.adjustPointsSlider.value      = gridSize;
-    
-    guiViewController.colorRSlider.value            = colR;
-    guiViewController.colorGSlider.value            = colG;
-    guiViewController.colorBSlider.value            = colB;
-    guiViewController.colorASlider.value            = colA;
-    
     buildMesh();
 }
 
@@ -184,28 +143,16 @@ void testApp::runRandom(){
 //--------------------------------------------------------------
 void testApp::buildMesh() {
     // Initialize grid
-	float gridRatio     = gridWidth / gridHeight;
+	float gridRatio     = appWidth / appHeight;
 	cols                = gridSize;
 	rows                = (int)( gridSize / gridRatio );
 	
     
-    float spaceX        = gridWidth / (cols-1);
-	float spaceY        = gridHeight / (rows-1);
+    float spaceX        = appWidth / (cols-1);
+	float spaceY        = appHeight / (rows-1);
 	
     int colSteps        = cols - 1;
 	int rowSteps        = rows - 1;
-	
-    
-    int totalQuads		= (cols-1) * (rows-1);
-	int totalTriangles	= totalQuads * 2;
-	int totalVertices	= cols * rows;
-	int totalIndices	= totalTriangles * 3; //(cols*2) * (rows-1);
-	
-    cout << "total quads: " << totalQuads << endl;
-	cout << "total triangles: " << totalTriangles << endl;
-	cout << "total vertices: " << totalVertices << endl;
-	cout << "total indices: " << totalIndices << endl;
-	
     
     // Indices
 	for ( int r = 0; r < rowSteps; r++ ) {
@@ -243,9 +190,9 @@ void testApp::buildMesh() {
 			}
 			// Insiders are free
 			else {
-				pA.setPhysics( 5.0f, 0.1f, 0.1f );
+				pA.setPhysics( particleDensity, 0.1f, 0.5f );
                 pA.fixture.filter.groupIndex = -1;
-                pA.setup( box2d.getWorld(), point.x, point.y, 10.0f );
+                pA.setup( box2d.getWorld(), point.x, point.y, 5.0f );
 			}
 			particles.push_back( pA );
             
@@ -253,28 +200,30 @@ void testApp::buildMesh() {
             ofxBox2dJoint spring;
             if ( x > 0 && isHorizontalSpringsOn ) {
 				ofxBox2dCircle pB = particles[idx - 1];
-				spring.setup( box2d.getWorld(), pA.body, pB.body, springStrength, drag );
+				spring.setup( box2d.getWorld(), pA.body, pB.body, springStrength, drag, false );
                 springs.push_back( spring );
 			}
 			if ( y > 0 && isVerticalSpringsOn ) {
                 ofxBox2dCircle pC = particles[idx - cols];
-				spring.setup( box2d.getWorld(), pA.body, pC.body, springStrength, drag );
+				spring.setup( box2d.getWorld(), pA.body, pC.body, springStrength, drag, false );
                 springs.push_back( spring );
 			}
             idx++;
             
+            // Add colors
+            colors.push_back( ofFloatColor( 1, 1, 1 ) );
             
             // Textture coordinates
-            ofVec2f textCoordPoint( (x * spaceX) / gridWidth, (y * spaceY) / gridHeight );
+            ofVec2f textCoordPoint( (x * spaceX) / appWidth, (y * spaceY) / appHeight );
 			textCoords.push_back( textCoordPoint );
 		}
 	}
     
-    
 	mesh.setMode( OF_PRIMITIVE_TRIANGLES );
-	mesh.addVertices( vertices );
 	mesh.addIndices( indices );
-	mesh.addTexCoords( textCoords );
+    mesh.addColors( colors );
+	mesh.addVertices( vertices );
+    mesh.addTexCoords( textCoords );
 	
 	vboMesh.setMesh( mesh, GL_DYNAMIC_DRAW );
     
@@ -301,6 +250,7 @@ void testApp::destroyMesh() {
     particles.clear();
     
     textCoords.clear();
+    colors.clear();
     vertices.clear();
     indices.clear();
     
@@ -309,7 +259,6 @@ void testApp::destroyMesh() {
     mesh.clearIndices();
     mesh.clear();
     vboMesh.clear();
-    
 }
 
 
@@ -321,26 +270,36 @@ void testApp::update(){
     if ( isGravityOn ) {
         ofVec2f force;
         force.set( ofxAccelerometer.getForce().x, -ofxAccelerometer.getForce().y );
-        force *= 20.0f;
+        force *= gravityForce;
         box2d.setGravity( force.x, force.y );
     }
     else {
         box2d.setGravity( 0, 0 );
     }
     
-    box2d.update();
-    
+    box2d.setFPS( physicsSpeed );
+	//box2d.update();
+	if ( isBox2dPaused ) {
+		timeStep = 0;
+	}
+	else {
+		timeStep = 1.0f / physicsSpeed;
+	}
+	
+	box2d.world->Step( timeStep, 2, 2 );
+	
     
     // Update particles force
     for ( int i = 0; i < particles.size(); i++ ) {
-        for ( int j = 0; j < touchPoints.size(); j++ ) {
+        particles[i].setDensity( particleDensity );
+		for ( int j = 0; j < touchPoints.size(); j++ ) {
             float dis = touchPoints[j].distance( particles[i].getPosition() );
             if ( dis < forceRadius ) {
-                ( isAttractionOn ) ? particles[i].addAttractionPoint( touchPoints[j], 9.0f ) : particles[i].addRepulsionForce( touchPoints[j], 40.0f );
+                ( isAttractionOn ) ? particles[i].addAttractionPoint( touchPoints[j], attractionForce ) : particles[i].addRepulsionForce( touchPoints[j], attractionForce );
             }
             else {
-                ( isAttractionOn ) ? particles[i].addAttractionPoint( touchPoints[j], 0.0f ) :
-                particles[i].addRepulsionForce( touchPoints[j], 0.0f );
+                ( isAttractionOn ) ? particles[i].addAttractionPoint( touchPoints[j], 0 ) :
+                particles[i].addRepulsionForce( touchPoints[j], 0 );
             }
         }
     }
@@ -393,7 +352,6 @@ void testApp::draw(){
     
     ofDisableBlendMode();
     ofDisableAlphaBlending();
-    
 }
 
 //--------------------------------------------------------------
@@ -403,7 +361,7 @@ void testApp::exit(){
 
 //--------------------------------------------------------------
 void testApp::touchDown(ofTouchEventArgs &touch){
-    touchPoints[touch.id] = ofVec2f( touch.x, touch.y );
+	touchPoints[touch.id] = ofVec2f( touch.x, touch.y );
 }
 
 //--------------------------------------------------------------
@@ -423,9 +381,7 @@ void testApp::touchUp(ofTouchEventArgs &touch){
 
 //--------------------------------------------------------------
 void testApp::touchDoubleTap(ofTouchEventArgs &touch){
-	if ( guiViewController.view.hidden ) {
-		guiViewController.view.hidden = NO;
-	}
+	guiViewController.view.hidden = !guiViewController.view.hidden;
 }
 
 //--------------------------------------------------------------
@@ -495,11 +451,14 @@ void testApp::renderFill() {
         float colorD[4] = { tempColR * 1.1f, tempColG * 1.1f, tempColB * 1.1f, colA };
         */
         
-        float k = 1.0f - (((dist1 + dist2) / 2) / gridCellDiagonalDist);
-        float colorA[4] = { colR - k, colG - k, colB - k, colA };
-        float colorB[4] = { colR - k, colG - k, colB - k, colA };
-        float colorC[4] = { colR * 0.9f - k, colG * 0.9f - k, colB * 0.9f - k, colA };
-        float colorD[4] = { colR * 0.8f - k, colG * 0.8f - k, colB * 0.8f - k, colA };
+		float colFactor0	= 0.8f;
+		float colFactor1	= 0.9f;
+		
+        float k				= 0.65f - (((dist1 + dist2) / 2.0f) / gridCellDiagonalDist);
+        float colorA[4]		= { colR - k, colG - k, colB - k, colA };
+        float colorB[4]		= { colR - k, colG - k, colB - k, colA };
+        float colorC[4]		= { colR * colFactor0 - k, colG * colFactor0 - k, colB * colFactor0 - k, colA };
+        float colorD[4]		= { colR * colFactor1 - k, colG * colFactor1 - k, colB * colFactor1 - k, colA };
         
         
         meshFill.setColor4v( colorA );
@@ -523,6 +482,7 @@ void testApp::renderFill() {
 
 
 void testApp::renderLines() {
+	ofSetLineWidth( 1.5f );
     int numSprings = springs.size();
     for ( int i = 0; i < numSprings; i++ ) {
         ofVec2f bodyAPos( springs[i].joint->GetAnchorA().x, springs[i].joint->GetAnchorA().y );
@@ -530,7 +490,6 @@ void testApp::renderLines() {
         
         float dist  = bodyAPos.distance( bodyBPos );
         float k     = (dist / springs[i].getLength());
-        //cout << "K: " << k << endl;
         
         if ( springs[i].joint->GetBodyA()->GetMass() != 0 || springs[i].joint->GetBodyB()->GetMass() != 0 ) {
             ofSetColor( 255 * (colR * k), 255 * (colG * k), 255 * (colB * k), 255 * colA );
@@ -543,26 +502,30 @@ void testApp::renderLines() {
 void testApp::renderPoints() {
 	//glLineWidth( 1.5f );
 	int numParticles = particles.size();
-    float size = 3.0f;
-    for ( int i = 0; i < numParticles; i++ ) {
+    float size = 4.0f;
+    
+	ofSetColor( 255, 255, 255 );
+	
+	for ( int i = 0; i < numParticles; i++ ) {
 		ofxBox2dCircle p = particles[i];
-		ofSetHexColor( 0xffffff );
-        ofLine( p.getPosition().x - size, p.getPosition().y + size, p.getPosition().x + size, p.getPosition().y - size );
-		ofLine( p.getPosition().x + size, p.getPosition().y + size, p.getPosition().x - size, p.getPosition().y - size );
+		//ofLine( p.getPosition().x - size, p.getPosition().y + size, p.getPosition().x + size, p.getPosition().y - size );
+		//ofLine( p.getPosition().x + size, p.getPosition().y + size, p.getPosition().x - size, p.getPosition().y - size );
+		ofRect( p.getPosition().x - (size * 0.5f), p.getPosition().y - (size * 0.5f), size, size );
 	}
 }
 
 
 void testApp::renderTexturedMesh() {
     int numParticles = particles.size();
-    ofVec3f positions[numParticles];
-    for ( int i = 0; i < particles.size(); i++ ) {
+    //ofVec3f positions[numParticles];
+    vector<ofVec3f>positions(numParticles);
+    for ( int i = 0; i < numParticles; i++ ) {
         positions[i] = particles[i].getPosition();
     }
     
     ofSetHexColor( 0xffffff );
 	if ( isImageSet ) skinTexture.bind();
-    vboMesh.updateVertexData( positions, numParticles );
+    vboMesh.updateVertexData( &positions[0], numParticles );
     vboMesh.drawElements( GL_TRIANGLES, mesh.getNumIndices() );
     if ( isImageSet ) skinTexture.unbind();
     
@@ -582,36 +545,75 @@ void testApp::setImage( UIImage *inImage, int w, int h ) {
     
 	isImageSet          = true;
     isTextureDrawingOn  = true;
-    [guiViewController.textureSwitch setOn:isTextureDrawingOn];
 }
 
+
+void testApp::loadSettings() {
+	// Color settings
+	CGRect colorPickerFrame				= guiViewController.colorPickerView.knobView.frame;
+	colorPickerFrame.origin.x			= knobPositionX;
+	colorPickerFrame.origin.y			= knobPositionY;
+	
+	guiViewController.colorPickerView.knobView.frame = colorPickerFrame;
+	[guiViewController.colorPickerView changeColor];
+	
+    guiViewController.alphaColorSlider.value		= colA;
+    [guiViewController.addBlendSwitch setOn:isAddBlendModeOn];
+    [guiViewController.screenBlendSwitch setOn:isScreenBlendModeOn];
+	
+	// Mesh settigns
+    [guiViewController.textureSwitch setOn:isTextureDrawingOn];
+    [guiViewController.fillsSwitch setOn:isFillsDrawingOn];
+    [guiViewController.wiresSwitch setOn:isWiresDrawingOn];
+    [guiViewController.pointsSwitch setOn:isPointsDrawingOn];
+	guiViewController.resolutionSlider.value		= gridSize;
+	
+	// Physics settings
+	guiViewController.simulationSpeedSlider.value	= physicsSpeed;
+	guiViewController.touchRadiusSlider.value		= forceRadius;
+    guiViewController.gravityForceSlider.value		= gravityForce;
+	[guiViewController.attractionForceSwitch setOn:isAttractionOn];
+    [guiViewController.gravitySwitch setOn:isGravityOn];
+    
+	// Spring settings
+	guiViewController.dampingSlider.value			= drag;
+    guiViewController.frequencySlider.value			= springStrength;
+    guiViewController.densitySlider.value			= particleDensity;
+	[guiViewController.horizontalConnSwitch setOn:isHorizontalSpringsOn];
+	[guiViewController.verticalConnSwitch setOn:isVerticalSpringsOn];
+	
+}
 
 
 void testApp::saveSettings() {
 	XML.setValue( "PHYSICS:SPRING:DAMPING", drag );
-    XML.setValue( "PHYSICS:SPRING:STRENGTH", springStrength );
-    XML.setValue( "PHYSICS:SPRING:FORCE_RADIUS", forceRadius );
-    XML.setValue( "PHYSICS:SPRING:ATTRACTION", isAttractionOn );
-    XML.setValue( "PHYSICS:SPRING:GRAVITY", isGravityOn );
-    XML.setValue( "PHYSICS:SPRING:GRIDSIZE", gridSize );
+	XML.setValue( "PHYSICS:SPRING:STRENGTH", springStrength );
+	XML.setValue( "PHYSICS:SPRING:FORCE_RADIUS", forceRadius );
+	XML.setValue( "PHYSICS:SPRING:ATTRACTION", isAttractionOn );
+	XML.setValue( "PHYSICS:SPRING:GRAVITY", isGravityOn );
+	XML.setValue( "PHYSICS:SPRING:GRID_SIZE", gridSize );
     
-    XML.setValue( "PHYSICS:SPRING:HORIZONTAL", isHorizontalSpringsOn );
-    XML.setValue( "PHYSICS:SPRING:VERTICAL", isVerticalSpringsOn );
+	XML.setValue( "PHYSICS:SPRING:HORIZONTAL", isHorizontalSpringsOn );
+	XML.setValue( "PHYSICS:SPRING:VERTICAL", isVerticalSpringsOn );
     
+	XML.setValue( "PHYSICS:SPRING:GRAVITY_FORCE", gravityForce );
+	XML.setValue( "PHYSICS:SPRING:ATRACTION_FORCE", attractionForce );
+	XML.setValue( "PHYSICS:SPRING:SPEED", physicsSpeed );
+	XML.setValue( "PHYSICS:SPRING:DENSITY", particleDensity );
+	
     
-    XML.setValue( "MESH:VIEW:FILLS", isFillsDrawingOn );
-    XML.setValue( "MESH:VIEW:WIRES", isWiresDrawingOn );
-    XML.setValue( "MESH:VIEW:POINTS", isPointsDrawingOn );
+	XML.setValue( "MESH:VIEW:FILLS", isFillsDrawingOn );
+	XML.setValue( "MESH:VIEW:WIRES", isWiresDrawingOn );
+	XML.setValue( "MESH:VIEW:POINTS", isPointsDrawingOn );
     
-    XML.setValue( "MESH:VIEW:ADD", isAddBlendModeOn );
-    XML.setValue( "MESH:VIEW:SCREEN", isScreenBlendModeOn );
+	XML.setValue( "MESH:VIEW:ADD", isAddBlendModeOn );
+	XML.setValue( "MESH:VIEW:SCREEN", isScreenBlendModeOn );
     
-    XML.setValue( "MESH:VIEW:FIRST", 0 );
-    
-    XML.setValue( "MESH:COLOR:RED", colR );
-    XML.setValue( "MESH:COLOR:GREEN", colG );
-    XML.setValue( "MESH:COLOR:BLUE", colB );
-    XML.setValue( "MESH:COLOR:ALPHA", colA );
+	XML.setValue( "MESH:VIEW:FIRST", 0 );
+	
+	XML.setValue( "MESH:COLOR:KNOB_X", knobPositionX );
+	XML.setValue( "MESH:COLOR:KNOB_Y", knobPositionY );
+	XML.setValue( "MESH:COLOR:ALPHA", colA );
     
 	XML.saveFile( ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml" );
 	cout << ".xml saved to app documents folder" << endl;
