@@ -48,7 +48,8 @@ public:
 	void loadSettings();
     void saveSettings();
     
-    
+    void updateColorPicker();
+	
     
 	int cols, rows;
 	int gridSize;

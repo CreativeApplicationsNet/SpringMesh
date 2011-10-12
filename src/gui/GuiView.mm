@@ -68,6 +68,11 @@
 @synthesize horizontalConnSwitch;
 @synthesize verticalConnSwitch;
 
+// Link buttons
+@synthesize flickrLinkButton;
+@synthesize rsLinkButton;
+@synthesize canLinkButton;
+@synthesize ofLinkButton;
 
 
 
@@ -177,7 +182,7 @@
 		app->knobPositionX	= colorPickerView.knobView.frame.origin.x;
 		app->knobPositionY	= colorPickerView.knobView.frame.origin.y;
 		
-		app->saveSettings();
+		[self saveSettings];
 	}
 }
 
@@ -186,6 +191,8 @@
 	if ( colorSlider == alphaColorSlider ) {
 		app->colA = [colorSlider value];
 	}
+	
+	[self saveSettings];
 }
 
 -(IBAction)colorSwitchHandler:(id)sender {
@@ -197,6 +204,8 @@
 	else if ( colorSwitch == screenBlendSwitch ) {
 		app->isScreenBlendModeOn	= [colorSwitch isOn];
 	}
+	
+	[self saveSettings];
 }
 
 // ---- Color settings END
@@ -224,6 +233,8 @@
 	else if ( meshSwitch == pointsSwitch ) {
 		app->isPointsDrawingOn  = [meshSwitch isOn];
 	}
+	
+	[self saveSettings];
 }
 
 -(IBAction)meshSliderHandler:(id)sender {
@@ -231,6 +242,8 @@
     app->gridSize				= [meshSlider value];
     app->destroyMesh();
     app->buildMesh();
+	
+	[self saveSettings];
 }
 
 // ---- Mesh settings END
@@ -258,6 +271,8 @@
 	else if ( physicsSlider == touchRadiusSlider ) {
 		app->forceRadius		= [physicsSlider value];
 	}
+	
+	[self saveSettings];
 }
 
 -(IBAction)physicsSwitchHandler:(id)sender {
@@ -269,6 +284,8 @@
 	else if ( physicsSwitch == attractionForceSwitch ) {
 		app->isAttractionOn		= [physicsSwitch isOn];
 	}
+	
+	[self saveSettings];
 }
 
 // ---- Physics settings END
@@ -293,6 +310,8 @@
 	else if ( springSlider == densitySlider ) {
 		app->particleDensity	= [springSlider value];
 	}
+	
+	[self saveSettings];
 }
 
 -(IBAction)springSwitchHandler:(id)sender {
@@ -319,6 +338,8 @@
 	
 	app->destroyMesh();
 	app->buildMesh();
+	
+	[self saveSettings];
 }
 
 // ---- Spring settings END
@@ -795,6 +816,36 @@
 // ---- SettingsView END
 //----------------------------------------
 
+
+
+
+
+//----------------------------------------
+// ---- Navigate to Url BEGIM
+
+-(IBAction)navigateToLink:(id)sender {
+	UIButton *button	= sender;
+	
+	string linkString;
+	
+	if ( button == flickrLinkButton ) {
+		linkString = "http://www.flickr.com/groups/springmesh/";
+	}
+	else if ( button == rsLinkButton ) {
+		linkString = "http://www.nardove.com";
+	}
+	else if ( button == canLinkButton ) {
+		linkString = "http://itunes.com/apps/creativeapplicationsnet/";
+	}
+	else if ( button == ofLinkButton ) {
+		linkString = "http://www.openframeworks.cc";
+	}
+	
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: linkString.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]]];
+}
+
+// ---- Navigate to Url END
+//----------------------------------------
 
 
 @end

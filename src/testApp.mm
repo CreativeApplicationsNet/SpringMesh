@@ -16,7 +16,7 @@ void testApp::setup(){
 	ofxiPhoneAlerts.addListener(this);
 	
 	//If you want a landscape oreintation 
-	//iPhoneSetOrientation( OFXIPHONE_ORIENTATION_LANDSCAPE_LEFT );
+	//iPhoneSetOrientation( OFXIPHONE_ORIENTATION_PORTRAIT );
     
     ofBackground( 0, 0, 0 );
     
@@ -61,7 +61,7 @@ void testApp::setup(){
     isWiresDrawingOn        = XML.getValue( "MESH:VIEW:WIRES", 0 );
     isPointsDrawingOn       = XML.getValue( "MESH:VIEW:POINTS", 0 );
     
-    isAddBlendModeOn        = XML.getValue( "MESH:VIEW:ADD", 0 );
+    isAddBlendModeOn        = XML.getValue( "MESH:VIEW:ADD", 1 );
     isScreenBlendModeOn     = XML.getValue( "MESH:VIEW:SCREEN", 0 );
     
     firstTimeLaunch         = XML.getValue( "MESH:VIEW:FIRST", 1 );
@@ -72,15 +72,13 @@ void testApp::setup(){
     
     isImageSet              = false;
     isTextureDrawingOn      = false;
-    isAddBlendModeOn        = false;
-    isScreenBlendModeOn     = false;
     isBox2dPaused			= false;
 	isSaveImageActive		= false;
     
     appWidth				= ofGetWidth();
 	appHeight				= ofGetHeight();
 	
-    
+	
     // Set gui view  
 	/*
     if ( firstTimeLaunch == 1 ) {
@@ -129,12 +127,20 @@ void testApp::runRandom(){
     springStrength      = ofRandom( 0.5f, 4.0f );
     forceRadius         = (int)ofRandom( 80, 100 );
     gridSize            = (int)ofRandom( 9, 20 );
-
-    colR                = ofRandomuf();
-    colG                = ofRandomuf();
-    colB                = ofRandomuf();
-    colA                = ofRandomuf();
+	
+	knobPositionX		= ofRandom( 9.0f, 245.0f );
+	knobPositionY		= ofRandom( 9.0f, 111.0f );
+	
+    colA				= ofRandomuf();
     
+	// Update gui controls
+	updateColorPicker();
+	[guiViewController.alphaColorSlider setValue:colA];
+	[guiViewController.dampingSlider setValue:drag];
+	[guiViewController.frequencySlider setValue:springStrength];
+	[guiViewController.touchRadiusSlider setValue:forceRadius];
+	[guiViewController.resolutionSlider setValue:gridSize];
+	
     buildMesh();
 }
 
@@ -147,7 +153,6 @@ void testApp::buildMesh() {
 	cols                = gridSize;
 	rows                = (int)( gridSize / gridRatio );
 	
-    
     float spaceX        = appWidth / (cols-1);
 	float spaceY        = appHeight / (rows-1);
 	
@@ -173,7 +178,6 @@ void testApp::buildMesh() {
 			indices.push_back( C );
 		}
 	}
-    
     
 	// Vertex positions
 	int idx = 0;
@@ -214,7 +218,13 @@ void testApp::buildMesh() {
             colors.push_back( ofFloatColor( 1, 1, 1 ) );
             
             // Textture coordinates
-            ofVec2f textCoordPoint( (x * spaceX) / appWidth, (y * spaceY) / appHeight );
+            ofVec2f textCoordPoint;
+			if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+				textCoordPoint = ofVec2f( (y * spaceY) / appHeight, (x * spaceX) / appWidth );
+			}
+			else {
+				textCoordPoint = ofVec2f( (x * spaceX) / appWidth, (y * spaceY) / appHeight );
+			}
 			textCoords.push_back( textCoordPoint );
 		}
 	}
@@ -227,10 +237,8 @@ void testApp::buildMesh() {
 	
 	vboMesh.setMesh( mesh, GL_DYNAMIC_DRAW );
     
-    
     // Mesh quad main diagonal
     gridCellDiagonalDist = particles[0].getPosition().distance( particles[2 + cols].getPosition() );
-	
     
 	// Initialize mesh
     meshFill.reserve( particles.size() * 10 );
@@ -349,6 +357,8 @@ void testApp::draw(){
     if ( isPointsDrawingOn ) {
 		renderPoints();
 	}
+	
+	ofPopMatrix();
     
     ofDisableBlendMode();
     ofDisableAlphaBlending();
@@ -422,34 +432,22 @@ void testApp::renderFill() {
 	meshFill.begin( GL_TRIANGLES );
 	
     for ( int i = 0; i < indices.size(); i += 6 ) {
-        ofIndexType A = indices[i];
-        ofIndexType B = indices[i + 1];
-        ofIndexType C = indices[i + 2];
-        ofIndexType D = indices[i + 3];
-        ofIndexType E = indices[i + 4];
-        ofIndexType F = indices[i + 5];
+        ofIndexType A		= indices[i];
+        ofIndexType B		= indices[i + 1];
+        ofIndexType C		= indices[i + 2];
+        ofIndexType D		= indices[i + 3];
+        ofIndexType E		= indices[i + 4];
+        ofIndexType F		= indices[i + 5];
         
-        ofxBox2dCircle a = particles[A];
-        ofxBox2dCircle b = particles[B];
-        ofxBox2dCircle c = particles[C];
-        ofxBox2dCircle d = particles[D];
-        ofxBox2dCircle e = particles[E];
-        ofxBox2dCircle f = particles[F];
+        ofxBox2dCircle a	= particles[A];
+        ofxBox2dCircle b	= particles[B];
+        ofxBox2dCircle c	= particles[C];
+        ofxBox2dCircle d	= particles[D];
+        ofxBox2dCircle e	= particles[E];
+        ofxBox2dCircle f	= particles[F];
         
-        float dist1	= a.getPosition().distance( c.getPosition() );
-        float dist2	= d.getPosition().distance( f.getPosition() );
-        
-        /*
-        float k = (dist1 + dist2) / 2;
-        float tempColR = ofMap( k, 0.0f, gridCellDiagonalDist, 0.0f, colR );
-        float tempColG = ofMap( k, 0.0f, gridCellDiagonalDist, 0.0f, colG );
-        float tempColB = ofMap( k, 0.0f, gridCellDiagonalDist, 0.0f, colB );
-        
-        float colorA[4] = { tempColR, tempColG, tempColB, colA };
-        float colorB[4] = { tempColR, tempColG, tempColB, colA };
-        float colorC[4] = { tempColR * 0.9f, tempColG * 0.9f, tempColB * 0.9f, colA };
-        float colorD[4] = { tempColR * 1.1f, tempColG * 1.1f, tempColB * 1.1f, colA };
-        */
+        float dist1			= a.getPosition().distance( c.getPosition() );
+        float dist2			= d.getPosition().distance( f.getPosition() );
         
 		float colFactor0	= 0.8f;
 		float colFactor1	= 0.9f;
@@ -550,12 +548,7 @@ void testApp::setImage( UIImage *inImage, int w, int h ) {
 
 void testApp::loadSettings() {
 	// Color settings
-	CGRect colorPickerFrame				= guiViewController.colorPickerView.knobView.frame;
-	colorPickerFrame.origin.x			= knobPositionX;
-	colorPickerFrame.origin.y			= knobPositionY;
-	
-	guiViewController.colorPickerView.knobView.frame = colorPickerFrame;
-	[guiViewController.colorPickerView changeColor];
+	updateColorPicker();
 	
     guiViewController.alphaColorSlider.value		= colA;
     [guiViewController.addBlendSwitch setOn:isAddBlendModeOn];
@@ -608,7 +601,7 @@ void testApp::saveSettings() {
     
 	XML.setValue( "MESH:VIEW:ADD", isAddBlendModeOn );
 	XML.setValue( "MESH:VIEW:SCREEN", isScreenBlendModeOn );
-    
+    	
 	XML.setValue( "MESH:VIEW:FIRST", 0 );
 	
 	XML.setValue( "MESH:COLOR:KNOB_X", knobPositionX );
@@ -617,4 +610,14 @@ void testApp::saveSettings() {
     
 	XML.saveFile( ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml" );
 	cout << ".xml saved to app documents folder" << endl;
+}
+
+
+void testApp::updateColorPicker() {
+	CGRect colorPickerFrame				= guiViewController.colorPickerView.knobView.frame;
+	colorPickerFrame.origin.x			= knobPositionX;
+	colorPickerFrame.origin.y			= knobPositionY;
+	
+	guiViewController.colorPickerView.knobView.frame = colorPickerFrame;
+	[guiViewController.colorPickerView changeColor];
 }

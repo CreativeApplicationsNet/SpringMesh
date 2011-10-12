@@ -81,6 +81,12 @@
 	IBOutlet UISlider		*densitySlider;
 	IBOutlet UISwitch		*horizontalConnSwitch;
 	IBOutlet UISwitch		*verticalConnSwitch;
+	
+	// Links buttons
+	IBOutlet UIButton		*flickrLinkButton;
+	IBOutlet UIButton		*rsLinkButton;
+	IBOutlet UIButton		*canLinkButton;
+	IBOutlet UIButton		*ofLinkButton;
 }
 
 
@@ -138,8 +144,14 @@
 @property (nonatomic, retain) UISwitch			*horizontalConnSwitch;
 @property (nonatomic, retain) UISwitch			*verticalConnSwitch;
 
+// Links buttons
+@property (nonatomic, retain) UIButton			*flickrLinkButton;
+@property (nonatomic, retain) UIButton			*rsLinkButton;
+@property (nonatomic, retain) UIButton			*canLinkButton;
+@property (nonatomic, retain) UIButton			*ofLinkButton;
 
--(void)settingsViewDidScroll:(UIScrollView *)sender;
+
+
 -(IBAction)toggleSettingsView:(id)sender;
 -(IBAction)changePage:(id)sender;
 
@@ -158,6 +170,11 @@
 
 -(IBAction)grabImage:(id)sender;
 
+-(IBAction)navigateToLink:(id)sender;
+
+
+-(void)settingsViewDidScroll:(UIScrollView *)sender;
+
 -(void)alignMenuView;
 -(void)alignSettingsView;
 -(void)showSettingsView;
@@ -171,5 +188,6 @@
 
 -(void)showMenuView;
 -(void)hideMenuView;
+
 
 @end
