@@ -8,6 +8,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import "CRColorPicker.h"
 
 #include "testApp.h"
@@ -20,6 +21,7 @@
 	CGRect			settingsViewFrame;
 	CGRect			pageControlFrame;
 	CGRect			menuFrame;
+	CGRect			introViewFrame;
 	
 	BOOL			isPad, isMenuViewOpen;
 	
@@ -27,6 +29,9 @@
 	
 	
 	// View outlets
+	IBOutlet UIView			*introView;
+	IBOutlet UIImageView	*introImageView;
+	
 	IBOutlet UIView			*infoView;
 	IBOutlet UIScrollView	*infoScrollView;
 	
@@ -91,6 +96,9 @@
 
 
 // View outlets
+@property (nonatomic, retain) UIView			*introView;
+@property (nonatomic, retain) UIImageView		*introImageView;
+
 @property (nonatomic, retain) UIScrollView		*settingsView;
 @property (nonatomic, retain) UIPageControl		*pageControl;
 
@@ -152,7 +160,8 @@
 
 
 
--(IBAction)toggleSettingsView:(id)sender;
+-(IBAction)hideIntroView:(id)sender;
+
 -(IBAction)changePage:(id)sender;
 
 -(IBAction)toggleSettingsView:(id)sender;
@@ -173,7 +182,7 @@
 -(IBAction)navigateToLink:(id)sender;
 
 
--(void)settingsViewDidScroll:(UIScrollView *)sender;
+-(void)scrollViewDidScroll:(UIScrollView *)sender;
 
 -(void)alignMenuView;
 -(void)alignSettingsView;

@@ -417,6 +417,7 @@ void testApp::gotMemoryWarning(){
 //--------------------------------------------------------------
 void testApp::deviceOrientationChanged(int newOrientation) {
     //iPhoneSetOrientation( (ofOrientation)newOrientation );
+	//cout << "new orientation: " << newOrientation << endl;
 }
 
 

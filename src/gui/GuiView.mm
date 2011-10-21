@@ -16,6 +16,9 @@
 
 
 // View outlets
+@synthesize introView;
+@synthesize introImageView;
+
 @synthesize settingsView;
 @synthesize pageControl;
 
@@ -96,12 +99,15 @@
     
 	self.view.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
 	
-	viewFrame		= [[UIScreen mainScreen] applicationFrame];
+	viewFrame	= [[UIScreen mainScreen] applicationFrame];
+	
+	self.introView.frame = viewFrame;
+	
 	
 	menuViewHeight	= 45.0;
 	
 	self.colorPickerView.delegate = self;
-	self.colorPickerView.arrange;
+	[self.colorPickerView arrange];
 	
 	[self alignSettingsView];
 	[self alignMenuView];
@@ -109,11 +115,36 @@
 	app->init();
 }
 
-
-/*- (void)layoutSubviews {
-	[self alignSettingsView];
-	[self alignMenuView];
-}*/
+-(void)viewWillAppear:(BOOL)animated {
+	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+	
+	if ( ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft) || ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight) ) {
+		NSLog(@"Using landscape image");
+		[[self introImageView] setImage:[UIImage imageNamed:@"intro-Landscape.png"]];
+	}
+	else {
+		NSLog(@"Using portrait image");
+		if ( isPad == YES ) {
+			[[self introImageView] setImage:[UIImage imageNamed:@"intro-Portrait.png"]];
+		}
+		else {
+			[[self introImageView] setImage:[UIImage imageNamed:@"intro.png"]];
+		}
+	}
+	
+	[[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
+	
+	// Hide intro view after 4 seconds
+	[UIView animateWithDuration: 1.0
+						  delay: 4.0
+						options: (UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction)
+					 animations: ^{
+						 introView.alpha = 0;
+					 }
+					 completion: ^(BOOL finished) {
+						 [introView removeFromSuperview];
+					 }];
+}
 
 -(void)viewDidUnload {
     //[super viewDidUnload];
@@ -129,7 +160,6 @@
 	
 	NSLog( @"Oops memory warning?! better check it out" );
 }
-
 
 // ---- Main view END
 //----------------------------------------
@@ -151,10 +181,6 @@
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {
     
-	//NSLog( @"main: %@", NSStringFromCGRect( [[UIScreen mainScreen] applicationFrame] ) );
-	//NSLog( @"bounds: %@", NSStringFromCGRect( self.view.bounds ) );
-	
-	
 	viewFrame	= self.view.bounds;
 	
 	[self alignSettingsView];
@@ -162,6 +188,33 @@
 }
 
 // ---- Orientation Handlers END
+//----------------------------------------
+
+
+
+
+
+//----------------------------------------
+// ---- Hide Intro BEGIM
+
+-(IBAction)hideIntroView:(id)sender {
+	NSLog(@"animation should cancel");
+	
+	[introView.layer removeAllAnimations];
+	/*
+	[UIView animateWithDuration: 0.6
+						  delay: 0.0
+						options: UIViewAnimationOptionCurveLinear
+					 animations: ^{
+						 introView.alpha = 0;
+					 }
+					 completion: ^(BOOL finished) {
+						 [introView removeFromSuperview];
+					 }];
+	 */
+}
+
+// ---- Hide Intro END
 //----------------------------------------
 
 
@@ -662,7 +715,7 @@
 //----------------------------------------
 // ---- SettingsView BEGIN
 
--(void)settingsViewDidScroll:(UIScrollView *)sender {
+-(void)scrollViewDidScroll:(UIScrollView *)sender {
     CGFloat pageWidth		= settingsView.frame.size.width;
     
 	int page				= floor( (settingsView.contentOffset.x - pageWidth / 2 ) / pageWidth ) + 1;

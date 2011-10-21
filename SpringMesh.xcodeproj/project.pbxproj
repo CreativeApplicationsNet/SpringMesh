@@ -70,7 +70,6 @@
 		03BB9DDD13DF354A0035E5C4 /* ofxBox2dJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03BB9DAC13DF354A0035E5C4 /* ofxBox2dJoint.cpp */; };
 		03BB9DDE13DF354A0035E5C4 /* ofxBox2dPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03BB9DAE13DF354A0035E5C4 /* ofxBox2dPolygon.cpp */; };
 		03BB9DDF13DF354A0035E5C4 /* ofxBox2dRect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03BB9DB113DF354A0035E5C4 /* ofxBox2dRect.cpp */; };
-		03D784FF13EDD99000C228A8 /* info-view.png in Resources */ = {isa = PBXBuildFile; fileRef = 03D784FC13EDD99000C228A8 /* info-view.png */; };
 		03DDF11513D8C80200F33D8C /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DDF10E13D8C80200F33D8C /* Default-Landscape~ipad.png */; };
 		03DDF11613D8C80200F33D8C /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DDF10F13D8C80200F33D8C /* Default-Portrait~ipad.png */; };
 		03DDF11713D8C80200F33D8C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 03DDF11013D8C80200F33D8C /* Default.png */; };
@@ -85,6 +84,10 @@
 		03EAD85B144039620047FC84 /* colorcource_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 03EAD855144039620047FC84 /* colorcource_big.png */; };
 		03EAD85C144039620047FC84 /* CRColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EAD857144039620047FC84 /* CRColorPicker.m */; };
 		03EAD85E144039620047FC84 /* knob_big.png in Resources */ = {isa = PBXBuildFile; fileRef = 03EAD859144039620047FC84 /* knob_big.png */; };
+		03F54F691451925900FEFC7A /* intro-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F54F651451925900FEFC7A /* intro-Landscape.png */; };
+		03F54F6A1451925900FEFC7A /* intro-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F54F661451925900FEFC7A /* intro-Portrait.png */; };
+		03F54F6B1451925900FEFC7A /* intro.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F54F671451925900FEFC7A /* intro.png */; };
+		03F54F6C1451925900FEFC7A /* intro@x2.png in Resources */ = {isa = PBXBuildFile; fileRef = 03F54F681451925900FEFC7A /* intro@x2.png */; };
 		03FE97A913F090F700F53017 /* photo-album.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FE97A713F090F700F53017 /* photo-album.png */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -242,7 +245,6 @@
 		03BB9DB213DF354A0035E5C4 /* ofxBox2dRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBox2dRect.h; sourceTree = "<group>"; };
 		03BB9DB313DF354A0035E5C4 /* ofxBox2dRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBox2dRender.h; sourceTree = "<group>"; };
 		03BB9DB413DF354A0035E5C4 /* ofxBox2dUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxBox2dUtils.h; sourceTree = "<group>"; };
-		03D784FC13EDD99000C228A8 /* info-view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info-view.png"; path = "button icons/info-view.png"; sourceTree = "<group>"; };
 		03DDF10E13D8C80200F33D8C /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		03DDF10F13D8C80200F33D8C /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
 		03DDF11013D8C80200F33D8C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -258,6 +260,10 @@
 		03EAD856144039620047FC84 /* CRColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRColorPicker.h; sourceTree = "<group>"; };
 		03EAD857144039620047FC84 /* CRColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CRColorPicker.m; sourceTree = "<group>"; };
 		03EAD859144039620047FC84 /* knob_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knob_big.png; sourceTree = "<group>"; };
+		03F54F651451925900FEFC7A /* intro-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-Landscape.png"; sourceTree = "<group>"; };
+		03F54F661451925900FEFC7A /* intro-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-Portrait.png"; sourceTree = "<group>"; };
+		03F54F671451925900FEFC7A /* intro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro.png; sourceTree = "<group>"; };
+		03F54F681451925900FEFC7A /* intro@x2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro@x2.png"; sourceTree = "<group>"; };
 		03FE97A713F090F700F53017 /* photo-album.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "photo-album.png"; path = "button icons/photo-album.png"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* SpringMesh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpringMesh.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -623,6 +629,10 @@
 		BB24DD8B10DA77E000E9C588 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				03F54F651451925900FEFC7A /* intro-Landscape.png */,
+				03F54F661451925900FEFC7A /* intro-Portrait.png */,
+				03F54F671451925900FEFC7A /* intro.png */,
+				03F54F681451925900FEFC7A /* intro@x2.png */,
 				03DE1DE513F664BF00DBB0A8 /* CAN-logo.png */,
 				03DE1DE313F6639500DBB0A8 /* rs-avatar.png */,
 				03EAD84F1440392C0047FC84 /* close.png */,
@@ -633,7 +643,6 @@
 				033E1DD7143256F70008912E /* play@2x.png */,
 				03FE97A713F090F700F53017 /* photo-album.png */,
 				0372AE9F13FC5C2000638C6A /* photo-album@2x.png */,
-				03D784FC13EDD99000C228A8 /* info-view.png */,
 				0359DC5513DC2CCD0067D36D /* info.png */,
 				0372AE9D13FC5C2000638C6A /* info@2x.png */,
 				0387B23B13EB2161000B8515 /* mesh.png */,
@@ -780,7 +789,6 @@
 				0359DC5613DC2CCD0067D36D /* info.png in Resources */,
 				0359DC6913DC3C740067D36D /* settings.png in Resources */,
 				0387B23F13EB2161000B8515 /* mesh.png in Resources */,
-				03D784FF13EDD99000C228A8 /* info-view.png in Resources */,
 				03FE97A913F090F700F53017 /* photo-album.png in Resources */,
 				03DE1DE413F6639500DBB0A8 /* rs-avatar.png in Resources */,
 				03DE1DE613F664BF00DBB0A8 /* CAN-logo.png in Resources */,
@@ -802,6 +810,10 @@
 				03EAD8521440392C0047FC84 /* close@2x.png in Resources */,
 				03EAD85B144039620047FC84 /* colorcource_big.png in Resources */,
 				03EAD85E144039620047FC84 /* knob_big.png in Resources */,
+				03F54F691451925900FEFC7A /* intro-Landscape.png in Resources */,
+				03F54F6A1451925900FEFC7A /* intro-Portrait.png in Resources */,
+				03F54F6B1451925900FEFC7A /* intro.png in Resources */,
+				03F54F6C1451925900FEFC7A /* intro@x2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -896,11 +908,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = SpringMesh;
 				SDKROOT = iphoneos;
 			};
@@ -909,11 +926,16 @@
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = SpringMesh;
 				SDKROOT = iphoneos;
 			};
@@ -924,14 +946,17 @@
 			baseConfigurationReference = E41D3ED613B38FB500A75A5D /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
@@ -956,7 +981,10 @@
 			baseConfigurationReference = E41D3ED613B38FB500A75A5D /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
@@ -966,7 +994,7 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
@@ -985,14 +1013,17 @@
 			baseConfigurationReference = E41D3ED613B38FB500A75A5D /* Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
@@ -1016,6 +1047,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					armv6,
+					armv7,
+				);
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Filip Visnjic";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Filip Visnjic";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1023,6 +1058,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = SpringMesh;
 				PROVISIONING_PROFILE = "69DA2FFA-7F16-40F1-BB51-A12236D34118";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "69DA2FFA-7F16-40F1-BB51-A12236D34118";

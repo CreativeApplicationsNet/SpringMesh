@@ -14,7 +14,7 @@
 @synthesize knobView;
 
 
-- (id)initWithFrame:(CGRect)frame {
+-(id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code.
@@ -30,7 +30,7 @@
 }
 */
 
-- (void)dealloc {
+-(void)dealloc {
 	self.sourceColorImageView = nil;
 	self.delegate = nil;
 	self.currentColor = nil;
@@ -42,7 +42,7 @@
 
 #pragma mark -
 //- (void)layoutSubviews{
-- (void)arrange {
+-(void)arrange {
 	if(nil == self.sourceColorImageView.superview){
 		UIImage *srcColorImage = [UIImage imageNamed:@"colorcource_big.png"];
 		CGSize size = srcColorImage.size;
@@ -91,7 +91,7 @@
 
 
 #pragma mark -
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {	
 	mTouchStartPoint = [[touches anyObject] locationInView:self];
 	
@@ -118,7 +118,7 @@
 	self.knobView.frame = newFrame;
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
 {
 	CGPoint newPoint = [[touches anyObject] locationInView:self];
 	CGRect newFrame = self.knobView.frame;
@@ -154,7 +154,7 @@
 
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	CGPoint newPoint = [[touches anyObject] locationInView:self];
 	CGRect newFrame = self.knobView.frame;
