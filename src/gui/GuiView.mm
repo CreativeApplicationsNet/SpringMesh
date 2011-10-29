@@ -137,13 +137,14 @@
 	// Hide intro view after 4 seconds
 	[UIView animateWithDuration: 1.0
 						  delay: 4.0
-						options: (UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAllowUserInteraction)
+						options: (UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionCurveLinear)
 					 animations: ^{
 						 introView.alpha = 0;
 					 }
 					 completion: ^(BOOL finished) {
 						 [introView removeFromSuperview];
 					 }];
+	 
 }
 
 -(void)viewDidUnload {
@@ -503,7 +504,7 @@
     
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"Screenshot Saved"
-                          message:@"See your Photo Gallery"
+                          message:@"Check it out in your Photo Album"
                           delegate:self
                           cancelButtonTitle:@"OK"
                           otherButtonTitles: nil];

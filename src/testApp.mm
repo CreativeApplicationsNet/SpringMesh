@@ -15,7 +15,6 @@ void testApp::setup(){
 	//iPhoneAlerts will be sent to this.
 	ofxiPhoneAlerts.addListener(this);
 	
-	//If you want a landscape oreintation 
 	//iPhoneSetOrientation( OFXIPHONE_ORIENTATION_PORTRAIT );
     
     ofBackground( 0, 0, 0 );
@@ -79,25 +78,11 @@ void testApp::setup(){
 	appHeight				= ofGetHeight();
 	
 	
-    // Set gui view  
-	/*
-    if ( firstTimeLaunch == 1 ) {
-        // Set gui view
-        guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
-        guiViewController.view.hidden = NO;
-        [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
-    }
-    else {
-        // Set gui view  
-        guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
-        guiViewController.view.hidden = YES;
-        [ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
-    }
-    */
-	
+    // Set gui view
 	guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
-	//guiViewController.view.hidden = YES;
 	[ofxiPhoneGetGLView() addSubview:guiViewController.view];
+	//[ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
+    
 }
 
 
@@ -270,10 +255,8 @@ void testApp::destroyMesh() {
 }
 
 
-
 //--------------------------------------------------------------
 void testApp::update(){
-    
     // box2d gravity influence by accelerometer
     if ( isGravityOn ) {
         ofVec2f force;
@@ -293,7 +276,6 @@ void testApp::update(){
 	else {
 		timeStep = 1.0f / physicsSpeed;
 	}
-	
 	box2d.world->Step( timeStep, 2, 2 );
 	
     
@@ -311,6 +293,7 @@ void testApp::update(){
             }
         }
     }
+	
     
     // Update springs
     for ( int i = 0; i < springs.size(); i++ ) {
@@ -319,14 +302,16 @@ void testApp::update(){
     }
     
     
+	// Screen grab
     if ( isSaveImageActive ) {
-        ofxiPhoneAppDelegate *delegate = ofxiPhoneGetAppDelegate();
-        ofxiPhoneScreenGrab( delegate );
+		//ofxiPhoneAppDelegate *delegate = ofxiPhoneGetAppDelegate();
+		//ofxiPhoneScreenGrab( delegate );
+		ofxiPhoneScreenGrab( NULL );
     }
     isSaveImageActive = false;
-    
-    
+	
 }
+
 
 //--------------------------------------------------------------
 void testApp::draw(){
@@ -357,12 +342,12 @@ void testApp::draw(){
     if ( isPointsDrawingOn ) {
 		renderPoints();
 	}
-	
-	ofPopMatrix();
     
     ofDisableBlendMode();
     ofDisableAlphaBlending();
+	
 }
+
 
 //--------------------------------------------------------------
 void testApp::exit(){
@@ -503,12 +488,11 @@ void testApp::renderPoints() {
 	int numParticles = particles.size();
     float size = 4.0f;
     
-	ofSetColor( 255, 255, 255 );
-	
 	for ( int i = 0; i < numParticles; i++ ) {
 		ofxBox2dCircle p = particles[i];
 		//ofLine( p.getPosition().x - size, p.getPosition().y + size, p.getPosition().x + size, p.getPosition().y - size );
 		//ofLine( p.getPosition().x + size, p.getPosition().y + size, p.getPosition().x - size, p.getPosition().y - size );
+		ofSetColor( 255, 255, 255 );
 		ofRect( p.getPosition().x - (size * 0.5f), p.getPosition().y - (size * 0.5f), size, size );
 	}
 }
@@ -516,20 +500,20 @@ void testApp::renderPoints() {
 
 void testApp::renderTexturedMesh() {
     int numParticles = particles.size();
-    //ofVec3f positions[numParticles];
     vector<ofVec3f>positions(numParticles);
     for ( int i = 0; i < numParticles; i++ ) {
         positions[i] = particles[i].getPosition();
     }
     
+    if ( isImageSet ) {
+		skinTexture.bind();
+	}
     ofSetHexColor( 0xffffff );
-	if ( isImageSet ) skinTexture.bind();
-    vboMesh.updateVertexData( &positions[0], numParticles );
+	vboMesh.updateVertexData( &positions[0], numParticles );
     vboMesh.drawElements( GL_TRIANGLES, mesh.getNumIndices() );
-    if ( isImageSet ) skinTexture.unbind();
-    
-    //ofSetHexColor( 0xff0000 );
-    //mesh.drawWireframe();
+    if ( isImageSet ) {
+		skinTexture.unbind();
+	}
 }
 
 // ---- Render methods END
@@ -545,6 +529,7 @@ void testApp::setImage( UIImage *inImage, int w, int h ) {
 	isImageSet          = true;
     isTextureDrawingOn  = true;
 }
+
 
 
 void testApp::loadSettings() {
@@ -577,6 +562,7 @@ void testApp::loadSettings() {
 	[guiViewController.verticalConnSwitch setOn:isVerticalSpringsOn];
 	
 }
+
 
 
 void testApp::saveSettings() {
@@ -612,6 +598,7 @@ void testApp::saveSettings() {
 	XML.saveFile( ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml" );
 	cout << ".xml saved to app documents folder" << endl;
 }
+
 
 
 void testApp::updateColorPicker() {
