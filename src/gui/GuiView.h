@@ -31,6 +31,7 @@
 	// View outlets
 	IBOutlet UIView			*introView;
 	IBOutlet UIImageView	*introImageView;
+	IBOutlet UIButton		*introViewButton;
 	
 	IBOutlet UIView			*infoView;
 	IBOutlet UIScrollView	*infoScrollView;
@@ -98,6 +99,7 @@
 // View outlets
 @property (nonatomic, retain) UIView			*introView;
 @property (nonatomic, retain) UIImageView		*introImageView;
+@property (nonatomic, retain) UIButton			*introViewButton;
 
 @property (nonatomic, retain) UIScrollView		*settingsView;
 @property (nonatomic, retain) UIPageControl		*pageControl;

@@ -18,6 +18,7 @@
 // View outlets
 @synthesize introView;
 @synthesize introImageView;
+@synthesize introViewButton;
 
 @synthesize settingsView;
 @synthesize pageControl;
@@ -101,8 +102,9 @@
 	
 	viewFrame	= [[UIScreen mainScreen] applicationFrame];
 	
-	self.introView.frame = viewFrame;
-	
+	// Set intro objects frame
+	self.introView.frame		= viewFrame;
+	self.introViewButton.frame	= viewFrame;
 	
 	menuViewHeight	= 45.0;
 	
@@ -137,12 +139,13 @@
 	// Hide intro view after 4 seconds
 	[UIView animateWithDuration: 1.0
 						  delay: 4.0
-						options: (UIViewAnimationOptionAllowUserInteraction |UIViewAnimationOptionCurveLinear)
+						options: UIViewAnimationOptionCurveLinear
 					 animations: ^{
 						 introView.alpha = 0;
 					 }
 					 completion: ^(BOOL finished) {
 						 [introView removeFromSuperview];
+						 [introViewButton removeFromSuperview];
 					 }];
 	 
 }
@@ -201,18 +204,19 @@
 -(IBAction)hideIntroView:(id)sender {
 	NSLog(@"animation should cancel");
 	
-	[introView.layer removeAllAnimations];
-	/*
-	[UIView animateWithDuration: 0.6
-						  delay: 0.0
+	//[introView stopAnimating];
+	//[introView.layer removeAllAnimations];
+	[UIView animateWithDuration: 1.0
+						  delay: 0.5
 						options: UIViewAnimationOptionCurveLinear
 					 animations: ^{
 						 introView.alpha = 0;
 					 }
 					 completion: ^(BOOL finished) {
 						 [introView removeFromSuperview];
+						 [introViewButton removeFromSuperview];
 					 }];
-	 */
+	
 }
 
 // ---- Hide Intro END
