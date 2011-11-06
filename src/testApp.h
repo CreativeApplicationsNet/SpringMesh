@@ -41,45 +41,77 @@ public:
     void renderFill();
     void renderLines();
 	void renderPoints();
-	
+	void renderTexturedMesh();
+    
+    void setImage( UIImage *inImage, int w, int h );
+    
+	void loadSettings();
     void saveSettings();
     
+    void updateColorPicker();
+	
     
 	int cols, rows;
 	int gridSize;
 	
-	float gridWidth;
-    float gridHeight;
+	float appWidth;
+    float appHeight;
     float gridCellDiagonalDist;
 	
 	float drag;
     float springStrength;
     float forceRadius;
-    float colR, colG, colB;
+    float particleDensity;
+	float gravityForce;
+	float physicsSpeed;
+	float attractionForce;
+	float colR, colG, colB, colA;
     
-    float first;
-
+    float firstTimeLaunch;
+	
+	float timeStep;
+	
+	float knobPositionX, knobPositionY;
+	
     bool isFillsDrawingOn;
     bool isWiresDrawingOn;
     bool isPointsDrawingOn;
     bool isAttractionOn, isGravityOn;
     bool isSaveImageActive;
+    bool isTextureDrawingOn;
+    bool isImageSet;
+    bool isAddBlendModeOn;
+    bool isScreenBlendModeOn;
+    bool isHorizontalSpringsOn;
+    bool isVerticalSpringsOn;
     
-    ofxBox2d box2d;
-    
-    vector<ofxBox2dCircle> particles;
-    vector<ofxBox2dJoint> springs;
-    
-    map<int, ofVec2f>touchPoints;
-    
-	MSA::Shape3D meshFill;
+	bool isBox2dPaused;
 	
-    ofxXmlSettings XML;
-    string xmlStructure;
-    string message;
+    ofxBox2d                box2d;
     
-
-
+    vector<ofxBox2dCircle>  particles;
+    vector<ofxBox2dJoint>   springs;
+    
+    vector<ofIndexType>     indices;
+	vector<ofVec3f>         vertices;
+	vector<ofFloatColor>    colors;
+    vector<ofVec2f>         textCoords;
+	
+    
+    map<int, ofVec2f>       touchPoints;
+    
+	MSA::Shape3D            meshFill;
+	
+    ofxXmlSettings          XML;
+    string                  xmlStructure;
+    string                  message;
+    
+    
+    ofImage                 skinImage;
+	ofTexture               skinTexture;
+	
+    ofMesh                  mesh;
+	ofVbo                   vboMesh;
 };
 
 
