@@ -4,15 +4,13 @@
 GuiView *guiViewController;
 
 
-//--------------------------------------------------------------
-void testApp::setup(){	
-	// register touch events
+
+void testApp::setup()
+{	
 	ofRegisterTouchEvents(this);
 	
-	// initialize the accelerometer
 	ofxAccelerometer.setup();
 	
-	//iPhoneAlerts will be sent to this.
 	ofxiPhoneAlerts.addListener(this);
 	
 	//iPhoneSetOrientation( OFXIPHONE_ORIENTATION_PORTRAIT );
@@ -26,18 +24,19 @@ void testApp::setup(){
     
     
     // Load xml settings file
-    if ( XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml") ) {
+    if ( XML.loadFile(ofxiPhoneGetDocumentsDirectory() + "springmesh-settings.xml") )
+	{
 		message = ".xml loaded from documents folder!";
 	}
-    else if ( XML.loadFile("springmesh-settings.xml") ) {
+    else if ( XML.loadFile("springmesh-settings.xml") )
+	{
 		message = ".xml loaded from data folder!";
 	}
-    else {
+    else
+	{
 		message = "unable to load .xml check data/ folder";
 	}
-	//cout << message << endl;
-    
-    
+	
     drag                    = XML.getValue( "PHYSICS:SPRING:DAMPING", 0.4f );
     springStrength          = XML.getValue( "PHYSICS:SPRING:STRENGTH", 2.0f );
     forceRadius             = XML.getValue( "PHYSICS:SPRING:FORCE_RADIUS", 100 );
@@ -82,11 +81,16 @@ void testApp::setup(){
 	guiViewController = [[GuiView alloc] initWithNibName:@"GuiView" bundle:nil];
 	[ofxiPhoneGetGLView() addSubview:guiViewController.view];
 	//[ofxiPhoneGetUIWindow() addSubview:guiViewController.view];
-    
 }
 
 
-void testApp::init() {
+/*
+ *	First load settings from xml file,
+ *	then initialize box2d physics
+ *	first time buldMesh() is called
+ */
+void testApp::init()
+{
 	// Load xml settings and update guiview
 	loadSettings();
 	
@@ -104,8 +108,11 @@ void testApp::init() {
 }
 
 
-//--------------------------------------------------------------
-void testApp::runRandom(){
+/*
+ *	Randomize a set of variables and attributes
+ */
+void testApp::runRandom()
+{
     destroyMesh();
     
     drag                = ofRandom( 0.0f, 0.5f );
@@ -126,13 +133,21 @@ void testApp::runRandom(){
 	[guiViewController.touchRadiusSlider setValue:forceRadius];
 	[guiViewController.resolutionSlider setValue:gridSize];
 	
+	[guiViewController.simulationSpeedSlider setValue:ofRandom( 30.0f, 230.0f )];
+	[guiViewController.gravityForceSlider setValue:ofRandom( -20.0f, 20.0f )];
+	[guiViewController.densitySlider setValue:ofRandom( 5.0f, 30.0f )];
+	
     buildMesh();
 }
 
 
 
-//--------------------------------------------------------------
-void testApp::buildMesh() {
+/*
+ *	Creates a mesh using vbo,
+ *	its dimensions are realtive to the device screen
+ */
+void testApp::buildMesh()
+{
     // Initialize grid
 	float gridRatio     = appWidth / appHeight;
 	cols                = gridSize;
@@ -145,8 +160,10 @@ void testApp::buildMesh() {
 	int rowSteps        = rows - 1;
     
     // Indices
-	for ( int r = 0; r < rowSteps; r++ ) {
-		for ( int c = 0; c < colSteps; c++ ) {
+	for ( int r = 0; r < rowSteps; r++ )
+	{
+		for ( int c = 0; c < colSteps; c++ )
+		{
 			int t = c + r * cols;
 			
 			int A, B, C, D;
@@ -166,19 +183,24 @@ void testApp::buildMesh() {
     
 	// Vertex positions
 	int idx = 0;
-    for ( int y = 0; y < rows; y++ ) {
-		for ( int x = 0; x < cols; x++ ) {
+    
+	for ( int y = 0; y < rows; y++ )
+	{
+		for ( int x = 0; x < cols; x++ )
+		{
 			ofVec2f point( x * spaceX, y * spaceY );
             vertices.push_back( point );
             
             // Create particles
             ofxBox2dCircle pA;
             // Make border particles fix to their position
-			if ( x == 0 || x == cols-1 || y == 0 || y == rows-1 ) {
+			if ( x == 0 || x == cols-1 || y == 0 || y == rows-1 )
+			{
 				pA.setup( box2d.getWorld(), point.x, point.y, 1.0f );
 			}
 			// Insiders are free
-			else {
+			else
+			{
 				pA.setPhysics( particleDensity, 0.1f, 0.5f );
                 pA.fixture.filter.groupIndex = -1;
                 pA.setup( box2d.getWorld(), point.x, point.y, 5.0f );
@@ -187,12 +209,14 @@ void testApp::buildMesh() {
             
             // Create springs
             ofxBox2dJoint spring;
-            if ( x > 0 && isHorizontalSpringsOn ) {
+            if ( x > 0 && isHorizontalSpringsOn )
+			{
 				ofxBox2dCircle pB = particles[idx - 1];
 				spring.setup( box2d.getWorld(), pA.body, pB.body, springStrength, drag, false );
                 springs.push_back( spring );
 			}
-			if ( y > 0 && isVerticalSpringsOn ) {
+			if ( y > 0 && isVerticalSpringsOn )
+			{
                 ofxBox2dCircle pC = particles[idx - cols];
 				spring.setup( box2d.getWorld(), pA.body, pC.body, springStrength, drag, false );
                 springs.push_back( spring );
@@ -204,10 +228,12 @@ void testApp::buildMesh() {
             
             // Textture coordinates
             ofVec2f textCoordPoint;
-			if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+			if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+			{
 				textCoordPoint = ofVec2f( (y * spaceY) / appHeight, (x * spaceX) / appWidth );
 			}
-			else {
+			else
+			{
 				textCoordPoint = ofVec2f( (x * spaceX) / appWidth, (y * spaceY) / appHeight );
 			}
 			textCoords.push_back( textCoordPoint );
@@ -220,7 +246,7 @@ void testApp::buildMesh() {
 	mesh.addVertices( vertices );
     mesh.addTexCoords( textCoords );
 	
-	vboMesh.setMesh( mesh, GL_DYNAMIC_DRAW );
+	vbo.setMesh( mesh, GL_DYNAMIC_DRAW );
     
     // Mesh quad main diagonal
     gridCellDiagonalDist = particles[0].getPosition().distance( particles[2 + cols].getPosition() );
@@ -228,18 +254,26 @@ void testApp::buildMesh() {
 	// Initialize mesh
     meshFill.reserve( particles.size() * 10 );
 	meshFill.setSafeMode( false );
-	
 }
 
 
-void testApp::destroyMesh() {
-    for ( int s = 0; s < springs.size(); s++ ) {
+/*
+ *	Destroys current vbo mesh, physics and
+ *	clears all containers
+ */
+void testApp::destroyMesh()
+{
+    for ( int s = 0; s < springs.size(); s++ )
+	{
         springs[s].destroy();
     }
-    for ( int p = 0; p < particles.size(); p++ ) {
+    
+	for ( int p = 0; p < particles.size(); p++ )
+	{
         particles[p].destroy();
     }
-    springs.clear();
+    
+	springs.clear();
     particles.clear();
     
     textCoords.clear();
@@ -251,173 +285,221 @@ void testApp::destroyMesh() {
     mesh.clearVertices();
     mesh.clearIndices();
     mesh.clear();
-    vboMesh.clear();
+    
+	vbo.clear();
 }
 
 
 //--------------------------------------------------------------
-void testApp::update(){
+void testApp::update()
+{
     // box2d gravity influence by accelerometer
-    if ( isGravityOn ) {
+    if ( isGravityOn )
+	{
         ofVec2f force;
         force.set( ofxAccelerometer.getForce().x, -ofxAccelerometer.getForce().y );
         force *= gravityForce;
         box2d.setGravity( force.x, force.y );
     }
-    else {
+    else
+	{
         box2d.setGravity( 0, 0 );
     }
     
     box2d.setFPS( physicsSpeed );
 	//box2d.update();
-	if ( isBox2dPaused ) {
+	
+	if ( isBox2dPaused )
+	{
 		timeStep = 0;
 	}
-	else {
+	else
+	{
 		timeStep = 1.0f / physicsSpeed;
 	}
+	
 	box2d.world->Step( timeStep, 2, 2 );
 	
     
     // Update particles force
-    for ( int i = 0; i < particles.size(); i++ ) {
+    for ( int i = 0; i < particles.size(); i++ )
+	{
         particles[i].setDensity( particleDensity );
-		for ( int j = 0; j < touchPoints.size(); j++ ) {
+		
+		for ( int j = 0; j < touchPoints.size(); j++ )
+		{
             float dis = touchPoints[j].distance( particles[i].getPosition() );
-            if ( dis < forceRadius ) {
-                ( isAttractionOn ) ? particles[i].addAttractionPoint( touchPoints[j], attractionForce ) : particles[i].addRepulsionForce( touchPoints[j], attractionForce );
+            
+			if ( dis < forceRadius )
+			{
+                if ( isAttractionOn )
+				{
+					particles[i].addAttractionPoint( touchPoints[j], attractionForce );
+				}
+				else
+				{
+					particles[i].addRepulsionForce( touchPoints[j], attractionForce );
+				}
             }
-            else {
-                ( isAttractionOn ) ? particles[i].addAttractionPoint( touchPoints[j], 0 ) :
-                particles[i].addRepulsionForce( touchPoints[j], 0 );
+            else
+			{
+                if ( isAttractionOn )
+				{
+					particles[i].addAttractionPoint( touchPoints[j], 0 );
+				}
+				else 
+				{
+					particles[i].addRepulsionForce( touchPoints[j], 0 );
+				}
+                
             }
         }
     }
-	
     
     // Update springs
-    for ( int i = 0; i < springs.size(); i++ ) {
+    for ( int i = 0; i < springs.size(); i++ )
+	{
         springs[i].setDamping( drag );
         springs[i].setFrequency( springStrength );
     }
     
     
 	// Screen grab
-    if ( isSaveImageActive ) {
+    if ( isSaveImageActive )
+	{
 		//ofxiPhoneAppDelegate *delegate = ofxiPhoneGetAppDelegate();
 		//ofxiPhoneScreenGrab( delegate );
 		ofxiPhoneScreenGrab( NULL );
     }
-    isSaveImageActive = false;
+    
+	isSaveImageActive = false;
 	
 }
 
 
 //--------------------------------------------------------------
-void testApp::draw(){
+void testApp::draw()
+{
 	ofBackground( 0, 0, 0 );
 	
     ofEnableAlphaBlending();
     
-    if ( isAddBlendModeOn ) {
+    if ( isAddBlendModeOn )
+	{
         ofEnableBlendMode( OF_BLENDMODE_ADD );
     }
     
-    if ( isScreenBlendModeOn ) {
+    if ( isScreenBlendModeOn )
+	{
         ofEnableBlendMode( OF_BLENDMODE_SCREEN );
     }
     
-    if ( isTextureDrawingOn ) {
+    if ( isTextureDrawingOn )
+	{
         renderTexturedMesh();   
     }
     
-    if ( isFillsDrawingOn ) {
+    if ( isFillsDrawingOn )
+	{
 		renderFill();
 	}
 	
-    if ( isWiresDrawingOn ) {
+    if ( isWiresDrawingOn )
+	{
         renderLines();
     }
 	
-    if ( isPointsDrawingOn ) {
+    if ( isPointsDrawingOn )
+	{
 		renderPoints();
 	}
     
     ofDisableBlendMode();
     ofDisableAlphaBlending();
-	
 }
 
 
 //--------------------------------------------------------------
-void testApp::exit(){
+void testApp::exit()
+{
 
 }
 
 //--------------------------------------------------------------
-void testApp::touchDown(ofTouchEventArgs &touch){
+void testApp::touchDown(ofTouchEventArgs &touch)
+{
 	touchPoints[touch.id] = ofVec2f( touch.x, touch.y );
 }
 
 //--------------------------------------------------------------
-void testApp::touchMoved(ofTouchEventArgs &touch){
+void testApp::touchMoved(ofTouchEventArgs &touch)
+{
 	touchPoints[touch.id] = ofVec2f( touch.x, touch.y );
 }
 
 //--------------------------------------------------------------
-void testApp::touchUp(ofTouchEventArgs &touch){
-    if ( touch.numTouches == 0 ) {
+void testApp::touchUp(ofTouchEventArgs &touch)
+{
+    if ( touch.numTouches == 0 )
+	{
         touchPoints.clear();
     }
-    else {
+    else
+	{
         touchPoints.erase( touch.id );
     }
 }
 
 //--------------------------------------------------------------
-void testApp::touchDoubleTap(ofTouchEventArgs &touch){
+void testApp::touchDoubleTap(ofTouchEventArgs &touch)
+{
 	guiViewController.view.hidden = !guiViewController.view.hidden;
 }
 
 //--------------------------------------------------------------
-void testApp::touchCancelled(ofTouchEventArgs& args){
+void testApp::touchCancelled(ofTouchEventArgs& args)
+{
 	
 }
 
 //--------------------------------------------------------------
-void testApp::lostFocus(){
+void testApp::lostFocus()
+{
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotFocus(){
+void testApp::gotFocus()
+{
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotMemoryWarning(){
+void testApp::gotMemoryWarning()
+{
 
 }
 
 //--------------------------------------------------------------
-void testApp::deviceOrientationChanged(int newOrientation) {
+void testApp::deviceOrientationChanged(int newOrientation)
+{
     //iPhoneSetOrientation( (ofOrientation)newOrientation );
 	//cout << "new orientation: " << newOrientation << endl;
 }
 
 
 
-//--------------------------------------------------------------
-// ---- Render methods BEGIN
 
-void testApp::renderFill() {
+void testApp::renderFill()
+{
 	meshFill.enableNormal( false );
 	meshFill.enableColor( true );
 	meshFill.enableTexCoord( false );
 	meshFill.setClientStates();
 	meshFill.begin( GL_TRIANGLES );
 	
-    for ( int i = 0; i < indices.size(); i += 6 ) {
+    for ( int i = 0; i < indices.size(); i += 6 )
+	{
         ofIndexType A		= indices[i];
         ofIndexType B		= indices[i + 1];
         ofIndexType C		= indices[i + 2];
@@ -465,17 +547,22 @@ void testApp::renderFill() {
 }
 
 
-void testApp::renderLines() {
+void testApp::renderLines()
+{
 	ofSetLineWidth( 1.5f );
-    int numSprings = springs.size();
-    for ( int i = 0; i < numSprings; i++ ) {
+    
+	int numSprings = springs.size();
+    
+	for ( int i = 0; i < numSprings; i++ )
+	{
         ofVec2f bodyAPos( springs[i].joint->GetAnchorA().x, springs[i].joint->GetAnchorA().y );
         ofVec2f bodyBPos( springs[i].joint->GetAnchorB().x, springs[i].joint->GetAnchorB().y );
         
         float dist  = bodyAPos.distance( bodyBPos );
         float k     = (dist / springs[i].getLength());
         
-        if ( springs[i].joint->GetBodyA()->GetMass() != 0 || springs[i].joint->GetBodyB()->GetMass() != 0 ) {
+        if ( springs[i].joint->GetBodyA()->GetMass() != 0 || springs[i].joint->GetBodyB()->GetMass() != 0 )
+		{
             ofSetColor( 255 * (colR * k), 255 * (colG * k), 255 * (colB * k), 255 * colA );
             springs[i].draw();
         }
@@ -483,12 +570,15 @@ void testApp::renderLines() {
 }
 
 
-void testApp::renderPoints() {
+void testApp::renderPoints()
+{
 	//glLineWidth( 1.5f );
 	int numParticles = particles.size();
-    float size = 4.0f;
     
-	for ( int i = 0; i < numParticles; i++ ) {
+	float size = 4.0f;
+    
+	for ( int i = 0; i < numParticles; i++ )
+	{
 		ofxBox2dCircle p = particles[i];
 		//ofLine( p.getPosition().x - size, p.getPosition().y + size, p.getPosition().x + size, p.getPosition().y - size );
 		//ofLine( p.getPosition().x + size, p.getPosition().y + size, p.getPosition().x - size, p.getPosition().y - size );
@@ -498,30 +588,36 @@ void testApp::renderPoints() {
 }
 
 
-void testApp::renderTexturedMesh() {
+void testApp::renderTexturedMesh()
+{
     int numParticles = particles.size();
-    vector<ofVec3f>positions(numParticles);
-    for ( int i = 0; i < numParticles; i++ ) {
+    
+	vector<ofVec3f>positions(numParticles);
+    
+	for ( int i = 0; i < numParticles; i++ )
+	{
         positions[i] = particles[i].getPosition();
     }
     
-    if ( isImageSet ) {
+    if ( isImageSet )
+	{
 		skinTexture.bind();
 	}
-    ofSetHexColor( 0xffffff );
-	vboMesh.updateVertexData( &positions[0], numParticles );
-    vboMesh.drawElements( GL_TRIANGLES, mesh.getNumIndices() );
-    if ( isImageSet ) {
+    
+	ofSetHexColor( 0xffffff );
+	vbo.updateVertexData( &positions[0], numParticles );
+    vbo.drawElements( GL_TRIANGLES, mesh.getNumIndices() );
+    
+	if ( isImageSet )
+	{
 		skinTexture.unbind();
 	}
 }
 
-// ---- Render methods END
-//--------------------------------------------------------------
 
 
-
-void testApp::setImage( UIImage *inImage, int w, int h ) {
+void testApp::setImage( UIImage *inImage, int w, int h )
+{
 	iPhoneUIImageToOFImage( inImage, skinImage );
 	skinTexture.allocate( w, h, GL_RGBA );
 	skinTexture.loadData( skinImage.getPixels(), w, h, GL_RGBA );
@@ -532,7 +628,8 @@ void testApp::setImage( UIImage *inImage, int w, int h ) {
 
 
 
-void testApp::loadSettings() {
+void testApp::loadSettings()
+{
 	// Color settings
 	updateColorPicker();
 	
@@ -565,7 +662,8 @@ void testApp::loadSettings() {
 
 
 
-void testApp::saveSettings() {
+void testApp::saveSettings()
+{
 	XML.setValue( "PHYSICS:SPRING:DAMPING", drag );
 	XML.setValue( "PHYSICS:SPRING:STRENGTH", springStrength );
 	XML.setValue( "PHYSICS:SPRING:FORCE_RADIUS", forceRadius );
@@ -601,10 +699,11 @@ void testApp::saveSettings() {
 
 
 
-void testApp::updateColorPicker() {
-	CGRect colorPickerFrame				= guiViewController.colorPickerView.knobView.frame;
-	colorPickerFrame.origin.x			= knobPositionX;
-	colorPickerFrame.origin.y			= knobPositionY;
+void testApp::updateColorPicker()
+{
+	CGRect colorPickerFrame		= guiViewController.colorPickerView.knobView.frame;
+	colorPickerFrame.origin.x	= knobPositionX;
+	colorPickerFrame.origin.y	= knobPositionY;
 	
 	guiViewController.colorPickerView.knobView.frame = colorPickerFrame;
 	[guiViewController.colorPickerView changeColor];

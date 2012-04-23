@@ -13,7 +13,8 @@
 
 #include "testApp.h"
 
-@interface GuiView : UIViewController <UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CRColorPickerDelegate> {	
+@interface GuiView : UIViewController <UIPopoverControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, CRColorPickerDelegate>
+{	
 	testApp			*app;
     
 	CGRect			viewFrame;
@@ -183,7 +184,6 @@
 
 -(IBAction)navigateToLink:(id)sender;
 
-
 -(void)scrollViewDidScroll:(UIScrollView *)sender;
 
 -(void)alignMenuView;
@@ -195,7 +195,6 @@
 
 -(void)showInfoView;
 -(void)hideInfoView;
-
 
 -(void)showMenuView;
 -(void)hideMenuView;
