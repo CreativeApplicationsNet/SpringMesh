@@ -144,7 +144,8 @@ void testApp::runRandom()
 
 /*
  *	Creates a mesh using vbo,
- *	its dimensions are realtive to the device screen
+ *	its dimensions are realtive to device screen
+ *	and resolution slider
  */
 void testApp::buildMesh()
 {
@@ -309,6 +310,7 @@ void testApp::update()
     box2d.setFPS( physicsSpeed );
 	//box2d.update();
 	
+	// Controls physics world time
 	if ( isBox2dPaused )
 	{
 		timeStep = 0;
@@ -317,7 +319,6 @@ void testApp::update()
 	{
 		timeStep = 1.0f / physicsSpeed;
 	}
-	
 	box2d.world->Step( timeStep, 2, 2 );
 	
     
@@ -367,8 +368,8 @@ void testApp::update()
 	// Screen grab
     if ( isSaveImageActive )
 	{
-		//ofxiPhoneAppDelegate *delegate = ofxiPhoneGetAppDelegate();
-		//ofxiPhoneScreenGrab( delegate );
+		// This methods has been updated with the follwing code
+		// by jasonwalters http://forum.openframeworks.cc/index.php/topic,6092.15.html
 		ofxiPhoneScreenGrab( NULL );
     }
     
@@ -453,6 +454,7 @@ void testApp::touchUp(ofTouchEventArgs &touch)
 //--------------------------------------------------------------
 void testApp::touchDoubleTap(ofTouchEventArgs &touch)
 {
+	// Hides and show gui
 	guiViewController.view.hidden = !guiViewController.view.hidden;
 }
 

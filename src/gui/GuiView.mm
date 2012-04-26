@@ -117,6 +117,7 @@
 	app->init();
 }
 
+
 -(void)viewWillAppear:(BOOL)animated
 {
 	[[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -152,8 +153,9 @@
 						 [introView removeFromSuperview];
 						 [introViewButton removeFromSuperview];
 					 }];
-	 
 }
+
+
 
 -(void)viewDidUnload
 {
@@ -163,6 +165,7 @@
     pageControl		= nil;
 	menuView		= nil;
 }
+
 
 
 -(void)didReceiveMemoryWarning
@@ -180,9 +183,10 @@
 	{
         return YES;
     }
-	return UIInterfaceOrientationPortrait;
+	return NO;
 }
   
+
 
 -(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -234,6 +238,7 @@
 }
 
 
+
 -(IBAction)colorSliderHandler:(id)sender
 {
 	UISlider *colorSlider = sender;
@@ -244,6 +249,7 @@
 	
 	[self saveSettings];
 }
+
 
 
 -(IBAction)colorSwitchHandler:(id)sender
@@ -326,6 +332,7 @@
 }
 
 
+
 -(IBAction)physicsSwitchHandler:(id)sender
 {
 	UISwitch *physicsSwitch		= (UISwitch *)sender;
@@ -341,7 +348,6 @@
 	
 	[self saveSettings];
 }
-
 
 
 
@@ -364,6 +370,7 @@
 	
 	[self saveSettings];
 }
+
 
 
 -(IBAction)springSwitchHandler:(id)sender
@@ -402,7 +409,6 @@
 
 
 
-
 -(IBAction)grabImage:(id)sender
 {
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
@@ -428,6 +434,7 @@
 	}
 	[imgPicker release];
 }
+
 
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -460,6 +467,8 @@
 	[self alignSettingsView];
 }
 
+
+
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
 	if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
@@ -484,10 +493,12 @@
 }
 
 
+
 -(IBAction)runRandom:(id)sender
 {
     app->runRandom();
 }
+
 
 
 -(IBAction)saveImage:(id)sender
@@ -503,6 +514,7 @@
 	[alert show];	
 	[alert release];
 }
+
 
 
 -(IBAction)playpauseSimulation:(id)sender
@@ -564,6 +576,7 @@
 }
 
 
+
 -(void)showMenuView
 {
 	if ( menuView.hidden == YES || isMenuViewOpen == NO )
@@ -590,6 +603,7 @@
 }
 
 
+
 -(void)hideMenuView
 {
 	if ( menuView.hidden == NO || isMenuViewOpen == YES )
@@ -614,6 +628,7 @@
 		[settingsBtn setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
 	}
 }
+
 
 
 -(void)showInfoView
@@ -644,6 +659,7 @@
 }
 
 
+
 -(void)hideInfoView
 {
 	if ( infoView.hidden == NO )
@@ -668,6 +684,7 @@
 		[infoBtn setImage:[UIImage imageNamed:@"info.png"] forState:UIControlStateNormal];
 	}
 }
+
 
 
 -(IBAction)toggleInfoView:(id)sender
@@ -702,6 +719,7 @@
 }
 
 
+
 -(IBAction)changePage:(id)sender
 {
     CGRect frame;
@@ -711,6 +729,7 @@
     
 	[settingsView scrollRectToVisible:frame animated:YES];
 }
+
 
 
 -(void)alignSettingsView
@@ -774,6 +793,7 @@
 }
 
 
+
 -(void)showSettingsView
 {
 	if ( settingsView.hidden == YES )
@@ -804,6 +824,7 @@
 }
 
 
+
 -(void)hideSettingsView
 {
 	if ( settingsView.hidden == NO )
@@ -830,6 +851,7 @@
 		[settingsBtn setImage:[UIImage imageNamed:@"settings.png"] forState:UIControlStateNormal];
 	}
 }
+
 
 
 -(IBAction)toggleSettingsView:(id)sender
@@ -879,5 +901,6 @@
 	
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: [[[[NSString alloc] initWithCString: linkString.c_str()]stringByAddingPercentEscapesUsingEncoding: NSASCIIStringEncoding] autorelease]]];
 }
+
 
 @end
