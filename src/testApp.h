@@ -11,7 +11,8 @@
 #define MAX_TOUCH_POINTS 3
 
 
-class testApp : public ofxiPhoneApp {
+class testApp : public ofxiPhoneApp
+{
 	
 public:
 	void setup();
@@ -111,7 +112,7 @@ public:
 	ofTexture               skinTexture;
 	
     ofMesh                  mesh;
-	ofVbo                   vboMesh;
+	ofVbo                   vbo;
 };
 
 
